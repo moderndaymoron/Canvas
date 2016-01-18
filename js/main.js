@@ -1,57 +1,28 @@
-var canvas = document.getElementById("myCanvas");
-var context = canvas.getContext("2d");
+"use strict";
 
-function init () {
-	tool = new tool_pencil();
+var mouseIsDown  = false;
+var currentColor = "black";
+var lineWidth    = 2;
+var shape        = "Rectangle";
 
-	canvas.addEventListener('mousedown', ev_canvas, false);
-	canvas.addEventListener('mousemove', ev_canvas, false);
-	canvas.addEventListener('mouseup',	 ev_canvas, false);
-}
+$(document).ready(function(){
 
-function tool_pencil () {
-	var tool = this;
-	this.started = false;
+	var canvas = document.getElementById("myCanvas");
+	var context = canvas.getContext("2d");
 
-	this.mousedown = function (ev) {
-			context.beginPath();
-			context.moveTo(ev._x, ev._y);
-			tool.started = true;
-	};
+	$("#myCanvas").mousedown(function (e){
+		var x = e.offsetX;
+		var y = e.offsetY;
+		var mouseIsDown = true;
+		
+		if(shape == "Rectangle"){
+			var symbol = new Rectangle(x, y, currentColor, lineWidth);
+			
+			$("#myCanvas").mouseup(function(e){
+				symbol.setEnd(e.offsetX, e.offsetY);
+				symbol.draw(x, y, context);
+			});
+		}		
+	});
 
-	this.mousemove = function (ev) {
-		if (tool.started) {
-			context.lineTo(ev._x, ev._y);
-			context.stroke();
-		}
-	};
-
-	this.mouseup = function (ev) {
-		if (tool.started) {
-			tool.mousemove(ev);
-			tool.started = false;
-		}
-	};
-}
-
-// The general-purpose event handler. This function just determines
-// the mouse position relative to the <canvas> element
-function ev_canvas (ev) {
-	// Firefox
-	if (ev.layerX || ev.layerX == 0) {
-		ev._x = ev.layerX;
-		ev._y = ev.layerY;
-	// Opera
-	} else if (ev.offsetX || ev.offsetX == 0) {
-		ev._x = ev.offsetX;
-		ev._y = ev.offsetY;
-	}
-
-	// Call the event handler of the tool
-	var func = tool[ev.type];
-	if (func) {
-		func(ev);
-	}
-}
-
-init();
+});
