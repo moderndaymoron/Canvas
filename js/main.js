@@ -5,6 +5,12 @@ var currentColor = "black";
 var lineWidth    = 2;
 var shape        = "Rectangle";
 
+//Factory functions
+function createRectangle(x, y){
+	return new Rectangle(x, y, currentColor, lineWidth)
+}
+//create function for each shape
+
 $(document).ready(function(){
 
 	var canvas = document.getElementById("myCanvas");
