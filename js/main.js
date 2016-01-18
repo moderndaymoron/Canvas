@@ -21,7 +21,8 @@ $(document).ready(function(){
 		var y = e.offsetY;
 		var mouseIsDown = true;
 		
-		if(shape == "Rectangle"){
+		if(shape == "Rectangle"){ // remove "if" here and use <data-tool=?> in html and assign
+			//symbol to the create?(x,y) factory function :)
 			var symbol = new Rectangle(x, y, currentColor, lineWidth);
 			
 			$("#myCanvas").mouseup(function(e){
