@@ -2,8 +2,9 @@
 var canvas 		  = null;
 var context 	  = null;
 var mouseIsDown   = false;
-var currentColor  = "black";
-var lineWidth     = 2;
+var currentColor  = "black"; //change this when color is picked    jquery
+var lineWidth     = 2;		 //change this when pixel size is set  jquery
+var fontSize	  = 12;		 //change this when fontsize is chosen
 var selectedShape = createRectangle;
 var mode          = "draw";
 var shapes		  = [];
@@ -14,20 +15,36 @@ function getPoints(e){
 	return new Point(e.offsetX, e.offsetY);
 }
 
-//Factory functions
 function createRectangle(x, y){
 	return new Rectangle(x, y, currentColor, lineWidth);
 }
+
 function createLine(x, y){
-	console.log("increateLine");
 	return new Line(x, y, currentColor, lineWidth);
 }
-//create function for each shape
+
+function createCircle(x, y){
+	return new Circle(x, y, currentColor, lineWidth);
+}
+
+function createPen(x, y){
+	return new Pen(x, y, currentColor, lineWidth);
+}
+
+function createText(x, y){
+	return new Text(x, y, currentColor, fontSize);
+}
+
+function createEraser(x, y){
+	return new Eraser(x, y, "#fff", lineWidth);
+}
 
 function changeTool(){
 	var attrValue = $(this).attr("data-tool");
-	if (attrValue === "select"){
-		this.mode = "select";
+	if (attrValue === "Select"){
+		mode = "select";
+		//TODO: do something when select is chosen
+		return;
 	}
 	else{
 		mode = "draw";
