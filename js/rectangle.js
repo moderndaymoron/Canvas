@@ -4,8 +4,9 @@ class Rectangle extends Shape {
 		super(x, y, color, lineWidth, "Rectangle");
 	}
 
-	draw(x, y, ctx){
+	draw(ctx){
+		console.log("drawing rectangle");
 		var bounds = this.calcBounds();
-		ctx.strokeRect(bounds.x, bounds.y, bounds.maxX, bounds.maxY);
+		ctx.strokeRect(this.x, this.y, bounds.maxX, bounds.maxY);
 	}
 }
