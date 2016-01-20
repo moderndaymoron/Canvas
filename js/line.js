@@ -7,6 +7,8 @@ class Line extends Shape {
 	draw(ctx){
 		console.log("drawing line");
 		var bounds = this.calcBounds();
-		ctx.strokeLine(this.x, this.y, bounds.maxX, bounds.maxY);
+		ctx.moveTo(this.x, this.y);
+		ctx.lineTo(this.endX, this.endY);            
+		ctx.stroke();
 	}
 }
