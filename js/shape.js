@@ -32,7 +32,7 @@ class Shape {
 
 	calcBounds(){
 		var minX = Math.min(this.x, this.endX);
-		var minY = Math.min(this.x, this.endY);
+		var minY = Math.min(this.y, this.endY);
 		var maxX = Math.abs(this.endX - this.x);
 		var maxY = Math.abs(this.endY - this.y);
 

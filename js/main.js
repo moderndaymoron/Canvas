@@ -1,11 +1,18 @@
 "use strict";
-
+var canvas 		  = null;
+var context 	  = null;
 var mouseIsDown   = false;
 var currentColor  = "black";
 var lineWidth     = 2;
 var selectedShape = createRectangle;
 var mode          = "draw";
-var shapes		  = []; 
+var shapes		  = [];
+var symbol		  = null;
+var points        = null; 
+
+function getPoints(e){
+	return new Point(e.offsetX, e.offsetY);
+}
 
 //Factory functions
 function createRectangle(x, y){
@@ -19,7 +26,6 @@ function createLine(x, y){
 
 function changeTool(){
 	var attrValue = $(this).attr("data-tool");
-	console.log(attrValue)
 	if (attrValue === "select"){
 		this.mode = "select";
 	}
@@ -28,33 +34,34 @@ function changeTool(){
 	}
 	var functionName = "create" + attrValue;
 	var res = eval(functionName);
-	this.selectedShape = res;
+	selectedShape = res;
+	console.log(selectedShape)
+	
 }
 
 function drawShapes(){
 	for(var i = 0; i < shapes.length; i++){
-		console.log("drawshapes");
-		console.log(shapes[i]);
-		shapes[i].draw(document.getElementById("myCanvas").getContext("2d"));
+		shapes[i].draw(context);
 	}
 }
+
 $(document).ready(function(){
 	$(".toolbox").click(changeTool);
-	var canvas = document.getElementById("myCanvas");
-	var context = canvas.getContext("2d");
-
+	
+	canvas = document.getElementById("myCanvas");
+	context = canvas.getContext("2d");
+	
 	$("#myCanvas").mousedown(function (e){
-		var x = e.offsetX;
-		var y = e.offsetY;
 		var mouseIsDown = true;
-		var symbol = selectedShape(x,y);
-			
-			$("#myCanvas").mouseup(function(e){
-				symbol.setEnd(e.offsetX, e.offsetY);
-				shapes.push(symbol);
-				drawShapes();
-				//symbol.draw(x, y, context);
-			});		
+		points = getPoints(e);
+		console.log("xy", points.x, points.y)
+		symbol = selectedShape(points.x, points.y);
 	});
 
+	$("#myCanvas").mouseup(function(e){
+		points = getPoints(e);
+		symbol.setEnd(points.x, points.y);
+		shapes.push(symbol);
+		drawShapes();
+	});		
 });
