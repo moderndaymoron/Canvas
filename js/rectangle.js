@@ -10,12 +10,11 @@ class Rectangle extends Shape {
 	}
 
 	move(ctx, e){
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		
 		var x = Math.min(e.offsetX, this.x);
 		var y = Math.min(e.offsetY, this.y);
 		var width = Math.abs(e.offsetX - this.x);
 		var height = Math.abs(e.offsetY - this.y);
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.strokeRect(x, y, width, height);
 	}
 }

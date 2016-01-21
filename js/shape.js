@@ -43,4 +43,5 @@ class Shape {
 		this.endX = x;
 		this.endY = y;
 	}
+
 }

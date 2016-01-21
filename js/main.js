@@ -82,8 +82,10 @@ $(document).ready(function(){
 	$("#tmpCanvas").mousedown(function (e){
 		mouseIsDown = true;
 		points = getPoints(e);
-		//console.log("xy", points.x, points.y)
 		symbol = selectedShape(points.x, points.y);
+		if(symbol.type === "Pen"){
+			symbol.setInitialCoords();
+		}
 	});
 
 	$("#tmpCanvas").mousemove(function(e){
