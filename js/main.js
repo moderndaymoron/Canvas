@@ -67,18 +67,39 @@ $(document).ready(function(){
 	
 	canvas = document.getElementById("myCanvas");
 	context = canvas.getContext("2d");
+
+	// tmp canvas
+	var tmpCanvas = document.createElement('canvas');
+	var tmpContext = tmpCanvas.getContext('2d');
+	var canvases = document.querySelector('#canvases');
 	
-	$("#myCanvas").mousedown(function (e){
-		var mouseIsDown = true;
+	tmpCanvas.id = 'tmpCanvas';
+	tmpCanvas.width = canvas.width;
+	tmpCanvas.height = canvas.height;
+	
+	canvases.appendChild(tmpCanvas);
+	
+	$("#tmpCanvas").mousedown(function (e){
+		mouseIsDown = true;
 		points = getPoints(e);
-		console.log("xy", points.x, points.y)
+		//console.log("xy", points.x, points.y)
 		symbol = selectedShape(points.x, points.y);
 	});
 
-	$("#myCanvas").mouseup(function(e){
+	$("#tmpCanvas").mousemove(function(e){
+		if(mouseIsDown){
+			symbol.move(tmpContext, e);
+		}
+	});
+
+	$("#tmpCanvas").mouseup(function(e){
+		mouseIsDown = false;
 		points = getPoints(e);
+
+		// Copying the content from the tmp canvas		
+		context.drawImage(tmpCanvas, 0, 0);
+		tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
 		symbol.setEnd(points.x, points.y);
 		shapes.push(symbol);
-		drawShapes();
 	});		
 });
