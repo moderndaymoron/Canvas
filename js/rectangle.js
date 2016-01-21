@@ -6,6 +6,11 @@ class Rectangle extends Shape {
 
 	draw(ctx){
 		var bounds = this.calcBounds();
+		if(this.selected){
+			this.color = "red";
+			this.lineWidth = 4;
+		}
+		ctx.strokeStyle = this.color;
 		ctx.strokeRect(bounds.x, bounds.y, bounds.maxX, bounds.maxY);
 	}
 

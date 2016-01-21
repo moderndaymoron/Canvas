@@ -5,9 +5,11 @@ var mouseIsDown   = false;
 var currentColor  = "black"; //change this when color is picked    jquery
 var lineWidth     = 2;		 //change this when pixel size is set  jquery
 var fontSize	  = 12;		 //change this when fontsize is chosen
-var selectedShape = createRectangle;
+var selectedShape = createPen;
 var mode          = "draw";
 var shapes		  = [];
+var undoShape	  = [];
+var redoShape	  = [];
 var symbol		  = null;
 var points        = null; 
 
@@ -41,14 +43,13 @@ function createEraser(x, y){
 
 function changeTool(){
 	var attrValue = $(this).attr("data-tool");
+	console.log(attrValue);
 	if (attrValue === "Select"){
 		mode = "select";
-		//TODO: do something when select is chosen
 		return;
 	}
-	else{
-		mode = "draw";
-	}
+
+	mode = "draw";
 	var functionName = "create" + attrValue;
 	var res = eval(functionName);
 	selectedShape = res;
@@ -56,14 +57,52 @@ function changeTool(){
 	
 }
 
+function canvasUndo(){
+	//needs propper implementation
+	if(shapes.length < 1){
+		return;
+	}
+	undoShape.push(shapes.pop());
+	console.log(shapes);
+	context.clearRect(0,0,canvas.width, canvas.height);
+	drawShapes();
+}
+
+function canvasRedo(){
+	if(undoShape.length < 1){
+		return;
+	}
+	shapes.push(undoShape.pop());
+	reDraw();
+}
+
+function checkIfPointInShape(x, y){
+	console.log(shapes.length);
+	for (var i = shapes.length-1; i >= 0; i--){
+		if(shapes[i].isPointInShape(x,y)){
+			shapes[i].selected = true;
+			return true;
+		}
+	}
+	return false;
+}
+
 function drawShapes(){
-	for(var i = 0; i < shapes.length; i++){
+	for (var i = 0; i < shapes.length; i++){
+		console.log(i, shapes.length);
 		shapes[i].draw(context);
 	}
 }
 
+function reDraw(){
+	context.clearRect(0,0,canvas.width, canvas.height);
+	drawShapes();
+}
+
 $(document).ready(function(){
 	$(".toolbox").click(changeTool);
+	$("#undobutton").click(canvasUndo);
+	$("#redobutton").click(canvasRedo);
 	
 	canvas = document.getElementById("myCanvas");
 	context = canvas.getContext("2d");
@@ -82,14 +121,24 @@ $(document).ready(function(){
 	$("#tmpCanvas").mousedown(function (e){
 		mouseIsDown = true;
 		points = getPoints(e);
-		symbol = selectedShape(points.x, points.y);
-		if(symbol.type === "Pen"){
-			symbol.setInitialCoords();
+		if(mode === "select"){
+			if(checkIfPointInShape(points.x, points.y)){
+				reDraw();
+				//TODO: redraw canvas and have some selection effect on the shape
+			}
+		}else{
+			symbol = selectedShape(points.x, points.y);
+			if(symbol.type === "Pen"){
+				symbol.setInitialCoords();
+			}
 		}
 	});
 
 	$("#tmpCanvas").mousemove(function(e){
-		if(mouseIsDown){
+		if(mode === "select"){
+			//TODO: move the shape on the canvas with effects still on
+		}
+		else if(mouseIsDown){
 			symbol.move(tmpContext, e);
 		}
 	});
@@ -97,7 +146,10 @@ $(document).ready(function(){
 	$("#tmpCanvas").mouseup(function(e){
 		mouseIsDown = false;
 		points = getPoints(e);
-
+		if(mode === "select"){
+			//TODO: change the position of the element and take effects off
+			return;
+		}
 		// Copying the content from the tmp canvas		
 		context.drawImage(tmpCanvas, 0, 0);
 		tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);

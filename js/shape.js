@@ -1,5 +1,5 @@
 "use strict";
-function Point(x, y) {
+function Point(x, y){
 	this.x = x || 0;
 	this.y = y || 0;
 }
@@ -9,16 +9,11 @@ function Rect(x, y, maxX, maxY){
 	this.y = y;
 	this.maxX = maxX;
 	this.maxY = maxY;
-	this.right = function(){
-		return this.x + this.maxX;
-	};
-
-	this.bottom = function(){
-		return this.y + this.maxY;
-	};
+	this.right = this.x + this.maxX;
+	this.bottom = this.y + this.maxY;
 }
 
-class Shape {
+class Shape{
 	constructor(x, y, color, LineWidth, type) {
 		this.x         = x;
 		this.y         = y;
@@ -39,9 +34,18 @@ class Shape {
 		return new Rect(minX, minY, maxX, maxY);
 	}
 
-	setEnd(x,y,e) {
+	setEnd(x,y,e){
 		this.endX = x;
 		this.endY = y;
 	}
 
+	isPointInShape(x, y){
+		var bounds = this.calcBounds();
+		console.log(x, y);
+		console.log(bounds);
+		if(bounds.right >= x && x >= bounds.x && bounds.bottom >= y && y >= bounds.y){
+			return true;
+		}
+		return false;
+	}
 }

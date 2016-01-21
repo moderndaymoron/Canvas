@@ -14,7 +14,7 @@
         	</canvas>
         </div>
         <div id="selectshapes">
-            <input type="radio" name="tool" id="pencil" data-tool="Pen" class="toolbox"/>
+            <input type="radio" name="tool" id="pencil" checked="checked" data-tool="Pen" class="toolbox"/>
             <label for ="pencil">Pencil</label>
             <input type="radio" name="tool" id="rectangle" data-tool="Rectangle" class="toolbox"/>
             <label for ="rectangle">Rectangle</label>
@@ -26,6 +26,11 @@
             <label for ="eraser">Eraser</label>
             <input type="radio" name="tool" id="select" data-tool="Select" class="toolbox"/>
             <label for ="select">Select</label>
+        </div>
+        <div id="actionbuttons">
+            <button type="button" name="undobutton" id="undobutton">Undo</button>
+            <button type="button" name="redobutton" id="redobutton">Redo</button>
+            <button type="button" name="delbutton" id="delbutton">Delete</button>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
         <script src="js/main.js"></script>
