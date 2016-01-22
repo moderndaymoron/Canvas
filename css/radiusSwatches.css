@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;
+}
+#rad {
+    margin: 5px;
+}
+
+.radButton {
+    border: solid black 1px;
+    border-radius: 2px;
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+    text-align: center;
+    display: inline-block;
+}

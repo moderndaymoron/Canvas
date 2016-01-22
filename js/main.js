@@ -11,7 +11,7 @@ var shapes		  = [];
 var undoShape	  = [];
 var redoShape	  = [];
 var symbol		  = null;
-var points        = null; 
+var points        = null;
 
 function getPoints(e){
 	return new Point(e.offsetX, e.offsetY);
@@ -85,19 +85,19 @@ function canvasDelete(){
 }
 
 function canvasIncRadius(){
-	if(this.lineWidth >= 50){
+	if(lineWidth >= 50){
 		return;
 	}
-	this.lineWidth += 1;
-	context.lineWidth = this.linewidh;
+	lineWidth += 1;
+	context.lineWidth = lineWidth;
 }
 
 function canvasDecRadius(){
-	if(this.lineWidth <= 1){
+	if(lineWidth <= 1){
 		return;
 	}
-	this.lineWidth -= 1;
-	context.lineWidth = this.linewidh;
+	lineWidth -= 1;
+	context.lineWidth = lineWidth;
 }
 
 function checkIfPointInShape(x, y, e){
@@ -136,7 +136,7 @@ $(document).ready(function(){
 
 	canvas = document.getElementById("myCanvas");
 	context = canvas.getContext("2d");
-	
+
 	// tmp canvas
 	var tmpCanvas = document.createElement('canvas');
 	var tmpContext = tmpCanvas.getContext('2d');
@@ -146,9 +146,9 @@ $(document).ready(function(){
 	tmpCanvas.id = 'tmpCanvas';
 	tmpCanvas.width = canvas.width;
 	tmpCanvas.height = canvas.height;
-	
+
 	canvases.appendChild(tmpCanvas);
-	
+
 	$("#tmpCanvas").mousedown(function (e){
 		mouseIsDown = true;
 		points = getPoints(e);
@@ -194,7 +194,7 @@ $(document).ready(function(){
 				shapes.push(symbol);
 			}
 		}
-		// Copying the content from the tmp canvas		
+		// Copying the content from the tmp canvas
 		else{
 			context.drawImage(tmpCanvas, 0, 0);
 			tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
@@ -202,5 +202,5 @@ $(document).ready(function(){
 			shapes.push(symbol);
 		}
 		reDraw();
-	});		
+	});
 });
