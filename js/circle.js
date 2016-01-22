@@ -6,7 +6,17 @@ class Circle extends Shape {
 
 	draw(ctx){
 		var bounds = this.calcBounds();
-		//ctx.strokeRect(bounds.x, bounds.y, bounds.maxX, bounds.maxY);
+		var x = (this.endX + this.x) / 2;
+    	var y = (this.endY + this.y) / 2;
+ 
+    	var radius = Math.max(
+        	Math.abs(this.x - this.endX),
+        	Math.abs(this.y - this.endY)) / 2;
+ 
+    	ctx.beginPath();
+    	ctx.arc(x, y, radius, 0, Math.PI*2, false);
+    	ctx.stroke();
+    	ctx.closePath();
 	}
 
 	move(ctx, e){

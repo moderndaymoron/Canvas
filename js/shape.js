@@ -41,8 +41,6 @@ class Shape{
 
 	isPointInShape(x, y){
 		var bounds = this.calcBounds();
-		console.log(x, y);
-		console.log(bounds);
 		if(bounds.right >= x && x >= bounds.x && bounds.bottom >= y && y >= bounds.y){
 			return true;
 		}

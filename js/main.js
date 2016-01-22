@@ -53,8 +53,6 @@ function changeTool(){
 	var functionName = "create" + attrValue;
 	var res = eval(functionName);
 	selectedShape = res;
-	console.log(selectedShape)
-	
 }
 
 function canvasUndo(){
@@ -77,19 +75,20 @@ function canvasRedo(){
 }
 
 function checkIfPointInShape(x, y){
-	console.log(shapes.length);
+	for (var i = 0;  i < shapes.length; i++){
+		shapes[i].selected = false;
+	}
 	for (var i = shapes.length-1; i >= 0; i--){
 		if(shapes[i].isPointInShape(x,y)){
 			shapes[i].selected = true;
-			return true;
+			return shapes[i];
 		}
 	}
-	return false;
+	return 0;
 }
 
 function drawShapes(){
 	for (var i = 0; i < shapes.length; i++){
-		console.log(i, shapes.length);
 		shapes[i].draw(context);
 	}
 }
@@ -122,11 +121,10 @@ $(document).ready(function(){
 		mouseIsDown = true;
 		points = getPoints(e);
 		if(mode === "select"){
-			if(checkIfPointInShape(points.x, points.y)){
-				reDraw();
-				//TODO: redraw canvas and have some selection effect on the shape
-			}
-		}else{
+			symbol = checkIfPointInShape(points.x, points.y);
+
+		}
+		else{
 			symbol = selectedShape(points.x, points.y);
 			if(symbol.type === "Pen"){
 				symbol.setInitialCoords();
@@ -137,6 +135,12 @@ $(document).ready(function(){
 	$("#tmpCanvas").mousemove(function(e){
 		if(mode === "select"){
 			//TODO: move the shape on the canvas with effects still on
+			if(mouseIsDown){
+				console.log(symbol);
+				symbol.drag(tmpContext, e);
+				//reDraw();
+			}
+
 		}
 		else if(mouseIsDown){
 			symbol.move(tmpContext, e);
@@ -151,9 +155,12 @@ $(document).ready(function(){
 			return;
 		}
 		// Copying the content from the tmp canvas		
-		context.drawImage(tmpCanvas, 0, 0);
-		tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
-		symbol.setEnd(points.x, points.y);
-		shapes.push(symbol);
+		else{
+			context.drawImage(tmpCanvas, 0, 0);
+			tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
+			symbol.setEnd(points.x, points.y);
+			shapes.push(symbol);
+		}
+		//reDraw();
 	});		
 });

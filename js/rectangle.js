@@ -7,11 +7,12 @@ class Rectangle extends Shape {
 	draw(ctx){
 		var bounds = this.calcBounds();
 		if(this.selected){
-			this.color = "red";
-			this.lineWidth = 4;
+			ctx.strokeStyle = "violet";
+			ctx.strokeRect(bounds.x, bounds.y, bounds.maxX, bounds.maxY);
+		}else{
+			ctx.strokeStyle = this.color;
+			ctx.strokeRect(bounds.x, bounds.y, bounds.maxX, bounds.maxY);
 		}
-		ctx.strokeStyle = this.color;
-		ctx.strokeRect(bounds.x, bounds.y, bounds.maxX, bounds.maxY);
 	}
 
 	move(ctx, e){
@@ -22,4 +23,14 @@ class Rectangle extends Shape {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.strokeRect(x, y, width, height);
 	}
+
+	drag(ctx, e){
+		var bounds = this.calcBounds();
+		var newX = e.offsetX - this.x;
+		var newY = e.offsetY - this.y;
+		console.log(e.offsetX, e.offsetY, bounds);
+		ctx.strokeRect(newX, newY, Math.abs(this.endX-this.x), Math.abs(this.endY-this.y));
+
+	}
+
 }
