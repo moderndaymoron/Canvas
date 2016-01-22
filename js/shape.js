@@ -7,10 +7,10 @@ function Point(x, y){
 function Rect(x, y, maxX, maxY){
 	this.x = x;
 	this.y = y;
-	this.maxX = maxX;
-	this.maxY = maxY;
-	this.right = this.x + this.maxX;
-	this.bottom = this.y + this.maxY;
+	this.width = maxX;
+	this.height = maxY;
+	this.right = this.x + this.width;
+	this.bottom = this.y + this.height;
 }
 
 class Shape{
@@ -23,6 +23,8 @@ class Shape{
 		this.type      = type;
 		this.LineWidth = LineWidth;
 		this.selected  = false;
+		this.bounds = null;
+		this.oldPoint = new Point(x, y);
 	}
 
 	calcBounds(){
@@ -37,6 +39,12 @@ class Shape{
 	setEnd(x,y,e){
 		this.endX = x;
 		this.endY = y;
+		this.bounds = this.calcBounds();
+	}
+
+	setOldPoint(x, y){
+		this.oldPoint.x = x;
+		this.oldPoint.y = y;
 	}
 
 	isPointInShape(x, y){

@@ -74,13 +74,14 @@ function canvasRedo(){
 	reDraw();
 }
 
-function checkIfPointInShape(x, y){
+function checkIfPointInShape(x, y, e){
 	for (var i = 0;  i < shapes.length; i++){
 		shapes[i].selected = false;
 	}
 	for (var i = shapes.length-1; i >= 0; i--){
 		if(shapes[i].isPointInShape(x,y)){
 			shapes[i].selected = true;
+			shapes[i].setOldPoint(e.offsetX, e.offsetY);
 			return shapes[i];
 		}
 	}
@@ -121,8 +122,7 @@ $(document).ready(function(){
 		mouseIsDown = true;
 		points = getPoints(e);
 		if(mode === "select"){
-			symbol = checkIfPointInShape(points.x, points.y);
-
+			symbol = checkIfPointInShape(points.x, points.y, e);
 		}
 		else{
 			symbol = selectedShape(points.x, points.y);
@@ -137,8 +137,12 @@ $(document).ready(function(){
 			//TODO: move the shape on the canvas with effects still on
 			if(mouseIsDown){
 				console.log(symbol);
-				symbol.drag(tmpContext, e);
-				//reDraw();
+				if(symbol != 0){
+					symbol.drag(tmpContext, e, points.x, points.y);
+				}
+				else{
+					return;
+				}
 			}
 
 		}
@@ -152,7 +156,11 @@ $(document).ready(function(){
 		points = getPoints(e);
 		if(mode === "select"){
 			//TODO: change the position of the element and take effects off
-			return;
+			if(symbol != 0){
+				context.drawImage(tmpCanvas, 0, 0);
+				tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
+				shapes.push(symbol);
+			}
 		}
 		// Copying the content from the tmp canvas		
 		else{
@@ -161,6 +169,6 @@ $(document).ready(function(){
 			symbol.setEnd(points.x, points.y);
 			shapes.push(symbol);
 		}
-		//reDraw();
+		reDraw();
 	});		
 });

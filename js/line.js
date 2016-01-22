@@ -5,14 +5,18 @@ class Line extends Shape {
 	}
 
 	draw(ctx){
-		console.log("drawing line");
-		var bounds = this.calcBounds();
-		//ctx.beginPath();
-		ctx.moveTo(this.x, this.y);
-		ctx.lineTo(this.endX, this.endY);            
-		ctx.stroke();
-		//ctx.endPath();
+		if(this.selected == true){
+			ctx.strokeStyle() = "violet";
+			ctx.moveTo(this.x, this.y);
+			ctx.lineTo(this.endX, this.endY);            
+			ctx.stroke();
+		}else{
+			ctx.moveTo(this.x, this.y);
+			ctx.lineTo(this.endX, this.endY);            
+			ctx.stroke();
+		}
 	}
+
 	move(ctx, e){
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
     	ctx.beginPath();

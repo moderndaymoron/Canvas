@@ -5,13 +5,12 @@ class Rectangle extends Shape {
 	}
 
 	draw(ctx){
-		var bounds = this.calcBounds();
 		if(this.selected){
 			ctx.strokeStyle = "violet";
-			ctx.strokeRect(bounds.x, bounds.y, bounds.maxX, bounds.maxY);
+			ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
 		}else{
 			ctx.strokeStyle = this.color;
-			ctx.strokeRect(bounds.x, bounds.y, bounds.maxX, bounds.maxY);
+			ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
 		}
 	}
 
@@ -24,13 +23,33 @@ class Rectangle extends Shape {
 		ctx.strokeRect(x, y, width, height);
 	}
 
-	drag(ctx, e){
-		var bounds = this.calcBounds();
-		var newX = e.offsetX - this.x;
-		var newY = e.offsetY - this.y;
-		console.log(e.offsetX, e.offsetY, bounds);
-		ctx.strokeRect(newX, newY, Math.abs(this.endX-this.x), Math.abs(this.endY-this.y));
+	drag(ctx, e, x, y){
+		var newX = e.offsetX - (e.offsetX-this.x);
+		var newY = e.offsetY - (e.offsetY-this.y);
+		if(e.offsetX > this.oldPoint.x){
+			newX += e.offsetX - this.oldPoint.x;
+		}
+		else if(e.offsetX < this.oldPoint.x){
+			newX -= Math.abs(this.oldPoint.x - e.offsetX);
+		}
+		if(e.offsetY > this.oldPoint.y){
+			newY += e.offsetY - this.oldPoint.y;
+		}
+		else if(e.offsetY < this.oldPoint.y){
+			newY -= Math.abs(this.oldPoint.y - e.offsetY);
+		}
+		this.setOldPoint(e.offsetX, e.offsetY);
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.strokeRect(newX, newY, this.bounds.width, this.bounds.height);
+		this.x = newX;
+		this.y = newY;
+		this.setDragEnd(newX + this.bounds.width, newY + this.bounds.height);
+	}
 
+	setDragEnd(x, y){
+		this.endX = x;
+		this.endY = y;
+		this.bounds = this.calcBounds();
 	}
 
 }
