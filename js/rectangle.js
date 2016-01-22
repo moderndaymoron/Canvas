@@ -44,13 +44,6 @@ class Rectangle extends Shape {
 		ctx.strokeRect(newX, newY, this.bounds.width, this.bounds.height);
 		this.x = newX;
 		this.y = newY;
-		this.setDragEnd(newX + this.bounds.width, newY + this.bounds.height);
+		this.setEnd(newX + this.bounds.width, newY + this.bounds.height);
 	}
-
-	setDragEnd(x, y){
-		this.endX = x;
-		this.endY = y;
-		this.bounds = this.calcBounds();
-	}
-
 }

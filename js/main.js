@@ -62,8 +62,7 @@ function canvasUndo(){
 	}
 	undoShape.push(shapes.pop());
 	console.log(shapes);
-	context.clearRect(0,0,canvas.width, canvas.height);
-	drawShapes();
+	reDraw();
 }
 
 function canvasRedo(){
@@ -76,11 +75,29 @@ function canvasRedo(){
 
 function canvasDelete(){
 	for (var i = 0; i < shapes.length; i++){
+		console.log("canvasDelete()");
 		if(shapes[i].selected){
-			console.log(shapes.splice(i, 1));
+			undoShape.push(shapes[i]);
+			shapes.splice(i, 1);
 		}
 	}
 	reDraw();
+}
+
+function canvasIncRadius(){
+	if(this.lineWidth >= 50){
+		return;
+	}
+	this.lineWidth += 1;
+	context.lineWidth = this.linewidh;
+}
+
+function canvasDecRadius(){
+	if(this.lineWidth <= 1){
+		return;
+	}
+	this.lineWidth -= 1;
+	context.lineWidth = this.linewidh;
 }
 
 function checkIfPointInShape(x, y, e){
@@ -114,15 +131,18 @@ $(document).ready(function(){
 	$("#undobutton").click(canvasUndo);
 	$("#redobutton").click(canvasRedo);
 	$("#delbutton").click(canvasDelete);
-	
+	$("#incrad").click(canvasIncRadius);
+	$("#decrad").click(canvasDecRadius);
+
 	canvas = document.getElementById("myCanvas");
 	context = canvas.getContext("2d");
-
+	
 	// tmp canvas
 	var tmpCanvas = document.createElement('canvas');
 	var tmpContext = tmpCanvas.getContext('2d');
 	var canvases = document.querySelector('#canvases');
-	
+	tmpContext.lineWidth = 25;
+	context.lineWidth = lineWidth;
 	tmpCanvas.id = 'tmpCanvas';
 	tmpCanvas.width = canvas.width;
 	tmpCanvas.height = canvas.height;

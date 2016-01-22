@@ -62,4 +62,8 @@ class Pen extends Shape {
 	setInitialCoords(){
 		this.penPoints.push({x: this.x, y: this.y});
 	}
+
+	drag(ctx, e, x, y){
+		//TODO
+	}
 }
