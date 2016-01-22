@@ -5,6 +5,7 @@ class Rectangle extends Shape {
 	}
 
 	draw(ctx){
+		ctx.lineWidth = this.lineWidth;
 		if(this.selected){
 			ctx.strokeStyle = "violet";
 			ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
@@ -20,10 +21,12 @@ class Rectangle extends Shape {
 		var width = Math.abs(e.offsetX - this.x);
 		var height = Math.abs(e.offsetY - this.y);
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.lineWidth = this.lineWidth;
 		ctx.strokeRect(x, y, width, height);
 	}
 
 	drag(ctx, e, x, y){
+		ctx.lineWidth = this.lineWidth;
 		var newX = e.offsetX - (e.offsetX-this.x);
 		var newY = e.offsetY - (e.offsetY-this.y);
 		if(e.offsetX > this.oldPoint.x){

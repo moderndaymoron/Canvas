@@ -89,7 +89,10 @@ function canvasIncRadius(){
 		return;
 	}
 	lineWidth += 1;
+<<<<<<< HEAD
 	context.lineWidth = lineWidth;
+=======
+>>>>>>> f1f966b8931c9d4a33e84c0deae0869f1ea6e3af
 	$("#radVal").html(lineWidth);
 }
 
@@ -98,7 +101,10 @@ function canvasDecRadius(){
 		return;
 	}
 	lineWidth -= 1;
+<<<<<<< HEAD
 	context.lineWidth = lineWidth;
+=======
+>>>>>>> f1f966b8931c9d4a33e84c0deae0869f1ea6e3af
 	$("#radVal").html(lineWidth);
 }
 
