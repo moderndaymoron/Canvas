@@ -89,7 +89,7 @@ function canvasIncRadius(){
 		return;
 	}
 	lineWidth += 1;
-	context.lineWidth = lineWidth;
+	$("#radVal").html(lineWidth);
 }
 
 function canvasDecRadius(){
@@ -97,7 +97,7 @@ function canvasDecRadius(){
 		return;
 	}
 	lineWidth -= 1;
-	context.lineWidth = lineWidth;
+	$("#radVal").html(lineWidth);
 }
 
 function checkIfPointInShape(x, y, e){

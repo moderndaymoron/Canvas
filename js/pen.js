@@ -6,6 +6,7 @@ class Pen extends Shape {
 	}
 
 	draw(ctx){
+		ctx.lineWidth = this.lineWidth;
 		if (this.penPoints.length < 3) {
 			var b = this.penPoints[0];
 			ctx.beginPath();
@@ -15,7 +16,6 @@ class Pen extends Shape {
 			
 			return;
 		}
-		
 		ctx.beginPath();
 		ctx.moveTo(this.penPoints[0].x, this.penPoints[0].y);
 		
@@ -33,7 +33,7 @@ class Pen extends Shape {
 
 	move(ctx, e){
 		this.penPoints.push({x: e.offsetX, y: e.offsetY});
-		
+		ctx.lineWidth = this.lineWidth;
 		if (this.penPoints.length < 3) {
 			var b = this.penPoints[0];
 			ctx.beginPath();
