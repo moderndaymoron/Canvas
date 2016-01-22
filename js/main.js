@@ -74,6 +74,15 @@ function canvasRedo(){
 	reDraw();
 }
 
+function canvasDelete(){
+	for (var i = 0; i < shapes.length; i++){
+		if(shapes[i].selected){
+			console.log(shapes.splice(i, 1));
+		}
+	}
+	reDraw();
+}
+
 function checkIfPointInShape(x, y, e){
 	for (var i = 0;  i < shapes.length; i++){
 		shapes[i].selected = false;
@@ -89,6 +98,7 @@ function checkIfPointInShape(x, y, e){
 }
 
 function drawShapes(){
+	console.log(shapes);
 	for (var i = 0; i < shapes.length; i++){
 		shapes[i].draw(context);
 	}
@@ -103,6 +113,7 @@ $(document).ready(function(){
 	$(".toolbox").click(changeTool);
 	$("#undobutton").click(canvasUndo);
 	$("#redobutton").click(canvasRedo);
+	$("#delbutton").click(canvasDelete);
 	
 	canvas = document.getElementById("myCanvas");
 	context = canvas.getContext("2d");
@@ -123,6 +134,7 @@ $(document).ready(function(){
 		points = getPoints(e);
 		if(mode === "select"){
 			symbol = checkIfPointInShape(points.x, points.y, e);
+			canvasDelete();
 		}
 		else{
 			symbol = selectedShape(points.x, points.y);

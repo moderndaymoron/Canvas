@@ -40,6 +40,7 @@ class Rectangle extends Shape {
 		}
 		this.setOldPoint(e.offsetX, e.offsetY);
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.strokeStyle = "violet";
 		ctx.strokeRect(newX, newY, this.bounds.width, this.bounds.height);
 		this.x = newX;
 		this.y = newY;
