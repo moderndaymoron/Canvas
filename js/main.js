@@ -89,10 +89,6 @@ function canvasIncRadius(){
 		return;
 	}
 	lineWidth += 1;
-<<<<<<< HEAD
-	context.lineWidth = lineWidth;
-=======
->>>>>>> f1f966b8931c9d4a33e84c0deae0869f1ea6e3af
 	$("#radVal").html(lineWidth);
 }
 
@@ -101,11 +97,13 @@ function canvasDecRadius(){
 		return;
 	}
 	lineWidth -= 1;
-<<<<<<< HEAD
-	context.lineWidth = lineWidth;
-=======
->>>>>>> f1f966b8931c9d4a33e84c0deae0869f1ea6e3af
 	$("#radVal").html(lineWidth);
+}
+
+function canvasColor(){
+	var attrValue = $(this).attr("data-tool");
+	var res = eval(attrValue);
+	currentColor = attrValue || "black";
 }
 
 function checkIfPointInShape(x, y, e){
@@ -141,7 +139,7 @@ $(document).ready(function(){
 	$("#delbutton").click(canvasDelete);
 	$("#incrad").click(canvasIncRadius);
 	$("#decrad").click(canvasDecRadius);
-
+	$(".colors").click(canvasColor);
 	canvas = document.getElementById("myCanvas");
 	context = canvas.getContext("2d");
 

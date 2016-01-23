@@ -27,6 +27,7 @@ class Rectangle extends Shape {
 
 	drag(ctx, e, x, y){
 		ctx.lineWidth = this.lineWidth;
+		ctx.strokeStyle = this.color;
 		var newX = e.offsetX - (e.offsetX-this.x);
 		var newY = e.offsetY - (e.offsetY-this.y);
 		if(e.offsetX > this.oldPoint.x){
@@ -43,7 +44,7 @@ class Rectangle extends Shape {
 		}
 		this.setOldPoint(e.offsetX, e.offsetY);
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		ctx.strokeStyle = "violet";
+		ctx.strokeStyle = this.color;
 		ctx.strokeRect(newX, newY, this.bounds.width, this.bounds.height);
 		this.x = newX;
 		this.y = newY;
