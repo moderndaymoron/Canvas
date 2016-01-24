@@ -132,6 +132,11 @@ function reDraw(){
 	drawShapes();
 }
 
+function setContextColorAndWidth(ctx, symbol){
+	ctx.strokeStyle = symbol.color;
+	ctx.lineWidth = symbol.lineWidth;
+}
+
 $(document).ready(function(){
 	$(".toolbox").click(changeTool);
 	$("#undobutton").click(canvasUndo);
@@ -154,7 +159,7 @@ $(document).ready(function(){
 	tmpCanvas.height = canvas.height;
 
 	canvases.appendChild(tmpCanvas);
-
+	
 	$("#tmpCanvas").mousedown(function (e){
 		mouseIsDown = true;
 		points = getPoints(e);
@@ -168,6 +173,7 @@ $(document).ready(function(){
 				symbol.setInitialCoords();
 			}
 		}
+		setContextColorAndWidth(tmpContext, symbol);
 	});
 
 	$("#tmpCanvas").mousemove(function(e){

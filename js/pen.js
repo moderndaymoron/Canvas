@@ -34,8 +34,6 @@ class Pen extends Shape {
 
 	move(ctx, e){
 		this.penPoints.push({x: e.offsetX, y: e.offsetY});
-		ctx.strokeStyle = this.color;
-		ctx.lineWidth = this.lineWidth;
 		if (this.penPoints.length < 3) {
 			var b = this.penPoints[0];
 			ctx.beginPath();

@@ -22,8 +22,6 @@ class Circle extends Shape {
     	var y = (e.offsetY + this.y) / 2;
     	var radius = Math.max(Math.abs(this.x - e.offsetX), Math.abs(this.y - e.offsetY)) / 2;
         
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = this.lineWidth;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     	ctx.beginPath();
     	ctx.arc(x, y, radius, 0, Math.PI*2, false);
@@ -52,8 +50,6 @@ class Circle extends Shape {
         var y = (this.endY + this.y) / 2;
         var radius = Math.max(Math.abs(this.x - this.endX), Math.abs(this.y - this.endY)) / 2;
         
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = this.lineWidth; 
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, Math.PI*2, false);
         ctx.stroke();
