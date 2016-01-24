@@ -20,6 +20,7 @@ class Rectangle extends Shape {
 		var y = Math.min(e.offsetY, this.y);
 		var width = Math.abs(e.offsetX - this.x);
 		var height = Math.abs(e.offsetY - this.y);
+		ctx.strokeStyle = this.color;
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.lineWidth = this.lineWidth;
 		ctx.strokeRect(x, y, width, height);
