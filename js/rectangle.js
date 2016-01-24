@@ -22,12 +22,12 @@ class Rectangle extends Shape {
 		var y = Math.min(e.offsetY, this.y);
 		var width = Math.abs(e.offsetX - this.x);
 		var height = Math.abs(e.offsetY - this.y);
+		ctx.strokeStyle = this.color;
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.strokeRect(x, y, width, height);
 	}
 
 	drag(ctx, e, x, y){
-
 		var newX = e.offsetX - (e.offsetX-this.x);
 		var newY = e.offsetY - (e.offsetY-this.y);
 		if(e.offsetX > this.oldPoint.x){
@@ -42,6 +42,7 @@ class Rectangle extends Shape {
 		else if(e.offsetY < this.oldPoint.y){
 			newY -= Math.abs(this.oldPoint.y - e.offsetY);
 		}
+		
 		this.setOldPoint(e.offsetX, e.offsetY);
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.strokeStyle = this.color;

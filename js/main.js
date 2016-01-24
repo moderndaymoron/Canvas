@@ -145,6 +145,7 @@ $(document).ready(function(){
 	$("#incrad").click(canvasIncRadius);
 	$("#decrad").click(canvasDecRadius);
 	$(".colors").click(canvasColor);
+	
 	canvas = document.getElementById("myCanvas");
 	context = canvas.getContext("2d");
 
@@ -159,7 +160,7 @@ $(document).ready(function(){
 	tmpCanvas.height = canvas.height;
 
 	canvases.appendChild(tmpCanvas);
-	
+
 	$("#tmpCanvas").mousedown(function (e){
 		mouseIsDown = true;
 		points = getPoints(e);
