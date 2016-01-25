@@ -22,6 +22,10 @@ function createRectangle(x, y){
 	return new Rectangle(x, y, currentColor, lineWidth);
 }
 
+function createTemplate(x, y){
+	return new Template(x, y, currentColor, lineWidth);
+}
+
 function createLine(x, y){
 	return new Line(x, y, currentColor, lineWidth);
 }
