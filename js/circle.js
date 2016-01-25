@@ -29,7 +29,7 @@ class Circle extends Shape {
     	ctx.closePath();
 	}
 
-    drag(ctx, e, x, y){
+    drag(ctx, e){
 
         // Its not saving the last state.
         
@@ -42,9 +42,12 @@ class Circle extends Shape {
         ctx.arc(newX, newY, radius, 0, Math.PI * 2, false);
         ctx.stroke();
         ctx.closePath();
+        
         this.x = newX;
         this.y = newY;
         this.setEnd(newX + this.bounds.width, newY + this.bounds.height);
+
+        console.log(this.x, this.y, this.endX, this.endY);
     }
 
 }	

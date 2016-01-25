@@ -30,6 +30,7 @@ class Rectangle extends Shape {
 	drag(ctx, e, x, y){
 		var newX = e.offsetX - (e.offsetX-this.x);
 		var newY = e.offsetY - (e.offsetY-this.y);
+
 		if(e.offsetX > this.oldPoint.x){
 			newX += e.offsetX - this.oldPoint.x;
 		}

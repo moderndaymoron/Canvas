@@ -5,7 +5,7 @@ var mouseIsDown   = false;
 var currentColor  = "black"; //change this when color is picked    jquery
 var lineWidth     = 2;		 //change this when pixel size is set  jquery
 var fontSize	  = 12;		 //change this when fontsize is chosen
-var selectedShape = createCircle;
+var selectedShape = createPen;
 var mode          = "draw";
 var shapes		  = [];
 var undoShape	  = [];
@@ -19,6 +19,10 @@ function getPoints(e){
 
 function createRectangle(x, y){
 	return new Rectangle(x, y, currentColor, lineWidth);
+}
+
+function createTemplate(x, y){
+	return new Template(x, y, currentColor, lineWidth);
 }
 
 function createLine(x, y){
