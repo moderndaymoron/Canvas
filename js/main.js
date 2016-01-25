@@ -38,7 +38,7 @@ function createText(x, y){
 }
 
 function createEraser(x, y){
-	return new Eraser(x, y, "#fff", lineWidth);
+	return new Pen(x, y, "#fff", lineWidth);
 }
 
 function changeTool(){
@@ -145,7 +145,7 @@ $(document).ready(function(){
 	$("#incrad").click(canvasIncRadius);
 	$("#decrad").click(canvasDecRadius);
 	$(".colors").click(canvasColor);
-	
+
 	canvas = document.getElementById("myCanvas");
 	context = canvas.getContext("2d");
 
