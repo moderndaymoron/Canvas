@@ -8,17 +8,19 @@ class Line extends Shape {
 		ctx.strokeStyle = this.color;
 		ctx.lineWidth = this.lineWidth;
 		if(this.selected == true){
-			ctx.moveTo(this.x, this.y);
-			ctx.lineTo(this.endX, this.endY);            
-			ctx.stroke();
+		
 		}else{
-			ctx.moveTo(this.x, this.y);
-			ctx.lineTo(this.endX, this.endY);            
-			ctx.stroke();
+			
 		}
+		ctx.beginPath();
+		ctx.moveTo(this.x, this.y);
+		ctx.lineTo(this.endX, this.endY);            
+		ctx.stroke();
+		ctx.closePath();
 	}
 
 	move(ctx, e){
+		ctx.strokeStyle = this.color;
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
     	ctx.beginPath();
     	ctx.moveTo(this.x, this.y);

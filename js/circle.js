@@ -42,6 +42,9 @@ class Circle extends Shape {
         ctx.arc(newX, newY, radius, 0, Math.PI * 2, false);
         ctx.stroke();
         ctx.closePath();
+        this.x = newX;
+        this.y = newY;
+        this.setEnd(newX + this.bounds.width, newY + this.bounds.height);
     }
 
 }	
