@@ -173,13 +173,10 @@ $(document).ready(function(){
 	$("#incrad").click(canvasIncRadius);
 	$("#decrad").click(canvasDecRadius);
 	$(".colors").click(canvasColor);
-<<<<<<< HEAD
 	$("myCanvas").click(showTextArea);
-=======
 	$("#templatebutton").click(canvasTemplate);
 	$("#drawtemplate").click(canvasDrawTemplate);
 
->>>>>>> 557e34916a307c4bd2a6a2b4fb38d5c20539ad2f
 	canvas = document.getElementById("myCanvas");
 	context = canvas.getContext("2d");
 
