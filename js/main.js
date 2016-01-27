@@ -5,6 +5,7 @@ var mouseIsDown   = false;
 var currentColor  = "black"; //change this when color is picked    jquery
 var lineWidth     = 2;		 //change this when pixel size is set  jquery
 var fontSize	  = 12;		 //change this when fontsize is chosen
+var fontFamily	  = "Courier"
 var selectedShape = createPen;
 var mode          = "draw";
 var shapes		  = [];
@@ -34,7 +35,7 @@ function createPen(x, y){
 }
 
 function createText(x, y){
-	return new Text(x, y, currentColor, fontSize);
+	return new Text(x, y, currentColor, fontSize, fontFamily);
 }
 
 function createEraser(x, y){
@@ -49,7 +50,13 @@ function changeTool(){
 		return;
 	}
 
-	mode = "draw";
+	else if (attrValue === "Text") {
+		context.mode = "text";
+		return;
+	}
+	else {
+		mode = "draw";
+	}
 	var functionName = "create" + attrValue;
 	var res = eval(functionName);
 	selectedShape = res;
@@ -128,8 +135,14 @@ function drawShapes(){
 }
 
 function reDraw(){
-	context.clearRect(0,0,canvas.width, canvas.height);
-	drawShapes();
+		context.clearRect(0,0,canvas.width, canvas.height);
+		drawShapes();
+}
+
+function showTextArea(){
+	if (mode === "text") {
+		$("#textArea").css('display', 'inline-block');
+	}
 }
 
 $(document).ready(function(){
@@ -140,6 +153,7 @@ $(document).ready(function(){
 	$("#incrad").click(canvasIncRadius);
 	$("#decrad").click(canvasDecRadius);
 	$(".colors").click(canvasColor);
+	$("myCanvas").click(showTextArea);
 	canvas = document.getElementById("myCanvas");
 	context = canvas.getContext("2d");
 
@@ -154,6 +168,12 @@ $(document).ready(function(){
 	tmpCanvas.height = canvas.height;
 
 	canvases.appendChild(tmpCanvas);
+
+/*	var img = new Image();
+	img.onload = function() {
+		context.drawImage(img, -10, -12, 740, 530);
+	}
+	img.src = "img/whiteboard.svg"; */
 
 	$("#tmpCanvas").mousedown(function (e){
 		mouseIsDown = true;
