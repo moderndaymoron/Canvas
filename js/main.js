@@ -11,6 +11,7 @@ var mode          = "draw";
 var shapes		  = [];
 var undoShape	  = [];
 var redoShape	  = [];
+var templates	  = [];
 var symbol		  = null;
 var points        = null;
 
@@ -20,6 +21,10 @@ function getPoints(e){
 
 function createRectangle(x, y){
 	return new Rectangle(x, y, currentColor, lineWidth);
+}
+
+function createTemplate(x, y){
+	return new Template(x, y, currentColor, lineWidth);
 }
 
 function createLine(x, y){
@@ -39,7 +44,7 @@ function createText(x, y){
 }
 
 function createEraser(x, y){
-	return new Eraser(x, y, "#fff", lineWidth);
+	return new Pen(x, y, "#fff", lineWidth);
 }
 
 function changeTool(){
@@ -113,6 +118,16 @@ function canvasColor(){
 	currentColor = attrValue || "black";
 }
 
+function canvasTemplate(){
+	var temp = new Template(shapes, "name");
+	templates.push(temp);
+}
+
+function canvasDrawTemplate(){
+	for (var i = 0; i < templates.length; i++){
+		templates[i].draw(context);
+	}
+}
 function checkIfPointInShape(x, y, e){
 	for (var i = 0;  i < shapes.length; i++){
 		shapes[i].selected = false;
@@ -145,6 +160,11 @@ function showTextArea(){
 	}
 }
 
+function setContextColorAndWidth(ctx, symbol){
+	ctx.strokeStyle = symbol.color;
+	ctx.lineWidth = symbol.lineWidth;
+}
+
 $(document).ready(function(){
 	$(".toolbox").click(changeTool);
 	$("#undobutton").click(canvasUndo);
@@ -153,7 +173,13 @@ $(document).ready(function(){
 	$("#incrad").click(canvasIncRadius);
 	$("#decrad").click(canvasDecRadius);
 	$(".colors").click(canvasColor);
+<<<<<<< HEAD
 	$("myCanvas").click(showTextArea);
+=======
+	$("#templatebutton").click(canvasTemplate);
+	$("#drawtemplate").click(canvasDrawTemplate);
+
+>>>>>>> 557e34916a307c4bd2a6a2b4fb38d5c20539ad2f
 	canvas = document.getElementById("myCanvas");
 	context = canvas.getContext("2d");
 
@@ -188,6 +214,7 @@ $(document).ready(function(){
 				symbol.setInitialCoords();
 			}
 		}
+		setContextColorAndWidth(tmpContext, symbol);
 	});
 
 	$("#tmpCanvas").mousemove(function(e){
