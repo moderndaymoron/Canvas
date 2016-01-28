@@ -36,7 +36,7 @@ body {
 	opacity: 0.8;
 }
 
-h1 {
+#titleHeader {
 	margin: auto;
 	color: lightgray;
 }
@@ -44,10 +44,9 @@ h1 {
 /* Canvas */
 
 #myCanvas {
-	position:fixed;
-	left: 49px;
+	position:absolute;
+	left: 4px;
 	right: 525px;
-	border: solid;
 }
 
 #canvases {
@@ -60,7 +59,6 @@ h1 {
 	left: 4px; right: 0px;
 	bottom: 0px; top: 0px;
 	cursor: crosshair;
-	border: solid red;
 }
 
 /* Textarea */
@@ -102,11 +100,24 @@ h1 {
 }
 
 #swatches {
-	margin-left: 500px;
+	margin-left: 385px;
 }
 
-/* images */
+.selected {
 
-.crop {
-	margin: -54px 0 -60px -9px;
+}
+
+/* Tools */
+
+#selectshapes {
+	float: left;
+	margin-top: 10px;
+	margin-left: 20px;
+}
+
+#actionbuttons {
+	float: left;
+	margin-top: 10px;
+	margin-left: 210px;
+
 }
