@@ -244,7 +244,7 @@ $(document).ready(function(){
 
 		}
 		else if(mouseIsDown){
-			symbol.move(tmpContext, e);
+			symbol.move(tmpContext, e, points);
 		}
 	});
 
@@ -257,6 +257,7 @@ $(document).ready(function(){
 				tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
 				shapes.push(symbol);
 			}
+
 		}
 		else{
 			context.drawImage(tmpCanvas, 0, 0);

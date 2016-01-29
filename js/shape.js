@@ -4,13 +4,19 @@ function Point(x, y){
 	this.y = y || 0;
 }
 
-function Rect(x, y, maxX, maxY){
+function Rect(x, y, maxX, maxY, pen){
 	this.x 		= x;
 	this.y 		= y;
 	this.width  = maxX;
 	this.height = maxY;
-	this.right  = this.x + this.width;
-	this.bottom = this.y + this.height;
+	if(pen){
+		this.right  = maxX;
+		this.bottom = maxY;		
+	}
+	else{
+		this.right  = this.x + this.width;
+		this.bottom = this.y + this.height;
+	}
 }
 
 class Shape{
@@ -28,12 +34,41 @@ class Shape{
 	}
 
 	calcBounds(){
-		var minX = Math.min(this.x, this.endX);
-		var minY = Math.min(this.y, this.endY);
-		var maxX = Math.abs(this.endX - this.x);
-		var maxY = Math.abs(this.endY - this.y);
+		if(this.type === "Pen"){
+			var minX = 10000000;
+			var maxX = 0;
+			var minY = 10000000;
+			var maxY = 0;
 
-		return new Rect(minX, minY, maxX, maxY);
+			for(var i = 0; i < this.penPoints.length; i++){
+				if(this.penPoints[i].x < minX){
+					minX = this.penPoints[i].x;
+				}
+				if(this.penPoints[i].x > maxX){
+					maxX = this.penPoints[i].x;
+				}
+				if(this.penPoints[i].y < minY){
+					minY = this.penPoints[i].y;
+				}
+				if(this.penPoints[i].y > maxY){
+					maxY = this.penPoints[i].y;
+				}
+			}
+			return new Rect(minX, minY, maxX, maxY, true);
+
+		}
+		else if(this.type === "Circle"){
+			return new Rect(this.x - this.radius, this.y - this.radius, this.radius*2, this.radius*2, false);
+
+		}
+		else{
+			var minX = Math.min(this.x, this.endX);
+			var minY = Math.min(this.y, this.endY);
+			var maxX = Math.abs(this.endX - this.x);
+			var maxY = Math.abs(this.endY - this.y);
+		}
+
+		return new Rect(minX, minY, maxX, maxY, false);
 	}
 
 	setEnd(x,y,e){
