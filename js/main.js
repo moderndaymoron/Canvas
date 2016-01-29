@@ -149,6 +149,7 @@ function showTextArea(e){
     var y = e.clientY - canvas.offsetTop;
     textArea.style.top = e.clientY + 'px';
     textArea.style.left = e.clientX + 'px';
+    textArea.focus();
 }
 
 function submitText(symbol){

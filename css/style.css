@@ -72,6 +72,8 @@ body {
 	background: transperant;
 	position: absolute;
 	display: none;
+	line-height: 20px;
+	font-size: 20px;
 }
 
 /* line width mechanism and color pallet */
