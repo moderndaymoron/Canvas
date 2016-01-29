@@ -2,9 +2,9 @@
 var canvas 		  = null;
 var context 	  = null;
 var mouseIsDown   = false;
-var currentColor  = "black"; //change this when color is picked    jquery
-var lineWidth     = 2;		 //change this when pixel size is set  jquery
-var fontSize	  = 12;		 //change this when fontsize is chosen
+var currentColor  = "black";
+var lineWidth     = 2;		 
+var fontSize	  = 12;
 var fontFamily	  = "Courier"
 var selectedShape = createPen;
 var mode          = "draw";
@@ -62,16 +62,19 @@ function changeTool(){
 	else {
 		mode = "draw";
 	}
+
+	setSelectedFalse();
 	var functionName = "create" + attrValue;
 	var res = eval(functionName);
 	selectedShape = res;
+	reDraw();
 }
 
 function canvasUndo(){
-	//needs propper implementation
 	if(shapes.length < 1){
 		return;
 	}
+
 	undoShape.push(shapes.pop());
 	console.log(shapes);
 	reDraw();
@@ -81,6 +84,7 @@ function canvasRedo(){
 	if(undoShape.length < 1){
 		return;
 	}
+
 	shapes.push(undoShape.pop());
 	reDraw();
 }
@@ -93,6 +97,7 @@ function canvasDelete(){
 			shapes.splice(i, 1);
 		}
 	}
+
 	reDraw();
 }
 
@@ -100,6 +105,7 @@ function canvasIncRadius(){
 	if(lineWidth >= 50){
 		return;
 	}
+
 	lineWidth += 1;
 	$("#radVal").html(lineWidth);
 }
@@ -108,6 +114,7 @@ function canvasDecRadius(){
 	if(lineWidth <= 1){
 		return;
 	}
+
 	lineWidth -= 1;
 	$("#radVal").html(lineWidth);
 }
@@ -129,9 +136,7 @@ function canvasDrawTemplate(){
 	}
 }
 function checkIfPointInShape(x, y, e){
-	for (var i = 0;  i < shapes.length; i++){
-		shapes[i].selected = false;
-	}
+	setSelectedFalse();
 	for (var i = shapes.length-1; i >= 0; i--){
 		if(shapes[i].isPointInShape(x,y)){
 			shapes[i].selected = true;
@@ -139,6 +144,7 @@ function checkIfPointInShape(x, y, e){
 			return shapes[i];
 		}
 	}
+	
 	return 0;
 }
 
@@ -163,6 +169,12 @@ function showTextArea(){
 function setContextColorAndWidth(ctx, symbol){
 	ctx.strokeStyle = symbol.color;
 	ctx.lineWidth = symbol.lineWidth;
+}
+
+function setSelectedFalse(){
+	for (var i = 0;  i < shapes.length; i++){
+		shapes[i].selected = false;
+	}
 }
 
 $(document).ready(function(){
@@ -211,6 +223,7 @@ $(document).ready(function(){
 				symbol.setInitialCoords();
 			}
 		}
+
 		setContextColorAndWidth(tmpContext, symbol);
 	});
 
@@ -220,7 +233,9 @@ $(document).ready(function(){
 			if(mouseIsDown){
 				console.log(symbol);
 				if(symbol != 0){
+					tmpContext.setLineDash([5, 5]);
 					symbol.drag(tmpContext, e, points.x, points.y);
+					tmpContext.setLineDash([0, 0]);
 				}
 				else{
 					return;
@@ -237,20 +252,19 @@ $(document).ready(function(){
 		mouseIsDown = false;
 		points = getPoints(e);
 		if(mode === "select"){
-			//TODO: change the position of the element and take effects off
 			if(symbol != 0){
 				context.drawImage(tmpCanvas, 0, 0);
 				tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
 				shapes.push(symbol);
 			}
 		}
-		// Copying the content from the tmp canvas
 		else{
 			context.drawImage(tmpCanvas, 0, 0);
 			tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
 			symbol.setEnd(points.x, points.y);
 			shapes.push(symbol);
 		}
+
 		reDraw();
 	});
 });
