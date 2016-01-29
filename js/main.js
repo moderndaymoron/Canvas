@@ -170,6 +170,55 @@ function setSelectedFalse(){
 	}
 }
 
+function save(){
+	var stringifiedArray = JSON.stringify(shapes);
+	var param = { 
+				"user": "arnio13", // You should use your own username!
+				"name": "test",
+				"content": stringifiedArray,
+				"template": true
+			};
+
+	$.ajax({
+		type: "POST",
+		contentType: "application/json; charset=utf-8",
+		url: "http://whiteboard.apphb.com/Home/Save",
+		data: param,
+		dataType: "jsonp",
+		crossDomain: true,
+		success: function (data) {
+			alert("Saved")
+		},
+		error: function (xhr, err) {
+			alert("Errrrrr")
+		}
+	});
+}
+
+function getSaved(){
+	var param = { 
+				"user": "arnio13", // You should use your own username!
+				"template": true
+	};
+
+	$.ajax({
+			type: "POST",
+			contentType: "application/json; charset=utf-8",
+			url: "http://whiteboard.apphb.com/Home/GetList",
+			data: param ,
+			
+			dataType: "jsonp",
+			crossDomain: true,
+			success: function (data) {
+				alert(data);
+			},
+			error: function (xhr, err) {
+				alert("err");
+			}
+		});
+		console.log(data);
+}
+
 $(document).ready(function(){
 	$(".toolbox").click(changeTool);
 	$("#undobutton").click(canvasUndo);
@@ -181,6 +230,8 @@ $(document).ready(function(){
 	$("myCanvas").click(showTextArea);
 	$("#templatebutton").click(canvasTemplate);
 	$("#drawtemplate").click(canvasDrawTemplate);
+	$("#templatebutton").click(save);
+	$("#drawtemplate").click(getSaved);
 	$("#textinput").keypress(function(e){
 		if(e.keyCode === 13){
 			var msg = $("#textinput").val();
