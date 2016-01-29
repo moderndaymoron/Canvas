@@ -115,6 +115,37 @@ body {
 
 }
 
+/* Radio buttons */
+#selectshapes label {
+	float:left;
+    width: auto;
+    margin:2px;
+    background-color:#EFEFEF;
+    border-radius:4px;
+    border:2px solid #aaa;
+    overflow:auto;
+}
+
+#selectshapes label span {
+    text-align:center;
+    font-size: 14px;
+    display: inline;
+}
+
+#selectshapes input:checked + span {
+	border-style: solid;
+	border-color: #333;
+	border-width: 3px;
+	border-radius: 1px;
+    background-color: #444;
+    color:#FFF;
+}
+
+#selectshapes label input {
+    position:absolute;
+    top:-20px; /*get rid of radio check circles  /*
+}
+
 /* Tools */
 
 .toolbox:checked + label {
