@@ -36,9 +36,9 @@ class Shape{
 
 	calcBounds(){
 		if(this.type === "Pen"){
-			var minX = 10000000;
+			var minX = canvas.length;
 			var maxX = 0;
-			var minY = 10000000;
+			var minY = canvas.height;
 			var maxY = 0;
 
 			for(var i = 0; i < this.penPoints.length; i++){
