@@ -63,7 +63,7 @@ body {
 
 /* Textarea */
 
-#textArea {
+#textinput {
 	border: solid black 1px;
 	background: transperant;
 	display: none;
@@ -121,3 +121,4 @@ body {
 	margin-left: 210px;
 
 }
+

@@ -14,17 +14,18 @@ function Rect(x, y, maxX, maxY){
 }
 
 class Shape{
-	constructor(x, y, color, lineWidth, type) {
-		this.x         = x;
-		this.y         = y;
-		this.endX      = x;
-		this.endY      = y;
-		this.color     = color;
-		this.type      = type;
-		this.lineWidth = lineWidth;
-		this.selected  = false;
-		this.bounds    = null;
-		this.oldPoint  = new Point(x, y);
+	constructor(x, y, color, lineWidth, type, fontFamily) {
+		this.x          = x;
+		this.y          = y;
+		this.endX       = x;
+		this.endY       = y;
+		this.color      = color;
+		this.type       = type;
+		this.lineWidth  = lineWidth;
+		this.selected   = false;
+		this.bounds     = null;
+		this.oldPoint   = new Point(x, y);
+		this.fontFamily = fontFamily;
 	}
 
 	calcBounds(){

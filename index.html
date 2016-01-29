@@ -38,13 +38,13 @@
                 <div id="moccasin" class="colors boxShadow" style="background-color:moccasin;" data-tool="moccasin"></div>
 
             </div>
-            <input type="textarea" name="text" id="textArea" />
+            
             <div id="canvases">
                 <img src="img/whiteboard.png" alt="dafuq" width="940" height="615"/>
             	<canvas id="myCanvas" width="925" height="590">
             	</canvas>
             </div>
-
+        <input type="textarea" name="textinput" id="textinput" data-text="Text"/>
         <div id="selectshapes">
             <input type="radio" name="tool" id="pencil" checked="checked" data-tool="Pen" class="toolbox"/>
             <label for ="pencil">Pencil</label>
@@ -54,10 +54,14 @@
             <label for ="circle">Circle</label>
             <input type="radio" name="tool" id="line" data-tool="Line" class="toolbox"/>
             <label for ="line">Line</label>
+            <input type="radio" name="tool" id="text" data-tool="Text" class="toolbox"/>
+            <label for ="select">Text</label>
             <input type="radio" name="tool" id="eraser" data-tool="Eraser" class="toolbox"/>
             <label for ="eraser">Eraser</label>
             <input type="radio" name="tool" id="select" data-tool="Select" class="toolbox"/>
             <label for ="select">Select</label>
+            <input type="radio" name="tool" id="text" data-tool="Text" class="toolbox"/>
+            <label for ="select">Text</label>
         </div>
         <div id="actionbuttons">
             <button type="button" name="undobutton" id="undobutton">
@@ -78,6 +82,7 @@
         <script src="js/circle.js"></script>
         <script src="js/commands.js"></script>
         <script src="js/radius.js"></script>
+        <script src="js/text.js"></script>
         <script src="js/template.js"></script>
     </body>
 </html>
