@@ -4,14 +4,13 @@ var context 	  = null;
 var mouseIsDown   = false;
 var currentColor  = "black";
 var lineWidth     = 2;		 
-var fontSize	  = 12;
-var fontFamily	  = "Courier"
+var fontSize	  = 14;
+var fontFamily	  = "Arial";
 var selectedShape = createPen;
 var mode          = "draw";
 var shapes		  = [];
 var undoShape	  = [];
 var redoShape	  = [];
-var templates	  = [];
 var symbol		  = null;
 var points        = null;
 
@@ -40,7 +39,7 @@ function createPen(x, y){
 }
 
 function createText(x, y){
-	return new Text(x, y, currentColor, fontSize, fontFamily);
+	return new Text(x, y, currentColor, lineWidth, fontSize, fontFamily);
 }
 
 function createEraser(x, y){
@@ -55,18 +54,11 @@ function changeTool(){
 		return;
 	}
 
-	else if (attrValue === "Text") {
-		context.mode = "text";
-		return;
-	}
-	else {
-		mode = "draw";
-	}
-
-	setSelectedFalse();
+	mode 			 = "draw";
 	var functionName = "create" + attrValue;
-	var res = eval(functionName);
-	selectedShape = res;
+	var res 		 = eval(functionName);
+	selectedShape 	 = res;
+	setSelectedFalse();
 	reDraw();
 }
 
@@ -76,7 +68,6 @@ function canvasUndo(){
 	}
 
 	undoShape.push(shapes.pop());
-	console.log(shapes);
 	reDraw();
 }
 
@@ -125,26 +116,17 @@ function canvasColor(){
 	currentColor = attrValue || "black";
 }
 
-function canvasTemplate(){
-	var temp = new Template(shapes, "name");
-	templates.push(temp);
-}
-
-function canvasDrawTemplate(){
-	for (var i = 0; i < templates.length; i++){
-		templates[i].draw(context);
-	}
-}
 function checkIfPointInShape(x, y, e){
 	setSelectedFalse();
 	for (var i = shapes.length-1; i >= 0; i--){
 		if(shapes[i].isPointInShape(x,y)){
 			shapes[i].selected = true;
 			shapes[i].setOldPoint(e.offsetX, e.offsetY);
+			console.log(shapes[i]);
 			return shapes[i];
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -160,10 +142,24 @@ function reDraw(){
 		drawShapes();
 }
 
-function showTextArea(){
-	if (mode === "text") {
-		$("#textArea").css('display', 'inline-block');
-	}
+function showTextArea(e){
+	$("#textinput").css('display', 'inline');
+	var textArea = document.getElementById("textinput");
+	var x = e.clientX - canvas.offsetLeft;
+    var y = e.clientY - canvas.offsetTop;
+    textArea.style.top = e.clientY + 'px';
+    textArea.style.left = e.clientX + 'px';
+    textArea.focus();
+}
+
+function submitText(symbol){
+	var msg 			   = $("#textinput").val();
+	context.font 		   = fontSize + "px " + fontFamily;
+	var textWidth 		   = context.measureText(msg).width;
+	var textArea  		   = document.getElementById("textinput");
+	textArea.value 		   = "";
+	textArea.style.display = "none";
+	symbol.setMessageAndBounds(msg, textWidth);
 }
 
 function setContextColorAndWidth(ctx, symbol){
@@ -177,7 +173,56 @@ function setSelectedFalse(){
 	}
 }
 
+function save(){
+	var stringifiedArray = JSON.stringify(shapes);
+	var param = { 
+				"user": "arnio13", // You should use your own username!
+				"name": "test",
+				"content": stringifiedArray,
+				"template": true
+			};
+
+	$.ajax({
+		type: "POST",
+		contentType: "application/json; charset=utf-8",
+		url: "http://whiteboard.apphb.com/Home/Save",
+		data: param,
+		dataType: "jsonp",
+		crossDomain: true,
+		success: function (data) {
+			alert("Saved")
+		},
+		error: function (xhr, err) {
+			alert("Errrrrr")
+		}
+	});
+}
+
+function getSaved(){
+	var param = { 
+				"user": "arnio13", // You should use your own username!
+				"template": true
+	};
+
+	$.ajax({
+			type: "POST",
+			contentType: "application/json; charset=utf-8",
+			url: "http://whiteboard.apphb.com/Home/GetList",
+			data: param ,
+			
+			dataType: "jsonp",
+			crossDomain: true,
+			success: function (data) {
+				alert(data);
+			},
+			error: function (xhr, err) {
+				alert("err");
+			}
+		});
+}
+
 $(document).ready(function(){
+	//Event listeners
 	$(".toolbox").click(changeTool);
 	$("#undobutton").click(canvasUndo);
 	$("#redobutton").click(canvasRedo);
@@ -186,33 +231,38 @@ $(document).ready(function(){
 	$("#decrad").click(canvasDecRadius);
 	$(".colors").click(canvasColor);
 	$("myCanvas").click(showTextArea);
-	$("#templatebutton").click(canvasTemplate);
-	$("#drawtemplate").click(canvasDrawTemplate);
+	$("#savedrawing").click(save);
+	$("#senddrawing").click(getSaved);
+	$("#textinput").keypress(function(e){
+		if(e.keyCode === 13){
+			submitText(symbol);
+			shapes.push(symbol);
+			reDraw();
+		}
+	});
+	$("#fontsize").on('change', function(){
+		fontSize = $(this).val();
+	});
+	$("#fontfamily").on('change', function(){
+		fontFamily = $(this).val();
+	});
 
-	canvas = document.getElementById("myCanvas");
-	context = canvas.getContext("2d");
-
-	// tmp canvas
-	var tmpCanvas = document.createElement('canvas');
-	var tmpContext = tmpCanvas.getContext('2d');
-	var canvases = document.querySelector('#canvases');
-	tmpContext.lineWidth = 25;
-	context.lineWidth = lineWidth;
-	tmpCanvas.id = 'tmpCanvas';
-	tmpCanvas.width = canvas.width;
-	tmpCanvas.height = canvas.height;
+	canvas 				= document.getElementById("myCanvas");
+	context 			= canvas.getContext("2d");
+	var tmpCanvas 		= document.createElement('canvas');
+	var tmpContext 		= tmpCanvas.getContext('2d');
+	var canvases 		= document.querySelector('#canvases');
+	context.lineWidth 	= lineWidth;
+	tmpCanvas.id 		= 'tmpCanvas';
+	tmpCanvas.width 	= canvas.width;
+	tmpCanvas.height 	= canvas.height;
 
 	canvases.appendChild(tmpCanvas);
-
-/*	var img = new Image();
-	img.onload = function() {
-		context.drawImage(img, -10, -12, 740, 530);
-	}
-	img.src = "img/whiteboard.svg"; */
 
 	$("#tmpCanvas").mousedown(function (e){
 		mouseIsDown = true;
 		points = getPoints(e);
+		console.log(points);
 		if(mode === "select"){
 			symbol = checkIfPointInShape(points.x, points.y, e);
 			canvasDelete();
@@ -221,6 +271,11 @@ $(document).ready(function(){
 			symbol = selectedShape(points.x, points.y);
 			if(symbol.type === "Pen"){
 				symbol.setInitialCoords();
+			}
+			else if(symbol.type === "Text"){
+				mouseIsDown = false;
+				symbol = selectedShape(points.x, points.y);
+				showTextArea(e);
 			}
 		}
 
@@ -231,7 +286,6 @@ $(document).ready(function(){
 		if(mode === "select"){
 			//TODO: move the shape on the canvas with effects still on
 			if(mouseIsDown){
-				console.log(symbol);
 				if(symbol != 0){
 					tmpContext.setLineDash([5, 5]);
 					symbol.drag(tmpContext, e, points.x, points.y);
@@ -244,27 +298,32 @@ $(document).ready(function(){
 
 		}
 		else if(mouseIsDown){
-			symbol.move(tmpContext, e);
+			symbol.move(tmpContext, e, points);
 		}
 	});
 
 	$("#tmpCanvas").mouseup(function(e){
-		mouseIsDown = false;
-		points = getPoints(e);
-		if(mode === "select"){
-			if(symbol != 0){
+		if(!mouseIsDown){
+
+		}
+		else{
+			points = getPoints(e);
+			if(mode === "select"){
+				if(symbol != 0){
+					context.drawImage(tmpCanvas, 0, 0);
+					tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
+					shapes.push(symbol);
+				}
+			}
+			else{
 				context.drawImage(tmpCanvas, 0, 0);
 				tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
+				symbol.setEnd(points.x, points.y);
 				shapes.push(symbol);
 			}
 		}
-		else{
-			context.drawImage(tmpCanvas, 0, 0);
-			tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
-			symbol.setEnd(points.x, points.y);
-			shapes.push(symbol);
-		}
 
+		mouseIsDown = false;
 		reDraw();
 	});
 });

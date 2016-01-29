@@ -1,6 +1,7 @@
 "use strict";
 class Pen extends Shape {
 	constructor(x, y, color, lineWidth){
+		console.log("creating pen");
 		super(x, y, color, lineWidth, "Pen");
 		this.penPoints = [];
 	}
@@ -89,7 +90,6 @@ class Pen extends Shape {
 		this.x += newX;
 		this.y += newY;
 		this.setEnd(this.x + this.bounds.width, this.y + this.bounds.height);
-		this.bounds = this.calcBounds();
 	}
 
 	updatePoints(x, y){

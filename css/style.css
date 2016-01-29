@@ -69,10 +69,13 @@ body {
 
 /* Textarea */
 
-#textArea {
+#textinput {
 	border: solid black 1px;
 	background: transperant;
+	position: absolute;
 	display: none;
+	line-height: 20px;
+	font-size: 20px;
 }
 
 /* line width mechanism and color pallet */
@@ -144,3 +147,4 @@ body {
     border solid black 2px;
     background-color: transperant;
 }
+

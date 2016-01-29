@@ -32,14 +32,14 @@
                 <div id="lightsalmon" class="colors boxShadow" style="background-color:lightsalmon;" data-tool="lightsalmon"></div>
                 <div id="yellow" class="colors boxShadow" style="background-color:yellow;" data-tool="yellow"></div>
                 <div id="moccasin" class="colors boxShadow" style="background-color:moccasin;" data-tool="moccasin"></div>
-
             </div>
-            <input type="textarea" name="text" id="textArea" />
+
             <div id="canvases">
                 <img id="whiteboard" src="img/whiteboard.png" alt="dafuq" width="970" height="650"/>
             	<canvas id="myCanvas" width="925" height="590">
             	</canvas>
             </div>
+        <input autofocus type="textarea" name="textinput" id="textinput" data-text="Text"/>
             <div id="rad">
                 Line width: <span id="radVal">2</span>px
                 <div id="decrad" class="radButton boxShadow"> - </div>
@@ -53,11 +53,11 @@
                     <span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span></button>
                 <button type="button" name="delbutton" id="delbutton">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                <button type="button" name="templatebutton" id="templatebutton">Save Drawing</button>
+                <button type="button" name="savebutton" id="savedrawing">Save Drawing</button>
+                <button type="button" name="sendbutton" id="senddrawing">Send Drawing</button>
+
             </div>
-
         <div id="selectshapes">
-
             <input type="radio" name="tool" id="pencil" checked="checked" data-tool="Pen" class="toolbox" />
             <label for="pencil">Pen</label>
             <input type="radio" name="tool" id="rectangle" data-tool="Rectangle" class="toolbox" />
@@ -66,12 +66,38 @@
             <label for ="circle">Circle</label>
             <input type="radio" name="tool" id="line" data-tool="Line" class="toolbox"/>
             <label for ="line">Line</label>
+            <input type="radio" name="tool" id="text" data-tool="Text" class="toolbox"/>
+            <label for ="text">Text</label>
             <input type="radio" name="tool" id="eraser" data-tool="Eraser" class="toolbox"/>
             <label for ="eraser">Eraser</label>
             <input type="radio" name="tool" id="select" data-tool="Select" class="toolbox"/>
             <label for ="select">Select</label>
         </div>
+        <div id="dropdownlists">
+            <span class="spanfontsize">Fontsize: </span>
+            <select id="fontsize">
+                <option value="10">10pt</option>
+                <option value="12">12pt</option>
+                <option value="14">14pt</option>
+                <option value="16">16pt</option>
+                <option value="18">18pt</option>
+                <option value="20" selected>20pt</option>
+                <option value="24">24pt</option>
+                <option value="28">28pt</option>
+                <option value="32">32pt</option>
+                <option value="36">36pt</option>
+                <option value="46">46pt</option>
+                <option value="60">60pt</option>
+            </select>
+            <span class="spanfontsize">Font: </span>
+            <select id="fontfamily">
+                <option value="Arial" selected>Arial</option>
+                <option value="Courier">Courier</option>
+                <option value="Symbol">Symbol</option>
+                <option value="Verdana">Verdana</option>
 
+            </select>
+        </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
         <script src="js/main.js"></script>
         <script src="js/shape.js"></script>
@@ -81,6 +107,7 @@
         <script src="js/circle.js"></script>
         <script src="js/commands.js"></script>
         <script src="js/radius.js"></script>
+        <script src="js/text.js"></script>
         <script src="js/template.js"></script>
     </body>
 </html>
