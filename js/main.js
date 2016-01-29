@@ -277,6 +277,7 @@ $(document).ready(function(){
 				symbol.setEnd(points.x, points.y);
 				shapes.push(symbol);
 			}
+		}
 
 		mouseIsDown = false;
 		reDraw();
