@@ -5,19 +5,27 @@ class Rectangle extends Shape {
 	}
 
 	draw(ctx){
-		ctx.lineWidth = this.lineWidth;
-		if(this.selected){
-			ctx.strokeStyle = "orange";
+		if(this.selected === true){
+			ctx.setLineDash([5, 5]);
 		}
 		else{
-			ctx.strokeStyle = this.color;
+			ctx.setLineDash([0,0]);
 		}
-		
-		ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
 
+		ctx.lineWidth = this.lineWidth;
+		ctx.strokeStyle = this.color;		
+		ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
+		ctx.setLineDash([0,0]);
 	}
 
 	move(ctx, e){
+		if(this.selected === true){
+			
+		}
+		else{
+			ctx.setLineDash([0,0]);
+		}
+
 		var x = Math.min(e.offsetX, this.x);
 		var y = Math.min(e.offsetY, this.y);
 		var width = Math.abs(e.offsetX - this.x);
