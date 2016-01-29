@@ -4,14 +4,13 @@ var context 	  = null;
 var mouseIsDown   = false;
 var currentColor  = "black";
 var lineWidth     = 2;		 
-var fontSize	  = 12;
-var fontFamily	  = "Courier";
+var fontSize	  = 14;
+var fontFamily	  = "Arial";
 var selectedShape = createPen;
 var mode          = "draw";
 var shapes		  = [];
 var undoShape	  = [];
 var redoShape	  = [];
-var templates	  = [];
 var symbol		  = null;
 var points        = null;
 
@@ -40,7 +39,7 @@ function createPen(x, y){
 }
 
 function createText(x, y){
-	return new Text(x, y, currentColor, fontSize, fontFamily);
+	return new Text(x, y, currentColor, lineWidth, fontSize, fontFamily);
 }
 
 function createEraser(x, y){
@@ -118,16 +117,6 @@ function canvasColor(){
 	currentColor = attrValue || "black";
 }
 
-function canvasTemplate(){
-	var temp = new Template(shapes, "name");
-	templates.push(temp);
-}
-
-function canvasDrawTemplate(){
-	for (var i = 0; i < templates.length; i++){
-		templates[i].draw(context);
-	}
-}
 function checkIfPointInShape(x, y, e){
 	setSelectedFalse();
 	for (var i = shapes.length-1; i >= 0; i--){
@@ -184,13 +173,21 @@ $(document).ready(function(){
 	$("#textinput").keypress(function(e){
 		if(e.keyCode === 13){
 			var msg = $("#textinput").val();
-			symbol.setMessage(msg);
+			var textWidth = context.measureText(msg).width;
+			symbol.setMessageAndBounds(msg, textWidth);
 			var textArea  		   = document.getElementById("textinput");
 			textArea.value 		   = "";
 			textArea.style.display = "none";
 			shapes.push(symbol);
 			reDraw();
 		}
+	});
+	$("#fontsize").on('change', function(){
+		fontSize = $(this).val();
+	});
+	$("#fontfamily").on('change', function(){
+		fontFamily = $(this).val();
+		console.log(fontFamily);
 	});
 
 	canvas = document.getElementById("myCanvas");
@@ -278,6 +275,7 @@ $(document).ready(function(){
 				shapes.push(symbol);
 			}
 		}
+
 		mouseIsDown = false;
 		reDraw();
 	});

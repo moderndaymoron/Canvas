@@ -57,7 +57,6 @@
                 <button type="button" name="drawtemplate" id="drawtemplate">drawtemplate</button>
             </div>
         <div id="selectshapes">
-
             <input type="radio" name="tool" id="pencil" checked="checked" data-tool="Pen" class="toolbox" />
             <label for="pencil">Pen</label>
             <input type="radio" name="tool" id="rectangle" data-tool="Rectangle" class="toolbox" />
@@ -75,7 +74,29 @@
             <input type="radio" name="tool" id="text" data-tool="Text" class="toolbox"/>
             <label for ="select">Text</label>
         </div>
+        <div id="dropdownlists">
+            <span class="spanfontsize">Fontsize: </span>
+            <select id="fontsize">
+                <option value="10">10pt</option>
+                <option value="12">12pt</option>
+                <option value="14" selected>14pt</option>
+                <option value="16">16pt</option>
+                <option value="18">18pt</option>
+                <option value="20">20pt</option>
+                <option value="24">24pt</option>
+                <option value="28">28pt</option>
+                <option value="32">32pt</option>
+                <option value="36">36pt</option>
+            </select>
+            <span class="spanfontsize">Font: </span>
+            <select id="fontfamily">
+                <option value="Arial" selected>Arial</option>
+                <option value="Courier">Courier</option>
+                <option value="Symbol">Symbol</option>
+                <option value="Verdana">Verdana</option>
 
+            </select>
+        </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
         <script src="js/main.js"></script>
         <script src="js/shape.js"></script>
