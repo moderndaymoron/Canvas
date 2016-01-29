@@ -47,6 +47,7 @@ function createEraser(x, y){
 }
 
 function changeTool(){
+	hideTextArea();
 	var attrValue = $(this).attr("data-tool");
 	console.log(attrValue);
 	if (attrValue === "Select"){
@@ -176,12 +177,15 @@ function submitText(symbol){
 	var msg 			   = $("#textinput").val();
 	context.font 		   = fontSize + "px " + fontFamily;
 	var textWidth 		   = context.measureText(msg).width;
-	var textArea  		   = document.getElementById("textinput");
-	textArea.value 		   = "";
-	textArea.style.display = "none";
+	hideTextArea();
 	symbol.setMessageAndBounds(msg, textWidth);
 }
 
+function hideTextArea(){
+	var textArea  		   = document.getElementById("textinput");
+	textArea.value 		   = "";
+	textArea.style.display = "none";
+}
 function setContextColorAndWidth(ctx, symbol){
 	ctx.strokeStyle = symbol.color;
 	ctx.lineWidth   = symbol.lineWidth;
@@ -253,11 +257,15 @@ $(document).ready(function(){
 	$("myCanvas").click(showTextArea);
 	$("#savedrawing").click(save);
 	$("#senddrawing").click(getSaved);
-	$("#textinput").keypress(function(e){
+	$("#textinput").keyup(function(e){
+		console.log(e);
 		if(e.keyCode === 13){
 			submitText(symbol);
 			shapes.push(symbol);
 			reDraw();
+		}
+		else if(e.keyCode === 27){
+			hideTextArea();
 		}
 	});
 	$("#fontsize").on('change', function(){
