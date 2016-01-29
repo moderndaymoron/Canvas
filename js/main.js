@@ -143,13 +143,15 @@ function reDraw(){
 }
 
 function showTextArea(e){
-	$("#textinput").css('display', 'inline');
-	var textArea = document.getElementById("textinput");
-	var x = e.clientX - canvas.offsetLeft;
-    var y = e.clientY - canvas.offsetTop;
-    textArea.style.top = e.clientY + 'px';
-    textArea.style.left = e.clientX + 'px';
-    textArea.focus();
+	var x 						= e.clientX - canvas.offsetLeft;
+    var y 						= e.clientY - canvas.offsetTop;
+	var textArea 				= document.getElementById("textinput");
+	textArea.style.fontFamily   = fontFamily;
+	textArea.style.display 		= "inline";
+    textArea.style.lineHeight   = fontSize + "px";
+    textArea.style.fontSize     = fontSize + "px";
+    textArea.style.top  		= e.clientY + 'px';
+    textArea.style.left 		= e.clientX + 'px';
 }
 
 function submitText(symbol){
@@ -164,7 +166,7 @@ function submitText(symbol){
 
 function setContextColorAndWidth(ctx, symbol){
 	ctx.strokeStyle = symbol.color;
-	ctx.lineWidth = symbol.lineWidth;
+	ctx.lineWidth   = symbol.lineWidth;
 }
 
 function setSelectedFalse(){
