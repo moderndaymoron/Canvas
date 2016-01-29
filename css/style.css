@@ -70,6 +70,7 @@ body {
 #textinput {
 	border: solid black 1px;
 	background: transperant;
+	position: absolute;
 	display: none;
 }
 

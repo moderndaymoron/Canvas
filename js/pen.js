@@ -90,7 +90,6 @@ class Pen extends Shape {
 		this.x += newX;
 		this.y += newY;
 		this.setEnd(this.x + this.bounds.width, this.y + this.bounds.height);
-		this.bounds = this.calcBounds();
 	}
 
 	updatePoints(x, y){

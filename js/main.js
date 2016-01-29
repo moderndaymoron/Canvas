@@ -54,11 +54,11 @@ function changeTool(){
 		return;
 	}
 
-	mode = "draw";
-	setSelectedFalse();
+	mode 			 = "draw";
 	var functionName = "create" + attrValue;
-	var res = eval(functionName);
-	selectedShape = res;
+	var res 		 = eval(functionName);
+	selectedShape 	 = res;
+	setSelectedFalse();
 	reDraw();
 }
 
@@ -68,7 +68,6 @@ function canvasUndo(){
 	}
 
 	undoShape.push(shapes.pop());
-	console.log(shapes);
 	reDraw();
 }
 
@@ -123,6 +122,7 @@ function checkIfPointInShape(x, y, e){
 		if(shapes[i].isPointInShape(x,y)){
 			shapes[i].selected = true;
 			shapes[i].setOldPoint(e.offsetX, e.offsetY);
+			console.log(shapes[i]);
 			return shapes[i];
 		}
 	}
@@ -142,10 +142,23 @@ function reDraw(){
 		drawShapes();
 }
 
-function showTextArea(){
-	if (mode === "text") {
-		$("#textArea").css('display', 'inline-block');
-	}
+function showTextArea(e){
+	$("#textinput").css('display', 'inline');
+	var textArea = document.getElementById("textinput");
+	var x = e.clientX - canvas.offsetLeft;
+    var y = e.clientY - canvas.offsetTop;
+    textArea.style.top = e.clientY + 'px';
+    textArea.style.left = e.clientX + 'px';
+}
+
+function submitText(symbol){
+	var msg 			   = $("#textinput").val();
+	context.font 		   = fontSize + "px " + fontFamily;
+	var textWidth 		   = context.measureText(msg).width;
+	var textArea  		   = document.getElementById("textinput");
+	textArea.value 		   = "";
+	textArea.style.display = "none";
+	symbol.setMessageAndBounds(msg, textWidth);
 }
 
 function setContextColorAndWidth(ctx, symbol){
@@ -159,7 +172,56 @@ function setSelectedFalse(){
 	}
 }
 
+function save(){
+	var stringifiedArray = JSON.stringify(shapes);
+	var param = { 
+				"user": "arnio13", // You should use your own username!
+				"name": "test",
+				"content": stringifiedArray,
+				"template": true
+			};
+
+	$.ajax({
+		type: "POST",
+		contentType: "application/json; charset=utf-8",
+		url: "http://whiteboard.apphb.com/Home/Save",
+		data: param,
+		dataType: "jsonp",
+		crossDomain: true,
+		success: function (data) {
+			alert("Saved")
+		},
+		error: function (xhr, err) {
+			alert("Errrrrr")
+		}
+	});
+}
+
+function getSaved(){
+	var param = { 
+				"user": "arnio13", // You should use your own username!
+				"template": true
+	};
+
+	$.ajax({
+			type: "POST",
+			contentType: "application/json; charset=utf-8",
+			url: "http://whiteboard.apphb.com/Home/GetList",
+			data: param ,
+			
+			dataType: "jsonp",
+			crossDomain: true,
+			success: function (data) {
+				alert(data);
+			},
+			error: function (xhr, err) {
+				alert("err");
+			}
+		});
+}
+
 $(document).ready(function(){
+	//Event listeners
 	$(".toolbox").click(changeTool);
 	$("#undobutton").click(canvasUndo);
 	$("#redobutton").click(canvasRedo);
@@ -168,16 +230,11 @@ $(document).ready(function(){
 	$("#decrad").click(canvasDecRadius);
 	$(".colors").click(canvasColor);
 	$("myCanvas").click(showTextArea);
-	$("#templatebutton").click(canvasTemplate);
-	$("#drawtemplate").click(canvasDrawTemplate);
+	$("#savedrawing").click(save);
+	$("#senddrawing").click(getSaved);
 	$("#textinput").keypress(function(e){
 		if(e.keyCode === 13){
-			var msg = $("#textinput").val();
-			var textWidth = context.measureText(msg).width;
-			symbol.setMessageAndBounds(msg, textWidth);
-			var textArea  		   = document.getElementById("textinput");
-			textArea.value 		   = "";
-			textArea.style.display = "none";
+			submitText(symbol);
 			shapes.push(symbol);
 			reDraw();
 		}
@@ -187,50 +244,40 @@ $(document).ready(function(){
 	});
 	$("#fontfamily").on('change', function(){
 		fontFamily = $(this).val();
-		console.log(fontFamily);
 	});
 
-	canvas = document.getElementById("myCanvas");
-	context = canvas.getContext("2d");
-
-	// tmp canvas
-	var tmpCanvas = document.createElement('canvas');
-	var tmpContext = tmpCanvas.getContext('2d');
-	var canvases = document.querySelector('#canvases');
-	tmpContext.lineWidth = 25;
-	context.lineWidth = lineWidth;
-	tmpCanvas.id = 'tmpCanvas';
-	tmpCanvas.width = canvas.width;
-	tmpCanvas.height = canvas.height;
+	canvas 				= document.getElementById("myCanvas");
+	context 			= canvas.getContext("2d");
+	var tmpCanvas 		= document.createElement('canvas');
+	var tmpContext 		= tmpCanvas.getContext('2d');
+	var canvases 		= document.querySelector('#canvases');
+	context.lineWidth 	= lineWidth;
+	tmpCanvas.id 		= 'tmpCanvas';
+	tmpCanvas.width 	= canvas.width;
+	tmpCanvas.height 	= canvas.height;
 
 	canvases.appendChild(tmpCanvas);
-
-/*	var img = new Image();
-	img.onload = function() {
-		context.drawImage(img, -10, -12, 740, 530);
-	}
-	img.src = "img/whiteboard.svg"; */
 
 	$("#tmpCanvas").mousedown(function (e){
 		mouseIsDown = true;
 		points = getPoints(e);
+		console.log(points);
 		if(mode === "select"){
 			symbol = checkIfPointInShape(points.x, points.y, e);
 			canvasDelete();
 		}
 		else{
 			symbol = selectedShape(points.x, points.y);
-			console.log(symbol);
 			if(symbol.type === "Pen"){
 				symbol.setInitialCoords();
 			}
 			else if(symbol.type === "Text"){
 				mouseIsDown = false;
 				symbol = selectedShape(points.x, points.y);
-				console.log(symbol);
-				document.getElementById("textinput").style.display = "block";
+				showTextArea(e);
 			}
 		}
+
 		setContextColorAndWidth(tmpContext, symbol);
 	});
 
@@ -238,7 +285,6 @@ $(document).ready(function(){
 		if(mode === "select"){
 			//TODO: move the shape on the canvas with effects still on
 			if(mouseIsDown){
-				console.log(symbol);
 				if(symbol != 0){
 					tmpContext.setLineDash([5, 5]);
 					symbol.drag(tmpContext, e, points.x, points.y);
@@ -251,7 +297,7 @@ $(document).ready(function(){
 
 		}
 		else if(mouseIsDown){
-			symbol.move(tmpContext, e);
+			symbol.move(tmpContext, e, points);
 		}
 	});
 
