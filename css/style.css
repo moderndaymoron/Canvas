@@ -14,8 +14,7 @@
 
 body {
 	margin: auto;
-    overflow-x: scroll;
-    overflow-y: scroll;
+
 }
 
 #content {
@@ -47,9 +46,10 @@ body {
 
 #myCanvas {
 	position:absolute;
-	left: 4px;
-	right: 525px;
+	left: 20px;
+	top: 20px;
     overflow: hidden;
+    border: solid black;
 }
 
 #canvases {
@@ -60,10 +60,12 @@ body {
 
 #tmpCanvas {
 	position: absolute;
-	left: 4px; right: 0px;
-	bottom: 0px; top: 0px;
+	left: 20px; right: 0px;
+	bottom: 0px; top: 20px;
 	cursor: crosshair;
+	border: dotted red;
 }
+
 
 /* Textarea */
 
@@ -78,7 +80,7 @@ body {
 #rad {
     margin: 5px;
 	margin-top: 10px;
-	margin-left: 25px;
+	margin-left: 75px;
     display: inline;
     float: left;
 }
