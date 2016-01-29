@@ -14,8 +14,7 @@
 
 body {
 	margin: auto;
-    overflow-x: scroll;
-    overflow-y: scroll;
+
 }
 
 #content {
@@ -47,8 +46,8 @@ body {
 
 #myCanvas {
 	position:absolute;
-	left: 4px;
-	right: 525px;
+	left: 20px;
+	top: 20px;
     overflow: hidden;
 }
 
@@ -60,10 +59,11 @@ body {
 
 #tmpCanvas {
 	position: absolute;
-	left: 4px; right: 0px;
-	bottom: 0px; top: 0px;
+	left: 20px; right: 0px;
+	bottom: 0px; top: 20px;
 	cursor: crosshair;
 }
+
 
 /* Textarea */
 
@@ -117,7 +117,7 @@ body {
 
 /* Tools */
 
-.toolbox:checked {
+.toolbox:checked + label {
     text-shadow: 1px 1px 1px 1px skyblue;
 }
 
@@ -125,7 +125,7 @@ body {
 	float: left;
 	padding: 1px;
 	margin-top: 10px;
-	margin-left: 20px;
+	margin-left: 5px;
     overflow: hidden;
 }
 
@@ -137,6 +137,17 @@ body {
 
 }
 
+#dropdownlists {
+    float: right;
+    margin-top: 10px;
+    margin-right: 75px;
+    margin-top: 5px;
+}
+
+#fontsize {
+    margin-right: 15px;
+}
+
 /* glyphs */
 
 #square {
@@ -145,4 +156,3 @@ body {
     border solid black 2px;
     background-color: transperant;
 }
-
