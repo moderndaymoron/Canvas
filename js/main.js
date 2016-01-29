@@ -99,6 +99,12 @@ function canvasIncRadius(){
 
 	lineWidth += 1;
 	$("#radVal").html(lineWidth);
+	for (var i = 0; i < shapes.length; i++){
+		if(shapes[i].selected){
+			shapes[i].lineWidth = lineWidth;
+			reDraw();
+		}
+	}
 }
 
 function canvasDecRadius(){
@@ -108,12 +114,24 @@ function canvasDecRadius(){
 
 	lineWidth -= 1;
 	$("#radVal").html(lineWidth);
+	for (var i = 0; i < shapes.length; i++){
+		if(shapes[i].selected){
+			shapes[i].lineWidth = lineWidth;
+			reDraw();
+		}
+	}
 }
 
 function canvasColor(){
 	var attrValue = $(this).attr("data-tool");
 	var res = eval(attrValue);
 	currentColor = attrValue || "black";
+	for (var i = 0; i < shapes.length; i++){
+		if(shapes[i].selected){
+			shapes[i].color = currentColor;
+			reDraw();
+		}
+	}
 }
 
 function checkIfPointInShape(x, y, e){
@@ -143,13 +161,15 @@ function reDraw(){
 }
 
 function showTextArea(e){
-	$("#textinput").css('display', 'inline');
-	var textArea = document.getElementById("textinput");
-	var x = e.clientX - canvas.offsetLeft;
-    var y = e.clientY - canvas.offsetTop;
-    textArea.style.top = e.clientY + 'px';
-    textArea.style.left = e.clientX + 'px';
-    textArea.focus();
+	var x 						= e.clientX - canvas.offsetLeft;
+    var y 						= e.clientY - canvas.offsetTop;
+	var textArea 				= document.getElementById("textinput");
+	textArea.style.fontFamily   = fontFamily;
+	textArea.style.display 		= "inline";
+    textArea.style.lineHeight   = fontSize + "px";
+    textArea.style.fontSize     = fontSize + "px";
+    textArea.style.top  		= e.clientY + 'px';
+    textArea.style.left 		= e.clientX + 'px';
 }
 
 function submitText(symbol){
@@ -164,7 +184,7 @@ function submitText(symbol){
 
 function setContextColorAndWidth(ctx, symbol){
 	ctx.strokeStyle = symbol.color;
-	ctx.lineWidth = symbol.lineWidth;
+	ctx.lineWidth   = symbol.lineWidth;
 }
 
 function setSelectedFalse(){
@@ -242,9 +262,22 @@ $(document).ready(function(){
 	});
 	$("#fontsize").on('change', function(){
 		fontSize = $(this).val();
+		for (var i = 0; i < shapes.length; i++){
+			if(shapes[i].selected){
+				shapes[i].fontSize = fontSize;
+				reDraw();
+			}
+		}
+
 	});
 	$("#fontfamily").on('change', function(){
 		fontFamily = $(this).val();
+		for (var i = 0; i < shapes.length; i++){
+			if(shapes[i].selected){
+				shapes[i].fontFamily = fontFamily;
+				reDraw();
+			}
+		}
 	});
 
 	canvas 				= document.getElementById("myCanvas");

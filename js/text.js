@@ -42,7 +42,7 @@ class Text extends Shape {
 		this.draw(ctx);
 		this.x = newX;
 		this.y = newY;
-		this.setEnd(newX + this.bounds.width, newY + this.bounds.height);
+		this.setEnd(newX + this.bounds.width, newY - this.bounds.height);
     }
 
     setMessageAndBounds(text, width){
