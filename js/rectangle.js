@@ -5,13 +5,7 @@ class Rectangle extends Shape {
 	}
 
 	draw(ctx){
-		if(this.selected === true){
-			ctx.setLineDash([5, 5]);
-		}
-		else{
-			ctx.setLineDash([0,0]);
-		}
-
+		this.isSelected(ctx);
 		ctx.lineWidth = this.lineWidth;
 		ctx.strokeStyle = this.color;		
 		ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
@@ -19,17 +13,10 @@ class Rectangle extends Shape {
 	}
 
 	move(ctx, e){
-		if(this.selected === true){
-			
-		}
-		else{
-			ctx.setLineDash([0,0]);
-		}
-
-		var x = Math.min(e.offsetX, this.x);
-		var y = Math.min(e.offsetY, this.y);
-		var width = Math.abs(e.offsetX - this.x);
-		var height = Math.abs(e.offsetY - this.y);
+		var x 		= Math.min(e.offsetX, this.x);
+		var y 		= Math.min(e.offsetY, this.y);
+		var width 	= Math.abs(e.offsetX - this.x);
+		var height 	= Math.abs(e.offsetY - this.y);
 		ctx.strokeStyle = this.color;
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.strokeRect(x, y, width, height);
@@ -54,7 +41,6 @@ class Rectangle extends Shape {
 		
 		this.setOldPoint(e.offsetX, e.offsetY);
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		ctx.strokeStyle = this.color;
 		ctx.strokeRect(newX, newY, this.bounds.width, this.bounds.height);
 		this.x = newX;
 		this.y = newY;

@@ -5,15 +5,9 @@ class Line extends Shape {
 	}
 
 	draw(ctx){
-		if(this.selected === true){
-			ctx.setLineDash([5, 5]);
-		}
-		else{
-			ctx.setLineDash([0,0]);
-		}
-		
 		ctx.strokeStyle = this.color;
 		ctx.lineWidth 	= this.lineWidth;
+		this.isSelected(ctx);
 		ctx.beginPath();
 		ctx.moveTo(this.x, this.y);
 		ctx.lineTo(this.endX, this.endY);            
@@ -35,6 +29,7 @@ class Line extends Shape {
 	drag(ctx, e, x, y){
 		var newX = e.offsetX - (e.offsetX-this.x);
 		var newY = e.offsetY - (e.offsetY-this.y);
+		
 		if(e.offsetX > this.oldPoint.x){
 			newX += e.offsetX - this.oldPoint.x;
 		}

@@ -6,21 +6,18 @@ class Pen extends Shape {
 	}
 
 	draw(ctx){
-		if(this.selected){
-			ctx.setLineDash([5, 5]);
-		}
-		
 		ctx.strokeStyle = this.color;
-		ctx.lineWidth = this.lineWidth;
+		ctx.lineWidth 	= this.lineWidth;
+		this.isSelected(ctx);
 		if (this.penPoints.length < 3) {
 			var b = this.penPoints[0];
 			ctx.beginPath();
 			ctx.arc(b.x, b.y, ctx.lineWidth / 2, 0, Math.PI * 2, !0);
 			ctx.fill();
 			ctx.closePath();
-			
 			return;
 		}
+
 		ctx.beginPath();
 		ctx.moveTo(this.penPoints[0].x, this.penPoints[0].y);
 		
@@ -55,7 +52,7 @@ class Pen extends Shape {
 		for (var i = 1; i < this.penPoints.length - 2; i++){
 			var c = (this.penPoints[i].x + this.penPoints[i + 1].x) / 2;
 			var d = (this.penPoints[i].y + this.penPoints[i + 1].y) / 2;
-			
+
 			ctx.quadraticCurveTo(this.penPoints[i].x, this.penPoints[i].y, c, d);
 		}
 		
@@ -68,9 +65,9 @@ class Pen extends Shape {
 	}
 
 	drag(ctx, e){
-		console.log("drag");
 		var newX = 0;
 		var newY = 0;
+
 		if(e.offsetX > this.oldPoint.x){
 			newX = e.offsetX - this.oldPoint.x;
 		}

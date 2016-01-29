@@ -6,28 +6,45 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Canvas</title>
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/radiusSwatches.css" />
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
         <link rel="author" href="humans.txt">
     </head>
     <body>
-        <div id="rad">
-            Radius: <span id="radVal">2</span>px
-            <div id="decrad" class="radButton boxShadow"> - </div>
-            <div id="incrad" class="radButton boxShadow"> + </div>
+        <div id="header">
+            <h1 id="titleHeader">Canvazus</h1>
         </div>
-        <div id="swatches">
-            <div id="black" class="colors boxShadow" style="background-color:black;" data-tool="black"></div>
-            <div id="blue" class="colors boxShadow" style="background-color:blue;" data-tool="blue"></div>
-            <div id="green" class="colors boxShadow" style="background-color:green;" data-tool="green"></div>
-            <div id="red" class="colors boxShadow" style="background-color:red;" data-tool="red"></div>
-            <div id="violet" class="colors boxShadow" style="background-color:violet;" data-tool="violet"></div>
-            <div id="pink" class="colors boxShadow" style="background-color:pink;" data-tool="pink"></div>
-            <div id="yellow" class="colors boxShadow" style="background-color:yellow;" data-tool="yellow"></div>
-        </div>
-        <div id="canvases">
-        	<canvas id="myCanvas" width="500" height="500">
-        	</canvas>
-        </div>
+        <div id="content">
+            <div id="rad">
+                Line width: <span id="radVal">2</span>px
+                <div id="decrad" class="radButton boxShadow"> - </div>
+                <div id="incrad" class="radButton boxShadow"> + </div>
+            </div>
+            <div id="swatches">
+                <div id="black" class="colors boxShadow" style="background-color:black;" data-tool="black"></div>
+                <div id="gray" class="colors boxShadow" style="background-color:gray;" data-tool="gray"></div>
+                <div id="blue" class="colors boxShadow" style="background-color:blue;" data-tool="blue"></div>
+                <div id="blueviolet" class="colors boxShadow" style="background-color:BlueViolet;" data-tool="blueviolet"></div>
+                <div id="violet" class="colors boxShadow" style="background-color:violet;" data-tool="violet"></div>
+                <div id="skyblue" class="colors boxShadow" style="background-color:skyblue;" data-tool="skyblue"></div>
+                <div id="pink" class="colors boxShadow" style="background-color:pink;" data-tool="pink"></div>
+                <div id="green" class="colors boxShadow" style="background-color:green;" data-tool="green"></div>
+                <div id="seagreen" class="colors boxShadow" style="background-color:seagreen;" data-tool="seagreen"></div>
+                <div id="saddlebrown" class="colors boxShadow" style="background-color:saddlebrown;" data-tool="saddlebrown"></div>
+                <div id="red" class="colors boxShadow" style="background-color:red;" data-tool="red"></div>
+                <div id="darkorange" class="colors boxShadow" style="background-color:darkorange;" data-tool="darkorange"></div>
+                <div id="goldenrod" class="colors boxShadow" style="background-color:goldenrod;" data-tool="goldenrod"></div>
+                <div id="lightsalmon" class="colors boxShadow" style="background-color:lightsalmon;" data-tool="lightsalmon"></div>
+                <div id="yellow" class="colors boxShadow" style="background-color:yellow;" data-tool="yellow"></div>
+                <div id="moccasin" class="colors boxShadow" style="background-color:moccasin;" data-tool="moccasin"></div>
+
+            </div>
+            <input type="textarea" name="text" id="textArea" />
+            <div id="canvases">
+                <img src="img/whiteboard.png" alt="dafuq" width="940" height="615"/>
+            	<canvas id="myCanvas" width="925" height="590">
+            	</canvas>
+            </div>
+
         <div id="selectshapes">
             <input type="radio" name="tool" id="pencil" checked="checked" data-tool="Pen" class="toolbox"/>
             <label for ="pencil">Pencil</label>
@@ -43,9 +60,12 @@
             <label for ="select">Select</label>
         </div>
         <div id="actionbuttons">
-            <button type="button" name="undobutton" id="undobutton">Undo</button>
-            <button type="button" name="redobutton" id="redobutton">Redo</button>
-            <button type="button" name="delbutton" id="delbutton">Delete</button>
+            <button type="button" name="undobutton" id="undobutton">
+                <span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span></button>
+            <button type="button" name="redobutton" id="redobutton">
+                <span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span></button>
+            <button type="button" name="delbutton" id="delbutton">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
             <button type="button" name="templatebutton" id="templatebutton">Save Template</button>
             <button type="button" name="drawtemplate" id="drawtemplate">drawtemplate</button>
         </div>
@@ -59,6 +79,5 @@
         <script src="js/commands.js"></script>
         <script src="js/radius.js"></script>
         <script src="js/template.js"></script>
-
     </body>
 </html>

@@ -5,11 +5,11 @@ function Point(x, y){
 }
 
 function Rect(x, y, maxX, maxY){
-	this.x = x;
-	this.y = y;
-	this.width = maxX;
+	this.x 		= x;
+	this.y 		= y;
+	this.width  = maxX;
 	this.height = maxY;
-	this.right = this.x + this.width;
+	this.right  = this.x + this.width;
 	this.bottom = this.y + this.height;
 }
 
@@ -23,8 +23,8 @@ class Shape{
 		this.type      = type;
 		this.lineWidth = lineWidth;
 		this.selected  = false;
-		this.bounds = null;
-		this.oldPoint = new Point(x, y);
+		this.bounds    = null;
+		this.oldPoint  = new Point(x, y);
 	}
 
 	calcBounds(){
@@ -37,8 +37,8 @@ class Shape{
 	}
 
 	setEnd(x,y,e){
-		this.endX = x;
-		this.endY = y;
+		this.endX   = x;
+		this.endY   = y;
 		this.bounds = this.calcBounds();
 	}
 
@@ -48,10 +48,18 @@ class Shape{
 	}
 
 	isPointInShape(x, y){
-		var bounds = this.calcBounds();
-		if(bounds.right >= x && x >= bounds.x && bounds.bottom >= y && y >= bounds.y){
+		if(this.bounds.right >= x && x >= this.bounds.x && this.bounds.bottom >= y && y >= this.bounds.y){
 			return true;
 		}
 		return false;
+	}
+
+	isSelected(ctx){
+		if(this.selected === true){
+			ctx.setLineDash([5, 5]);
+		}
+		else{
+			ctx.setLineDash([0,0]);
+		}
 	}
 }
