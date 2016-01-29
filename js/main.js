@@ -5,7 +5,7 @@ var mouseIsDown   = false;
 var currentColor  = "black";
 var lineWidth     = 2;		 
 var fontSize	  = 12;
-var fontFamily	  = "Courier"
+var fontFamily	  = "Courier";
 var selectedShape = createPen;
 var mode          = "draw";
 var shapes		  = [];
@@ -55,14 +55,7 @@ function changeTool(){
 		return;
 	}
 
-	else if (attrValue === "Text") {
-		context.mode = "text";
-		return;
-	}
-	else {
-		mode = "draw";
-	}
-
+	mode = "draw";
 	setSelectedFalse();
 	var functionName = "create" + attrValue;
 	var res = eval(functionName);
@@ -144,7 +137,7 @@ function checkIfPointInShape(x, y, e){
 			return shapes[i];
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -188,6 +181,17 @@ $(document).ready(function(){
 	$("myCanvas").click(showTextArea);
 	$("#templatebutton").click(canvasTemplate);
 	$("#drawtemplate").click(canvasDrawTemplate);
+	$("#textinput").keypress(function(e){
+		if(e.keyCode === 13){
+			var msg = $("#textinput").val();
+			symbol.setMessage(msg);
+			var textArea  		   = document.getElementById("textinput");
+			textArea.value 		   = "";
+			textArea.style.display = "none";
+			shapes.push(symbol);
+			reDraw();
+		}
+	});
 
 	canvas = document.getElementById("myCanvas");
 	context = canvas.getContext("2d");
@@ -219,11 +223,17 @@ $(document).ready(function(){
 		}
 		else{
 			symbol = selectedShape(points.x, points.y);
+			console.log(symbol);
 			if(symbol.type === "Pen"){
 				symbol.setInitialCoords();
 			}
+			else if(symbol.type === "Text"){
+				mouseIsDown = false;
+				symbol = selectedShape(points.x, points.y);
+				console.log(symbol);
+				document.getElementById("textinput").style.display = "block";
+			}
 		}
-
 		setContextColorAndWidth(tmpContext, symbol);
 	});
 
@@ -249,23 +259,27 @@ $(document).ready(function(){
 	});
 
 	$("#tmpCanvas").mouseup(function(e){
-		mouseIsDown = false;
-		points = getPoints(e);
-		if(mode === "select"){
-			if(symbol != 0){
+		if(!mouseIsDown){
+
+		}
+		else{
+			points = getPoints(e);
+			if(mode === "select"){
+				if(symbol != 0){
+					context.drawImage(tmpCanvas, 0, 0);
+					tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
+					shapes.push(symbol);
+				}
+			}
+			else{
 				context.drawImage(tmpCanvas, 0, 0);
 				tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
+				symbol.setEnd(points.x, points.y);
 				shapes.push(symbol);
 			}
 
 		}
-		else{
-			context.drawImage(tmpCanvas, 0, 0);
-			tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
-			symbol.setEnd(points.x, points.y);
-			shapes.push(symbol);
-		}
-
+		mouseIsDown = false;
 		reDraw();
 	});
 });

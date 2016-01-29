@@ -14,11 +14,7 @@
             <h1 id="titleHeader">Canvazus</h1>
         </div>
         <div id="content">
-            <div id="rad">
-                Line width: <span id="radVal">2</span>px
-                <div id="decrad" class="radButton boxShadow"> - </div>
-                <div id="incrad" class="radButton boxShadow"> + </div>
-            </div>
+
             <div id="swatches">
                 <div id="black" class="colors boxShadow" style="background-color:black;" data-tool="black"></div>
                 <div id="gray" class="colors boxShadow" style="background-color:gray;" data-tool="gray"></div>
@@ -36,39 +32,50 @@
                 <div id="lightsalmon" class="colors boxShadow" style="background-color:lightsalmon;" data-tool="lightsalmon"></div>
                 <div id="yellow" class="colors boxShadow" style="background-color:yellow;" data-tool="yellow"></div>
                 <div id="moccasin" class="colors boxShadow" style="background-color:moccasin;" data-tool="moccasin"></div>
-
             </div>
-            <input type="textarea" name="text" id="textArea" />
+            
             <div id="canvases">
-                <img src="img/whiteboard.png" alt="dafuq" width="940" height="615"/>
+                <img id="whiteboard" src="img/whiteboard.png" alt="dafuq" width="940" height="615"/>
             	<canvas id="myCanvas" width="925" height="590">
             	</canvas>
             </div>
+        <input type="textarea" name="textinput" id="textinput" data-text="Text"/>
+            <div id="rad">
+                Line width: <span id="radVal">2</span>px
+                <div id="decrad" class="radButton boxShadow"> - </div>
+                <div id="incrad" class="radButton boxShadow"> + </div>
+            </div>
 
+            <div id="actionbuttons">
+                <button type="button" name="undobutton" id="undobutton">
+                    <span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span></button>
+                <button type="button" name="redobutton" id="redobutton">
+                    <span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span></button>
+                <button type="button" name="delbutton" id="delbutton">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <button type="button" name="templatebutton" id="templatebutton">Save Template</button>
+                <button type="button" name="drawtemplate" id="drawtemplate">drawtemplate</button>
+            </div>
         <div id="selectshapes">
-            <input type="radio" name="tool" id="pencil" checked="checked" data-tool="Pen" class="toolbox"/>
-            <label for ="pencil">Pencil</label>
-            <input type="radio" name="tool" id="rectangle" data-tool="Rectangle" class="toolbox"/>
-            <label for ="rectangle">Rectangle</label>
+
+            <input type="radio" name="tool" id="pencil" checked="checked" data-tool="Pen" class="toolbox" />
+            <label for="pencil">Pen</label>
+            <input type="radio" name="tool" id="rectangle" data-tool="Rectangle" class="toolbox" />
+            <label for="rectangle">Rectangle</label>
             <input type="radio" name="tool" id="circle" data-tool="Circle" class="toolbox"/>
             <label for ="circle">Circle</label>
             <input type="radio" name="tool" id="line" data-tool="Line" class="toolbox"/>
             <label for ="line">Line</label>
+            <input type="radio" name="tool" id="text" data-tool="Text" class="toolbox"/>
+            <label for ="select">Text</label>
             <input type="radio" name="tool" id="eraser" data-tool="Eraser" class="toolbox"/>
             <label for ="eraser">Eraser</label>
             <input type="radio" name="tool" id="select" data-tool="Select" class="toolbox"/>
             <label for ="select">Select</label>
+            <input type="radio" name="tool" id="text" data-tool="Text" class="toolbox"/>
+            <label for ="select">Text</label>
         </div>
-        <div id="actionbuttons">
-            <button type="button" name="undobutton" id="undobutton">
-                <span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span></button>
-            <button type="button" name="redobutton" id="redobutton">
-                <span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span></button>
-            <button type="button" name="delbutton" id="delbutton">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-            <button type="button" name="templatebutton" id="templatebutton">Save Template</button>
-            <button type="button" name="drawtemplate" id="drawtemplate">drawtemplate</button>
-        </div>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
         <script src="js/main.js"></script>
         <script src="js/shape.js"></script>
@@ -78,6 +85,7 @@
         <script src="js/circle.js"></script>
         <script src="js/commands.js"></script>
         <script src="js/radius.js"></script>
+        <script src="js/text.js"></script>
         <script src="js/template.js"></script>
     </body>
 </html>

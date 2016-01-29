@@ -1,6 +1,7 @@
 "use strict";
 class Pen extends Shape {
 	constructor(x, y, color, lineWidth){
+		console.log("creating pen");
 		super(x, y, color, lineWidth, "Pen");
 		this.penPoints = [];
 	}
