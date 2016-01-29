@@ -278,7 +278,6 @@ $(document).ready(function(){
 				shapes.push(symbol);
 			}
 
-		}
 		mouseIsDown = false;
 		reDraw();
 	});
