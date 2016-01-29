@@ -99,6 +99,12 @@ function canvasIncRadius(){
 
 	lineWidth += 1;
 	$("#radVal").html(lineWidth);
+	for (var i = 0; i < shapes.length; i++){
+		if(shapes[i].selected){
+			shapes[i].lineWidth = lineWidth;
+			reDraw();
+		}
+	}
 }
 
 function canvasDecRadius(){
@@ -108,12 +114,24 @@ function canvasDecRadius(){
 
 	lineWidth -= 1;
 	$("#radVal").html(lineWidth);
+	for (var i = 0; i < shapes.length; i++){
+		if(shapes[i].selected){
+			shapes[i].lineWidth = lineWidth;
+			reDraw();
+		}
+	}
 }
 
 function canvasColor(){
 	var attrValue = $(this).attr("data-tool");
 	var res = eval(attrValue);
 	currentColor = attrValue || "black";
+	for (var i = 0; i < shapes.length; i++){
+		if(shapes[i].selected){
+			shapes[i].color = currentColor;
+			reDraw();
+		}
+	}
 }
 
 function checkIfPointInShape(x, y, e){
@@ -244,9 +262,22 @@ $(document).ready(function(){
 	});
 	$("#fontsize").on('change', function(){
 		fontSize = $(this).val();
+		for (var i = 0; i < shapes.length; i++){
+			if(shapes[i].selected){
+				shapes[i].fontSize = fontSize;
+				reDraw();
+			}
+		}
+
 	});
 	$("#fontfamily").on('change', function(){
 		fontFamily = $(this).val();
+		for (var i = 0; i < shapes.length; i++){
+			if(shapes[i].selected){
+				shapes[i].fontFamily = fontFamily;
+				reDraw();
+			}
+		}
 	});
 
 	canvas 				= document.getElementById("myCanvas");
