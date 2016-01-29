@@ -14,6 +14,8 @@
 
 body {
 	margin: auto;
+    overflow-x: scroll;
+    overflow-y: scroll;
 }
 
 #content {
@@ -47,10 +49,12 @@ body {
 	position:absolute;
 	left: 4px;
 	right: 525px;
+    overflow: hidden;
 }
 
 #canvases {
 	position: relative;
+    width: 1000px;
 	clear: both;
 }
 
@@ -73,9 +77,8 @@ body {
 
 #rad {
     margin: 5px;
-	margin-top: 3px;
-	margin-left: 20px;
-
+	margin-top: 10px;
+	margin-left: 25px;
     display: inline;
     float: left;
 }
@@ -100,7 +103,9 @@ body {
 }
 
 #swatches {
-	margin-left: 385px;
+	margin-left: 15px;
+    max-height: 40px;
+    display: inline;
 }
 
 .selected {
@@ -109,15 +114,31 @@ body {
 
 /* Tools */
 
+.toolbox:checked {
+    text-shadow: 1px 1px 1px 1px skyblue;
+}
+
 #selectshapes {
 	float: left;
+	padding: 1px;
 	margin-top: 10px;
 	margin-left: 20px;
+    overflow: hidden;
 }
 
 #actionbuttons {
-	float: left;
+	float:left;
 	margin-top: 10px;
-	margin-left: 210px;
+	margin-left: 19px;
+    overflow: hidden;
 
+}
+
+/* glyphs */
+
+#square {
+    width: 28px;
+    height: 28px;
+    border solid black 2px;
+    background-color: transperant;
 }
