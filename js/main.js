@@ -103,6 +103,7 @@ function canvasIncRadius(){
 	for (var i = 0; i < shapes.length; i++){
 		if(shapes[i].selected){
 			shapes[i].lineWidth = lineWidth;
+			shapes[i].bounds = shapes[i].calcBounds();
 			reDraw();
 		}
 	}
@@ -118,6 +119,7 @@ function canvasDecRadius(){
 	for (var i = 0; i < shapes.length; i++){
 		if(shapes[i].selected){
 			shapes[i].lineWidth = lineWidth;
+			shapes[i].bounds = shapes[i].calcBounds();
 			reDraw();
 		}
 	}
@@ -165,8 +167,9 @@ function showTextArea(e){
 	var x 						= e.clientX - canvas.offsetLeft;
     var y 						= e.clientY - canvas.offsetTop;
 	var textArea 				= document.getElementById("textinput");
+	textArea.setAttribute("autofocus", true);
 	textArea.style.fontFamily   = fontFamily;
-	textArea.style.display 		= "inline";
+	textArea.style.display 		= "inline-block";
     textArea.style.lineHeight   = fontSize + "px";
     textArea.style.fontSize     = fontSize + "px";
     textArea.style.top  		= e.clientY + 'px';
@@ -258,7 +261,6 @@ $(document).ready(function(){
 	$("#savedrawing").click(save);
 	$("#senddrawing").click(getSaved);
 	$("#textinput").keyup(function(e){
-		console.log(e);
 		if(e.keyCode === 13){
 			submitText(symbol);
 			shapes.push(symbol);
@@ -273,6 +275,9 @@ $(document).ready(function(){
 		for (var i = 0; i < shapes.length; i++){
 			if(shapes[i].selected){
 				shapes[i].fontSize = fontSize;
+			  	context.font   	   = fontSize + "px " + fontFamily;
+				var textWidth  	   = context.measureText(shapes[i].message).width;
+				shapes[i].setMessageAndBounds(shapes[i].message, textWidth);
 				reDraw();
 			}
 		}

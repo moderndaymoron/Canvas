@@ -8,12 +8,20 @@ class Text extends Shape {
 	}
 
 	draw(ctx){
-		this.isSelected(ctx);
+		if (this.endX > canvas.width){
+			this.x -= this.endX - canvas.width;
+			this.setMessageAndBounds(this.message, this.bounds.width);
+		}
 		var fontInfo = this.fontSize + "px " + this.fontFamily;
-		ctx.strokeStyle = this.color;
+		ctx.fillStyle = this.color;
 		ctx.font = fontInfo;
-		ctx.linewidth = this.lineWidth;
-		ctx.strokeText(this.message, this.x, this.y);
+		ctx.fillText(this.message, this.x, this.y);
+		if(this.selected){
+			ctx.strokeStyle = "black";
+			ctx.lineWidth = 1;
+			ctx.setLineDash([5,5]);
+			ctx.strokeRect(this.x-5, this.y-this.bounds.height, this.bounds.width+10, this.bounds.height+10);
+		}
 	}
 
 	move(ctx, e){
