@@ -194,10 +194,33 @@ function setSelectedFalse(){
 	}
 }
 
-function save(){
-	var stringifiedShapes = JSON.stringify(shapes);
-	var name = prompt("Please enter the name of the drawing", "");
+function prompt(){
+	swal({   
+	title: "Save image",
+	text: "Please insert the name of your drawing:",
+	type: "input",
+	showCancelButton: true,
+	closeOnConfirm: false,
+	animation: "slide-from-top",
+	inputPlaceholder: "Name" 
+	},
 
+	function(inputValue){
+   		if (inputValue === false) return false;
+   
+   		if (inputValue === "") {
+        	swal.showInputError("You need to write something!");
+        	return false
+    	}
+    	save(inputValue);
+	});
+	
+}
+
+function save(name){
+	var stringifiedShapes = JSON.stringify(shapes);
+	console.log(name);
+	
 	var param = { 
 				"user": "arnio13", // You should use your own username!
 				"name": name,
@@ -213,10 +236,10 @@ function save(){
 		dataType: "jsonp",
 		crossDomain: true,
 		success: function (data) {
-			alert("Saved")
+   			swal("Nice!", name + " was saved successfully", "success");
 		},
 		error: function (xhr, err) {
-			alert("Error, if you're using the pen tool, that's likely the problem")
+			sweetAlert("Oops...", "Something went wrong! Error, if you're using the pen tool, that's likely the problem", "error");
 		}
 	});
 }
@@ -247,12 +270,14 @@ function getSaved(){
 
 function addDrawingsToDropdown(drawings){
 	var select = document.getElementById("dropdowndrawings");
-	for (var i = 0; i < drawings.length; i++){
-		var drawing = document.createElement("OPTION");
-		drawing.setAttribute("value", drawings[i].ID);
-		var name = document.createTextNode(drawings[i].WhiteboardTitle);
-		drawing.appendChild(name);
-		select.appendChild(drawing);
+	if(select.options.length === 1){
+		for (var i = 0; i < drawings.length; i++){
+			var drawing = document.createElement("OPTION");
+			drawing.setAttribute("value", drawings[i].ID);
+			var name = document.createTextNode(drawings[i].WhiteboardTitle);
+			drawing.appendChild(name);
+			select.appendChild(drawing);
+		}
 	}
 }
 
@@ -339,7 +364,7 @@ $(document).ready(function(){
 	$("#incrad").click(canvasIncRadius);
 	$("#decrad").click(canvasDecRadius);
 	$(".colors").click(canvasColor);
-	$("#savedrawing").click(save);
+	$("#savedrawing").click(prompt);
 	$("#getDrawing").click(getSaved);
 	$("#loadDrawing").click(loadDrawing);
 	$("#textinput").keyup(function(e){
