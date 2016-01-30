@@ -43,6 +43,7 @@ function createEraser(x, y){
 }
 
 function changeTool(){
+	hideTextArea();
 	var attrValue = $(this).attr("data-tool");
 	console.log(attrValue);
 	if (attrValue === "Select"){
@@ -98,6 +99,7 @@ function canvasIncRadius(){
 	for (var i = 0; i < shapes.length; i++){
 		if(shapes[i].selected){
 			shapes[i].lineWidth = lineWidth;
+			shapes[i].bounds = shapes[i].calcBounds();
 			reDraw();
 		}
 	}
@@ -113,6 +115,7 @@ function canvasDecRadius(){
 	for (var i = 0; i < shapes.length; i++){
 		if(shapes[i].selected){
 			shapes[i].lineWidth = lineWidth;
+			shapes[i].bounds = shapes[i].calcBounds();
 			reDraw();
 		}
 	}
@@ -160,8 +163,9 @@ function showTextArea(e){
 	var x 						= e.clientX - canvas.offsetLeft;
     var y 						= e.clientY - canvas.offsetTop;
 	var textArea 				= document.getElementById("textinput");
+	textArea.setAttribute("autofocus", true);
 	textArea.style.fontFamily   = fontFamily;
-	textArea.style.display 		= "inline";
+	textArea.style.display 		= "inline-block";
     textArea.style.lineHeight   = fontSize + "px";
     textArea.style.fontSize     = fontSize + "px";
     textArea.style.top  		= e.clientY + 'px';
@@ -172,12 +176,15 @@ function submitText(symbol){
 	var msg 			   = $("#textinput").val();
 	context.font 		   = fontSize + "px " + fontFamily;
 	var textWidth 		   = context.measureText(msg).width;
-	var textArea  		   = document.getElementById("textinput");
-	textArea.value 		   = "";
-	textArea.style.display = "none";
+	hideTextArea();
 	symbol.setMessageAndBounds(msg, textWidth);
 }
 
+function hideTextArea(){
+	var textArea  		   = document.getElementById("textinput");
+	textArea.value 		   = "";
+	textArea.style.display = "none";
+}
 function setContextColorAndWidth(ctx, symbol){
 	ctx.strokeStyle = symbol.color;
 	ctx.lineWidth   = symbol.lineWidth;
@@ -405,10 +412,15 @@ $(document).ready(function(){
 	$("#getDrawing").click(getSaved);
 	$("#loadDrawing").click(load);
 	$("#textinput").keypress(function(e){
+	$("#senddrawing").click(getSaved);
+	$("#textinput").keyup(function(e){
 		if(e.keyCode === 13){
 			submitText(symbol);
 			shapes.push(symbol);
 			reDraw();
+		}
+		else if(e.keyCode === 27){
+			hideTextArea();
 		}
 	});
 	$("#fontsize").on('change', function(){
@@ -416,6 +428,9 @@ $(document).ready(function(){
 		for (var i = 0; i < shapes.length; i++){
 			if(shapes[i].selected){
 				shapes[i].fontSize = fontSize;
+			  	context.font   	   = fontSize + "px " + fontFamily;
+				var textWidth  	   = context.measureText(shapes[i].message).width;
+				shapes[i].setMessageAndBounds(shapes[i].message, textWidth);
 				reDraw();
 			}
 		}

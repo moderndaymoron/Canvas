@@ -84,9 +84,9 @@ class Shape{
 	}
 
 	isPointInShape(x, y){
-		console.log("right: " + this.bounds.right + " x: " + x + "bounds.x: " + this.bounds.x + " " +
-		 " bottom: "+this.bounds.bottom + " y: " + y + " bounds.y: " + this.bounds.y);
-		if(this.bounds.right >= x && x >= this.bounds.x && this.bounds.bottom >= y && y >= this.bounds.y){
+		var padding = this.lineWidth/2;
+
+		if(this.bounds.right + padding >= x && x >= this.bounds.x - padding && this.bounds.bottom + padding >= y && y >= this.bounds.y - padding){
 			return true;
 		}
 		return false;
@@ -94,12 +94,7 @@ class Shape{
 
 	isSelected(ctx){
 		if(this.selected === true){
-			if(this.type === "Text"){
-				ctx.setLineDash([1,1]);
-			}
-			else{
-				ctx.setLineDash([5, 5]);
-			}
+			ctx.setLineDash([5, 5]);
 		}
 		else{
 			ctx.setLineDash([0,0]);

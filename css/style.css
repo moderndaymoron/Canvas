@@ -14,8 +14,7 @@
 
 body {
 	margin: auto;
-    overflow-x: scroll;
-    overflow-y: scroll;
+
 }
 
 #content {
@@ -47,8 +46,8 @@ body {
 
 #myCanvas {
 	position:absolute;
-	left: 4px;
-	right: 525px;
+	left: 20px;
+	top: 20px;
     overflow: hidden;
 }
 
@@ -60,14 +59,16 @@ body {
 
 #tmpCanvas {
 	position: absolute;
-	left: 4px; right: 0px;
-	bottom: 0px; top: 0px;
+	left: 20px; right: 0px;
+	bottom: 0px; top: 20px;
 	cursor: crosshair;
 }
+
 
 /* Textarea */
 
 #textinput {
+	overflow: hidden;
 	border: solid black 1px;
 	background: transperant;
 	position: absolute;
@@ -106,6 +107,7 @@ body {
 }
 
 #swatches {
+    float: left;
 	margin-left: 15px;
     max-height: 40px;
     display: inline;
@@ -115,9 +117,40 @@ body {
 
 }
 
+/* Radio buttons */
+#selectshapes label {
+	float:left;
+    width: auto;
+    margin:2px;
+    background-color:#EFEFEF;
+    border-radius:4px;
+    border:2px solid #aaa;
+    overflow:auto;
+}
+
+#selectshapes label span {
+    text-align:center;
+    font-size: 14px;
+    display: inline;
+}
+
+#selectshapes input:checked + span {
+	border-style: solid;
+	border-color: #333;
+	border-width: 3px;
+	border-radius: 1px;
+    background-color: #444;
+    color:#FFF;
+}
+
+#selectshapes label input {
+    position:absolute;
+    top:-20px; /*get rid of radio check circles  /*
+}
+
 /* Tools */
 
-.toolbox:checked {
+.toolbox:checked + label {
     text-shadow: 1px 1px 1px 1px skyblue;
 }
 
@@ -125,7 +158,7 @@ body {
 	float: left;
 	padding: 1px;
 	margin-top: 10px;
-	margin-left: 20px;
+	margin-left: 5px;
     overflow: hidden;
 }
 
@@ -137,6 +170,17 @@ body {
 
 }
 
+#dropdownlists {
+    float: left;
+    margin-top: 10px;
+    margin-left: 155px;
+    margin-top: 5px;
+}
+
+#fontsize {
+    margin-right: 15px;
+}
+
 /* glyphs */
 
 #square {
@@ -145,4 +189,3 @@ body {
     border solid black 2px;
     background-color: transperant;
 }
-
