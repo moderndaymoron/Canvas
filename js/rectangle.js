@@ -6,7 +6,7 @@ class Rectangle extends Shape {
 
 	draw(ctx){
 		this.isSelected(ctx);
-		ctx.lineWidth = this.lineWidth;
+		ctx.lineWidth   = this.lineWidth;
 		ctx.strokeStyle = this.color;		
 		ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
 		ctx.setLineDash([0,0]);
@@ -45,5 +45,15 @@ class Rectangle extends Shape {
 		this.x = newX;
 		this.y = newY;
 		this.setEnd(newX + this.bounds.width, newY + this.bounds.height);
+	}
+
+	loadValues(shape){
+    	this.color 	   = shape.color;
+    	this.lineWidth = shape.lineWidth;
+    	this.x 		   = shape.x;
+    	this.y 		   = shape.y;
+    	this.endX 	   = shape.endX;
+    	this.endY 	   = shape.endY;
+    	this.bounds    = shape.bounds;
 	}
 }

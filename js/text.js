@@ -2,8 +2,8 @@
 class Text extends Shape {
 	constructor(x, y, color, lineWidth, fontSize, fontFamily){
 		super(x, y, color, lineWidth, "Text");
-		this.message = "";
-		this.fontSize = fontSize;
+		this.message 	= "";
+		this.fontSize   = fontSize;
 		this.fontFamily = fontFamily;
 	}
 
@@ -12,6 +12,7 @@ class Text extends Shape {
 			this.x -= this.endX - canvas.width;
 			this.setMessageAndBounds(this.message, this.bounds.width);
 		}
+		
 		var fontInfo = this.fontSize + "px " + this.fontFamily;
 		ctx.fillStyle = this.color;
 		ctx.font = fontInfo;
@@ -54,9 +55,22 @@ class Text extends Shape {
     }
 
     setMessageAndBounds(text, width){
-    	this.endX = this.x + width;
-    	this.endY = this.y - parseInt(fontSize);
+    	this.endX 	 = this.x + width;
+    	this.endY 	 = this.y - parseInt(fontSize);
     	this.message = text;
-    	this.bounds = this.calcBounds();
+    	this.bounds  = this.calcBounds();
+    }
+
+    loadValues(shape){	    	
+    	this.color 		= shape.color;
+    	this.bounds 	= shape.bounds;
+    	this.endX 		= shape.endX;
+    	this.endY 		= shape.endY;
+    	this.fontFamily = shape.fontFamily;
+    	this.fontSize   = shape.fontSize;
+    	this.lineWidth  = shape.lineWidth;
+    	this.x 			= shape.x;
+    	this.y 			= shape.y;
+    	this.message 	= shape.message;
     }
 }	

@@ -29,7 +29,7 @@ class Line extends Shape {
 	drag(ctx, e, x, y){
 		var newX = e.offsetX - (e.offsetX-this.x);
 		var newY = e.offsetY - (e.offsetY-this.y);
-		
+
 		if(e.offsetX > this.oldPoint.x){
 			newX += e.offsetX - this.oldPoint.x;
 		}
@@ -55,5 +55,15 @@ class Line extends Shape {
 		this.x = newX;
 		this.y = newY;
 		this.setEnd(newX + this.bounds.width, newY + this.bounds.height);
+	}
+
+	loadValues(shape){
+    	this.color 		= shape.color;
+    	this.lineWidth  = shape.lineWidth;
+    	this.x 			= shape.x;
+    	this.y 			= shape.y;
+    	this.endX 		= shape.endX;
+    	this.endY 		= shape.endY;
+    	this.bounds 	= shape.bounds;
 	}
 }

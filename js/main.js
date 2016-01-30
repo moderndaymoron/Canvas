@@ -256,7 +256,6 @@ function addDrawingsToDropdown(drawings){
 		var name = document.createTextNode(drawings[i].WhiteboardTitle);
 		drawing.appendChild(name);
 		select.appendChild(drawing);
-
 	}
 }
 
@@ -292,6 +291,8 @@ function load(drawingID){
 					console.log(loadedShapes[i]);
 					redrawFromLoad(loadedShapes[i]);
 				}
+
+				reDraw();
 			
 			},
 			error: function (xhr, err) {
@@ -301,121 +302,36 @@ function load(drawingID){
 }
 
 function redrawFromLoad(shape){
-	switch (shape.type) {
-    
-    case "Circle":
-    	var circle = new Circle();
-    	circle.color = shape.color;
-    	circle.lineWidth = shape.lineWidth;
-    	circle.radius = shape.radius;
-    	circle.x = shape.x;
-    	circle.y = shape.y;
-    	circle.endX = shape.endX;
-    	circle.endY = shape.endY;
-    	circle.bounds = shape.bounds;
+	switch (shape.type) {    
+	    case "Circle":
+	    	var circle = new Circle();
+	    	circle.loadValues(shape);
+	    	shapes.push(circle);
+	        break;
 
-    	shapes.push(circle);
-    	
-    	context.strokeStyle = shape.color;
-        context.lineWidth   = shape.lineWidth;
-        context.beginPath();
-    	context.arc(shape.x, shape.y, shape.radius, 0, Math.PI*2, false);
-    	context.stroke();
-    	context.closePath();
-        break;
+	    case "Pen":
+	    	var pen = new Pen();
+	    	pen.loadValues(shape);
+			shapes.push(pen);
+	        break;
 
-    case "Pen":
-    	var pen = new Pen();
+	    case "Rectangle":
+	    	var rectangle = new Rectangle();
+	    	rectangle.loadValues(shape);
+	    	shapes.push(rectangle);
+	        break;
 
-    	context.strokeStyle = shape.color;
-		context.lineWidth 	= shape.lineWidth;
-		shape.isSelected(context);
-		if (shape.penPoints.length < 3) {
-			var b = shape.penPoints[0];
-			context.beginPath();
-			context.arc(b.x, b.y, context.lineWidth / 2, 0, Math.PI * 2, !0);
-			context.fill();
-			context.closePath();
-			return;
-		}
+	    case "Line":
+	    	var line = new Line();
+	    	line.loadValues(shape);
+	    	shapes.push(line);
+	        break;
 
-		context.beginPath();
-		context.moveTo(shape.penPoints[0].x, shape.penPoints[0].y);
-
-		for (var i = 1; i < shape.penPoints.length - 2; i++) {
-			var c = (shape.penPoints[i].x + shape.penPoints[i + 1].x) / 2;
-			var d = (shape.penPoints[i].y + shape.penPoints[i + 1].y) / 2;
-			
-			context.quadraticCurveTo(shape.penPoints[i].x, shape.penPoints[i].y, c, d);
-		}
-
-		context.quadraticCurveTo(shape.penPoints[i].x, shape.penPoints[i].y, 
-			shape.penPoints[i + 1].x, shape.penPoints[i + 1].y);
-		context.stroke();
-        break;
-
-    case "Rectangle":
-    	var rectangle = new Rectangle();
-
-    	rectangle.color = shape.color;
-    	rectangle.lineWidth = shape.lineWidth;
-    	rectangle.x = shape.x;
-    	rectangle.y = shape.y;
-    	rectangle.endX = shape.endX;
-    	rectangle.endY = shape.endY;
-    	rectangle.bounds = shape.bounds;
-
-    	shapes.push(rectangle);
-
-    	context.lineWidth = shape.lineWidth;
-		context.strokeStyle = shape.color;		
-		context.strokeRect(shape.bounds.x, shape.bounds.y, shape.bounds.width, shape.bounds.height);
-		context.setLineDash([0,0]);
-        break;
-
-    case "Line":
-    	var line = new Line();
-
-    	line.color = shape.color;
-    	line.lineWidth = shape.lineWidth;
-    	line.x = shape.x;
-    	line.y = shape.y;
-    	line.endX = shape.endX;
-    	line.endY = shape.endY;
-    	line.bounds = shape.bounds;
-
-    	shapes.push(line);
-
-    	context.strokeStyle = shape.color;
-		context.lineWidth 	= shape.lineWidth;
-		context.beginPath();
-		context.moveTo(shape.x, shape.y);
-		context.lineTo(shape.endX, shape.endY);            
-		context.stroke();
-		context.closePath();
-        break;
-
-    case "Text":
-    	var text = new Text();
-    	text.color = shape.color;
-    	text.bounds = shape.bounds;
-    	text.endX = shape.endX;
-    	text.endY = shape.endY;
-    	text.fontFamily = shape.fontFamily;
-    	text.fontSize = shape.fontSize;
-    	text.lineWidth = shape.lineWidth;
-    	text.x = shape.x;
-    	text.y = shape.y;
-    	text.message = shape.message;
-
-    	shapes.push(text);
-
-    	var fontInfo = shape.fontSize + "px " + shape.fontFamily;
-		context.strokeStyle = shape.color;
-		context.font = fontInfo;
-		context.linewidth = shape.lineWidth;
-		context.strokeText(shape.message, shape.x, shape.y);
-        break;
+	    case "Text":
+	    	var text = new Text();
+	    	text.loadValues(shape);
+	    	shapes.push(text);
+	        break;
 	}
 }
 
