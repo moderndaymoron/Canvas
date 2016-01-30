@@ -79,7 +79,6 @@ function canvasRedo(){
 }
 
 function canvasDelete(){
-	console.log("canvasDelete()");
 	for (var i = 0; i < shapes.length; i++){
 		if(shapes[i].selected){
 			undoShape.push(shapes[i]);
@@ -148,7 +147,6 @@ function checkIfPointInShape(x, y, e){
 }
 
 function drawShapes(){
-	console.log(shapes);
 	for (var i = 0; i < shapes.length; i++){
 		shapes[i].draw(context);
 	}
@@ -198,7 +196,6 @@ function setSelectedFalse(){
 
 function save(){
 	var stringifiedShapes = JSON.stringify(shapes);
-	console.log(stringifiedShapes);
 	var name = prompt("Please enter the name of the drawing", "");
 
 	var param = { 
@@ -261,7 +258,6 @@ function addDrawingsToDropdown(drawings){
 
 function loadDrawing(){
 	var id = $("#dropdowndrawings").val();
-	console.log(id);
 	if (id == "0"){
 		return;
 	}
@@ -288,7 +284,6 @@ function load(drawingID){
 				var loadedShapes = JSON.parse(data.WhiteboardContents);
 				
 				for(var i = 0; i < loadedShapes.length; i++){
-					console.log(loadedShapes[i]);
 					redrawFromLoad(loadedShapes[i]);
 				}
 
