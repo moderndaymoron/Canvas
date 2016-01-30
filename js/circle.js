@@ -1,11 +1,12 @@
 "use strict";
 class Circle extends Shape {
-	constructor(x, y, color, lineWidth){
+	constructor(x, y, color, lineWidth, radius){
 		super(x, y, color, lineWidth, "Circle");
         this.radius = 0;
 	}
 
 	draw(ctx){
+        console.log(this);
 		ctx.strokeStyle = this.color;
         ctx.lineWidth   = this.lineWidth;
         this.isSelected(ctx); 
