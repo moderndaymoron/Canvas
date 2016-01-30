@@ -411,7 +411,6 @@ $(document).ready(function(){
 	$("#savedrawing").click(save);
 	$("#getDrawing").click(getSaved);
 	$("#loadDrawing").click(load);
-	$("#textinput").keypress(function(e){
 	$("#senddrawing").click(getSaved);
 	$("#textinput").keyup(function(e){
 		if(e.keyCode === 13){
