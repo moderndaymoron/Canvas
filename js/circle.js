@@ -48,4 +48,15 @@ class Circle extends Shape {
         this.setEnd(newX + this.bounds.width, newY + this.bounds.height);
     }
 
+    loadValues(shape){
+        this.color     = shape.color;
+        this.lineWidth = shape.lineWidth;
+        this.radius    = shape.radius;
+        this.x         = shape.x;
+        this.y         = shape.y;
+        this.endX      = shape.endX;
+        this.endY      = shape.endY;
+        this.bounds    = shape.bounds;
+
+    }
 }	

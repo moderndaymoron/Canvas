@@ -98,4 +98,16 @@ class Pen extends Shape {
 			this.penPoints[i].y += y;
 		}
 	}
+
+	loadValues(shape){
+    	this.color 	   = shape.color;
+    	this.lineWidth = shape.lineWidth;
+    	this.x 		   = shape.x;
+    	this.y 		   = shape.y;
+    	this.penPoints = shape.penPoints;
+    	this.endX 	   = shape.endX;
+    	this.endY 	   = shape.endY;
+    	this.bounds    = shape.bounds;
+
+	}
 }
