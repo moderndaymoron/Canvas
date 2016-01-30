@@ -443,27 +443,22 @@ $(document).ready(function(){
 	});
 
 	$("#tmpCanvas").mouseup(function(e){
-		if(!mouseIsDown){
-
-		}
-		else{
-			points = getPoints(e);
-			if(mode === "select"){
-				if(symbol != 0){
-					context.drawImage(tmpCanvas, 0, 0);
-					tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
-					shapes.push(symbol);
-				}
-			}
-			else{
+		mouseIsDown = false;	
+		points = getPoints(e);
+		if(mode === "select"){
+			if(symbol != 0){
 				context.drawImage(tmpCanvas, 0, 0);
 				tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
-				symbol.setEnd(points.x, points.y);
 				shapes.push(symbol);
 			}
 		}
+		else{
+			context.drawImage(tmpCanvas, 0, 0);
+			tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
+			symbol.setEnd(points.x, points.y);
+			shapes.push(symbol);
+		}
 
-		mouseIsDown = false;
-		reDraw();
+	reDraw();
 	});
 });
