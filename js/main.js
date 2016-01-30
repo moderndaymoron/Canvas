@@ -361,7 +361,15 @@ $(document).ready(function(){
 		if(e.keyCode === 8 || e.keyCode === 46){
 			canvasDelete();
 		}
-	})
+	});
+	$("body").keydown(function(e){
+		if(e.keyCode === 90 && e.ctrlKey){
+			canvasUndo();
+		}
+		else if(e.keyCode === 89 && e.ctrlKey){
+			canvasRedo();
+		}
+	});
 	$("#fontsize").on('change', function(){
 		fontSize = $(this).val();
 		for (var i = 0; i < shapes.length; i++){
