@@ -82,7 +82,7 @@ body {
 #rad {
     margin: 5px;
 	margin-top: 10px;
-	margin-left: 25px;
+	margin-left: 10px;
     display: inline;
     float: left;
 }
@@ -118,6 +118,18 @@ body {
 }
 
 /* Radio buttons */
+
+
+#selectshapes {
+
+	padding: 1px;
+	margin-top: 6px;
+	margin-left: 10px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+
 #selectshapes label {
 	float:left;
     width: auto;
@@ -125,12 +137,18 @@ body {
     background-color:#EFEFEF;
     border-radius:4px;
     border:2px solid #aaa;
-    overflow:auto;
+    height: 26px;
+    width: auto;
+    overflow:hidden;
 }
 
 #selectshapes label span {
     text-align:center;
     font-size: 14px;
+    padding-top: 1px;
+    padding-left: 3px;
+    padding-right: 3px;
+
     display: inline;
 }
 
@@ -145,7 +163,7 @@ body {
 
 #selectshapes label input {
     position:absolute;
-    top:-20px; /*get rid of radio check circles  /*
+    top:-20px; /*get rid of radio check circles  */
 }
 
 /* Tools */
@@ -154,27 +172,20 @@ body {
     text-shadow: 1px 1px 1px 1px skyblue;
 }
 
-#selectshapes {
-	float: left;
-	padding: 1px;
-	margin-top: 10px;
-	margin-left: 5px;
-    overflow: hidden;
-}
-
 #actionbuttons {
 	float:left;
 	margin-top: 10px;
-	margin-left: 19px;
+	margin-left: 10px;
     overflow: hidden;
+    display: inline-block;
 
 }
 
 #dropdownlists {
     float: left;
-    margin-top: 10px;
-    margin-left: 155px;
     margin-top: 5px;
+    margin-left: 55px;
+
 }
 
 #fontsize {
