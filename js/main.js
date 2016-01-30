@@ -14,6 +14,7 @@ var redoShape	  = [];
 var symbol		  = null;
 var points        = null;
 var data 		  = null;
+
 function getPoints(e){
 	return new Point(e.offsetX, e.offsetY);
 }
@@ -78,8 +79,8 @@ function canvasRedo(){
 }
 
 function canvasDelete(){
+	console.log("canvasDelete()");
 	for (var i = 0; i < shapes.length; i++){
-		console.log("canvasDelete()");
 		if(shapes[i].selected){
 			undoShape.push(shapes[i]);
 			shapes.splice(i, 1);
@@ -139,7 +140,6 @@ function checkIfPointInShape(x, y, e){
 		if(shapes[i].isPointInShape(x,y)){
 			shapes[i].selected = true;
 			shapes[i].setOldPoint(e.offsetX, e.offsetY);
-			console.log(shapes[i]);
 			return shapes[i];
 		}
 	}
@@ -344,7 +344,6 @@ $(document).ready(function(){
 	$("#incrad").click(canvasIncRadius);
 	$("#decrad").click(canvasDecRadius);
 	$(".colors").click(canvasColor);
-	$("myCanvas").click(showTextArea);
 	$("#savedrawing").click(save);
 	$("#getDrawing").click(getSaved);
 	$("#loadDrawing").click(loadDrawing);
@@ -358,6 +357,11 @@ $(document).ready(function(){
 			hideTextArea();
 		}
 	});
+	$("body").keyup(function(e){
+		if(e.keyCode === 8 || e.keyCode === 46){
+			canvasDelete();
+		}
+	})
 	$("#fontsize").on('change', function(){
 		fontSize = $(this).val();
 		for (var i = 0; i < shapes.length; i++){
@@ -418,7 +422,6 @@ $(document).ready(function(){
 
 	$("#tmpCanvas").mousemove(function(e){
 		if(mode === "select"){
-			//TODO: move the shape on the canvas with effects still on
 			if(mouseIsDown){
 				if(symbol != 0){
 					tmpContext.setLineDash([5, 5]);
