@@ -18,7 +18,7 @@ body {
 }
 
 .toolbars {
-    width: 999px;
+    width: 1050px;
     display: inline-block;
 }
 
@@ -113,11 +113,10 @@ body {
 
 #swatches {
     float: left;
-	margin-left: 15px;
     max-height: 50px;
     padding-top: 2px;
 
-    width: 600px;
+    width: 550px;
     overflow: hidden;
     display: inline-block;
 }
@@ -193,10 +192,14 @@ body {
 #dropdownlists {
     float: left;
     margin-top: 8px;
-    margin-left: 5px;
     margin-bottom: 8px;
-    width: 350px;
+    width: 430px;
 
+}
+
+#dropdowndrawings {
+    max-width: 120px;
+    overflow: hidden;
 }
 
 .spanfontsize {
@@ -204,7 +207,10 @@ body {
 }
 
 #fontsize {
-    margin-right: 15px;
+    margin-right: 5px;
+}
+#fontfamily {
+    margin-right: 5px;
 }
 
 /* glyphs */
