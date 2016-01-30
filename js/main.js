@@ -14,6 +14,7 @@ var redoShape	  = [];
 var symbol		  = null;
 var points        = null;
 var data 		  = null;
+var tOrD          = null;
 
 function getPoints(e){
 	return new Point(e.offsetX, e.offsetY);
@@ -212,20 +213,63 @@ function prompt(){
         	swal.showInputError("You need to write something!");
         	return false
     	}
-    	save(inputValue);
+       swal({   
+		title: "Template?",   
+		text: "Would you like to save this as an template?",   
+		type: "warning",   
+		showCancelButton: true,   
+		confirmButtonColor: "#DD6B55",   
+		confirmButtonText: "Yes",   
+		cancelButtonText: "No, save it as an image",   
+		closeOnConfirm: false,   closeOnCancel: false
+ 		}, 
+		function(isConfirm){
+			if (isConfirm) {     
+				swal.close();
+				save(inputValue, true);
+			} 
+			
+			else {
+				swal.close();     
+				save(inputValue, false);
+			} 
+		});
+    
 	});
-	
 }
 
-function save(name){
+function templatesOrDrawings(){
+	swal({   
+		title: "Load",   
+		text: "Load templates or drawings?",   
+		type: "warning",   
+		showCancelButton: true,   
+		confirmButtonColor: "#DD6B55",   
+		confirmButtonText: "Templates",   
+		cancelButtonText: "Drawings",   
+		closeOnConfirm: false,   closeOnCancel: false
+ 		}, 
+		function(isConfirm){
+			if (isConfirm) {     
+				swal.close();
+				getSaved(true);
+			} 
+			
+			else {
+				swal.close();     
+				getSaved(false);
+			} 
+	});
+}
+
+function save(name, template){
 	var stringifiedShapes = JSON.stringify(shapes);
-	console.log(name);
 	
 	var param = { 
 				"user": "arnio13", // You should use your own username!
 				"name": name,
 				"content": stringifiedShapes,
-				"template": false
+				"template": template
 			};
 
 	$.ajax({
@@ -244,11 +288,17 @@ function save(name){
 	});
 }
 
-function getSaved(){
-	
+function getSaved(template){
+	if(template){
+		tOrD = "template";
+	}
+	else{
+		tOrD = "drawings";
+	}
+
 	var param = { 
 				"user": "arnio13", // You should use your own username!
-				"template": false
+				"template": template
 	};
 
 	$.ajax({
@@ -263,21 +313,20 @@ function getSaved(){
 				addDrawingsToDropdown(data);
 			},
 			error: function (xhr, err) {
-				alert("err");
+				sweetAlert("Oops...", "Something went wrong!", "error");
 			}
 	});
 }
 
 function addDrawingsToDropdown(drawings){
 	var select = document.getElementById("dropdowndrawings");
-	if(select.options.length === 1){
-		for (var i = 0; i < drawings.length; i++){
-			var drawing = document.createElement("OPTION");
-			drawing.setAttribute("value", drawings[i].ID);
-			var name = document.createTextNode(drawings[i].WhiteboardTitle);
-			drawing.appendChild(name);
-			select.appendChild(drawing);
-		}
+	$("#dropdowndrawings").empty();
+	for (var i = 0; i < drawings.length; i++){
+		var drawing = document.createElement("OPTION");
+		drawing.setAttribute("value", drawings[i].ID);
+		var name = document.createTextNode(drawings[i].WhiteboardTitle);
+		drawing.appendChild(name);
+		select.appendChild(drawing);
 	}
 }
 
@@ -291,7 +340,11 @@ function loadDrawing(){
 
 function load(drawingID){
 	context.clearRect(0, 0, canvas.width, canvas.height);
-	shapes = [];
+	
+	if (tOrD == "drawings"){
+		shapes = [];		
+	}
+
 
 	var param = { 
 			"id": drawingID
@@ -316,7 +369,7 @@ function load(drawingID){
 			
 			},
 			error: function (xhr, err) {
-				alert("err");
+				sweetAlert("Oops...", "Something went wrong!", "error");
 			}
 		});	
 }
@@ -365,7 +418,7 @@ $(document).ready(function(){
 	$("#decrad").click(canvasDecRadius);
 	$(".colors").click(canvasColor);
 	$("#savedrawing").click(prompt);
-	$("#getDrawing").click(getSaved);
+	$("#getDrawing").click(templatesOrDrawings);
 	$("#loadDrawing").click(loadDrawing);
 	$("#textinput").keyup(function(e){
 		if(e.keyCode === 13){
