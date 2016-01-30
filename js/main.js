@@ -240,7 +240,7 @@ function getSaved(){
 			dataType: "jsonp",
 			crossDomain: true,
 			success: function (data) {
-				console.log(data);
+				addDrawingsToDropdown(data);
 			},
 			error: function (xhr, err) {
 				alert("err");
@@ -248,12 +248,33 @@ function getSaved(){
 	});
 }
 
-function load(){
+function addDrawingsToDropdown(drawings){
+	var select = document.getElementById("dropdowndrawings");
+	for (var i = 0; i < drawings.length; i++){
+		var drawing = document.createElement("OPTION");
+		drawing.setAttribute("value", drawings[i].ID);
+		var name = document.createTextNode(drawings[i].WhiteboardTitle);
+		drawing.appendChild(name);
+		select.appendChild(drawing);
+
+	}
+}
+
+function loadDrawing(){
+	var id = $("#dropdowndrawings").val();
+	console.log(id);
+	if (id == "0"){
+		return;
+	}
+	load(id);
+}
+
+function load(drawingID){
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	shapes = [];
 
 	var param = { 
-			"id": "4100"
+			"id": drawingID
 	};
 
 	$.ajax({
@@ -410,7 +431,7 @@ $(document).ready(function(){
 	$("myCanvas").click(showTextArea);
 	$("#savedrawing").click(save);
 	$("#getDrawing").click(getSaved);
-	$("#loadDrawing").click(load);
+	$("#loadDrawing").click(loadDrawing);
 	$("#textinput").keyup(function(e){
 		if(e.keyCode === 13){
 			submitText(symbol);
