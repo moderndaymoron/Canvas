@@ -340,7 +340,7 @@ function loadDrawing(){
 }
 
 function load(drawingID){
-	context.clearRect(0, 0, canvas.width, canvas.height);
+	G.context.clearRect(0, 0, G.canvas.width, G.canvas.height);
 	
 	if (G.tOrD == "drawings"){
 		G.shapes = [];		
@@ -355,7 +355,7 @@ function load(drawingID){
 			type: "POST",
 			contentType: "application/json; charset=utf-8",
 			url: "http://whiteboard.apphb.com/Home/GetWhiteboard",
-			data: param ,
+			data: param,
 			
 			dataType: "jsonp",
 			crossDomain: true,
