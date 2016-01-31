@@ -189,6 +189,10 @@ body {
 
 }
 
+.highlight {
+    border: solid goldenrod 2px;
+}
+
 #dropdownlists {
     float: left;
     margin-top: 8px;

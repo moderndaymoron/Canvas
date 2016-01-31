@@ -4,7 +4,7 @@ var G = {
 	context 	  : null,
 	mouseIsDown   : false,
 	currentColor  : "black",
-	lineWidth     : 2,		 
+	lineWidth     : 2,
 	fontSize	  : 14,
 	fontFamily	  : "Arial",
 	selectedShape : createPen,
@@ -194,76 +194,77 @@ function setSelectedFalse(){
 }
 
 function prompt(){
-	swal({   
+	swal({
 	title: "Save image",
 	text: "Please insert the name of your drawing:",
 	type: "input",
 	showCancelButton: true,
 	closeOnConfirm: false,
 	animation: "slide-from-top",
-	inputPlaceholder: "Name" 
+	inputPlaceholder: "Name"
 	},
 
 	function(inputValue){
    		if (inputValue === false) return false;
-   
+
    		if (inputValue === "") {
         	swal.showInputError("You need to write something!");
         	return false;
     	}
-       swal({   
-		title: "Template?",   
-		text: "Would you like to save this as an template?",   
-		type: "warning",   
-		showCancelButton: true,   
-		confirmButtonColor: "#DD6B55",   
-		confirmButtonText: "Yes",   
-		cancelButtonText: "No, save it as an image",   
+       swal({
+		title: "Template?",
+		text: "Would you like to save this as an template?",
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "Yes",
+		cancelButtonText: "No, save it as an image",
 		closeOnConfirm: false,   closeOnCancel: false
- 		}, 
+ 		},
 		function(isConfirm){
-			if (isConfirm) {     
+			if (isConfirm) {
 				swal.close();
 				save(inputValue, true);
-			} 
-			
+			}
+
 			else {
-				swal.close();     
+				swal.close();
 				save(inputValue, false);
-			} 
+			}
 		});
-    
+
 	});
 }
 
 function templatesOrDrawings(){
-	swal({   
-		title: "Load",   
-		text: "Load templates or drawings?",   
-		type: "warning",   
-		showCancelButton: true,   
-		confirmButtonColor: "#DD6B55",   
-		confirmButtonText: "Templates",   
-		cancelButtonText: "Drawings",   
+	$("#getDrawing").removeClass('highlight');
+	swal({
+		title: "Load",
+		text: "Load templates or drawings?",
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#DD6B55",
+		confirmButtonText: "Templates",
+		cancelButtonText: "Drawings",
 		closeOnConfirm: false,   closeOnCancel: false
- 		}, 
+ 		},
 		function(isConfirm){
-			if (isConfirm) {     
+			if (isConfirm) {
 				swal.close();
 				getSaved(true);
-			} 
-			
+			}
+
 			else {
-				swal.close();     
+				swal.close();
 				getSaved(false);
-			} 
+			}
 	});
 }
 
 function save(name, template){
 	var stringifiedShapes = JSON.stringify(G.shapes);
-	
-	var param = { 
+
+	var param = {
 				"user": "arnio13", // You should use your own username!
 				"name": name,
 				"content": stringifiedShapes,
@@ -294,7 +295,7 @@ function getSaved(template){
 		G.tOrD = "drawings";
 	}
 
-	var param = { 
+	var param = {
 				"user": "arnio13", // You should use your own username!
 				"template": template
 	};
@@ -304,7 +305,7 @@ function getSaved(template){
 			contentType: "application/json; charset=utf-8",
 			url: "http://whiteboard.apphb.com/Home/GetList",
 			data: param ,
-			
+
 			dataType: "jsonp",
 			crossDomain: true,
 			success: function (data) {
@@ -338,13 +339,13 @@ function loadDrawing(){
 
 function load(drawingID){
 	G.context.clearRect(0, 0, G.canvas.width, G.canvas.height);
-	
+
 	if (G.tOrD === "drawings"){
-		G.shapes = [];		
+		G.shapes = [];
 	}
 
 
-	var param = { 
+	var param = {
 			"id": drawingID
 	};
 
@@ -353,27 +354,27 @@ function load(drawingID){
 			contentType: "application/json; charset=utf-8",
 			url: "http://whiteboard.apphb.com/Home/GetWhiteboard",
 			data: param,
-			
+
 			dataType: "jsonp",
 			crossDomain: true,
 			success: function (data) {
 				var loadedShapes = JSON.parse(data.WhiteboardContents);
-				
+
 				for(var i = 0; i < loadedShapes.length; i++){
 					redrawFromLoad(loadedShapes[i]);
 				}
 
 				reDraw();
-			
+
 			},
 			error: function (xhr, err) {
 				sweetAlert("Oops...", "Something went wrong!", "error");
 			}
-		});	
+		});
 }
 
 function redrawFromLoad(shape){
-	switch (shape.type) {    
+	switch (shape.type) {
 	    case "Circle":
 	    	var circle = new Circle();
 	    	circle.loadValues(shape);
@@ -517,7 +518,7 @@ $(document).ready(function(){
 	});
 
 	$("#tmpCanvas").mouseup(function(e){
-		G.mouseIsDown = false;	
+		G.mouseIsDown = false;
 		G.points = getPoints(e);
 		if(G.mode === "select"){
 			if(G.symbol !== 0){
