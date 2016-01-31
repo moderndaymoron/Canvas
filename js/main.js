@@ -14,6 +14,7 @@ var redoShape	  = [];
 var symbol		  = null;
 var points        = null;
 var data 		  = null;
+var tOrD          = null;
 
 function getPoints(e){
 	return new Point(e.offsetX, e.offsetY);
@@ -195,15 +196,81 @@ function setSelectedFalse(){
 	}
 }
 
-function save(){
-	var stringifiedShapes = JSON.stringify(shapes);
-	var name = prompt("Please enter the name of the drawing", "");
+function prompt(){
+	swal({   
+	title: "Save image",
+	text: "Please insert the name of your drawing:",
+	type: "input",
+	showCancelButton: true,
+	closeOnConfirm: false,
+	animation: "slide-from-top",
+	inputPlaceholder: "Name" 
+	},
 
+	function(inputValue){
+   		if (inputValue === false) return false;
+   
+   		if (inputValue === "") {
+        	swal.showInputError("You need to write something!");
+        	return false
+    	}
+       swal({   
+		title: "Template?",   
+		text: "Would you like to save this as an template?",   
+		type: "warning",   
+		showCancelButton: true,   
+		confirmButtonColor: "#DD6B55",   
+		confirmButtonText: "Yes",   
+		cancelButtonText: "No, save it as an image",   
+		closeOnConfirm: false,   closeOnCancel: false
+ 		}, 
+		function(isConfirm){
+			if (isConfirm) {     
+				swal.close();
+				save(inputValue, true);
+			} 
+			
+			else {
+				swal.close();     
+				save(inputValue, false);
+			} 
+		});
+    
+	});
+}
+
+function templatesOrDrawings(){
+	swal({   
+		title: "Load",   
+		text: "Load templates or drawings?",   
+		type: "warning",   
+		showCancelButton: true,   
+		confirmButtonColor: "#DD6B55",   
+		confirmButtonText: "Templates",   
+		cancelButtonText: "Drawings",   
+		closeOnConfirm: false,   closeOnCancel: false
+ 		}, 
+		function(isConfirm){
+			if (isConfirm) {     
+				swal.close();
+				getSaved(true);
+			} 
+			
+			else {
+				swal.close();     
+				getSaved(false);
+			} 
+	});
+}
+
+function save(name, template){
+	var stringifiedShapes = JSON.stringify(shapes);
+	
 	var param = { 
 				"user": "arnio13", // You should use your own username!
 				"name": name,
 				"content": stringifiedShapes,
-				"template": false
+				"template": template
 			};
 
 	$.ajax({
@@ -214,19 +281,25 @@ function save(){
 		dataType: "jsonp",
 		crossDomain: true,
 		success: function (data) {
-			alert("Saved")
+   			swal("Nice!", name + " was saved successfully", "success");
 		},
 		error: function (xhr, err) {
-			alert("Error, if you're using the pen tool, that's likely the problem")
+			sweetAlert("Oops...", "Something went wrong! Error, if you're using the pen tool, that's likely the problem", "error");
 		}
 	});
 }
 
-function getSaved(){
-	
+function getSaved(template){
+	if(template){
+		tOrD = "template";
+	}
+	else{
+		tOrD = "drawings";
+	}
+
 	var param = { 
 				"user": "arnio13", // You should use your own username!
-				"template": false
+				"template": template
 	};
 
 	$.ajax({
@@ -241,13 +314,14 @@ function getSaved(){
 				addDrawingsToDropdown(data);
 			},
 			error: function (xhr, err) {
-				alert("err");
+				sweetAlert("Oops...", "Something went wrong!", "error");
 			}
 	});
 }
 
 function addDrawingsToDropdown(drawings){
 	var select = document.getElementById("dropdowndrawings");
+	$("#dropdowndrawings").empty();
 	for (var i = 0; i < drawings.length; i++){
 		var drawing = document.createElement("OPTION");
 		drawing.setAttribute("value", drawings[i].ID);
@@ -267,7 +341,11 @@ function loadDrawing(){
 
 function load(drawingID){
 	context.clearRect(0, 0, canvas.width, canvas.height);
-	shapes = [];
+	
+	if (tOrD == "drawings"){
+		shapes = [];		
+	}
+
 
 	var param = { 
 			"id": drawingID
@@ -292,7 +370,7 @@ function load(drawingID){
 			
 			},
 			error: function (xhr, err) {
-				alert("err");
+				sweetAlert("Oops...", "Something went wrong!", "error");
 			}
 		});	
 }
@@ -340,8 +418,8 @@ $(document).ready(function(){
 	$("#incrad").click(canvasIncRadius);
 	$("#decrad").click(canvasDecRadius);
 	$(".colors").click(canvasColor);
-	$("#savedrawing").click(save);
-	$("#getDrawing").click(getSaved);
+	$("#savedrawing").click(prompt);
+	$("#getDrawing").click(templatesOrDrawings);
 	$("#loadDrawing").click(loadDrawing);
 	$("#textinput").keyup(function(e){
 		if(e.keyCode === 13){
