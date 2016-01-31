@@ -56,8 +56,7 @@ function changeTool(){
 
 	G.mode 			 = "draw";
 	var functionName = "create" + attrValue;
-	var res 		 = eval(functionName);
-	G.selectedShape  = res;
+	G.selectedShape  = eval(functionName);
 	setSelectedFalse();
 	reDraw();
 }
@@ -160,16 +159,14 @@ function reDraw(){
 }
 
 function showTextArea(e){
-	var x 						= e.clientX - G.canvas.offsetLeft;
-    var y 						= e.clientY - G.canvas.offsetTop;
 	var textArea 				= document.getElementById("textinput");
 	textArea.setAttribute("autofocus", true);
 	textArea.style.fontFamily   = G.fontFamily;
 	textArea.style.display 		= "inline-block";
     textArea.style.lineHeight   = G.fontSize + "px";
     textArea.style.fontSize     = G.fontSize + "px";
-    textArea.style.top  		= e.clientY + 'px';
-    textArea.style.left 		= e.clientX + 'px';
+    textArea.style.top  		= e.clientY + "px";
+    textArea.style.left 		= e.clientX + "px";
 }
 
 function submitText(symbol){
@@ -212,7 +209,7 @@ function prompt(){
    
    		if (inputValue === "") {
         	swal.showInputError("You need to write something!");
-        	return false
+        	return false;
     	}
        swal({   
 		title: "Template?",   
@@ -264,7 +261,7 @@ function templatesOrDrawings(){
 }
 
 function save(name, template){
-	var stringifiedShapes = JSON.stringify(shapes);
+	var stringifiedShapes = JSON.stringify(G.shapes);
 	
 	var param = { 
 				"user": "arnio13", // You should use your own username!
@@ -333,7 +330,7 @@ function addDrawingsToDropdown(drawings){
 
 function loadDrawing(){
 	var id = $("#dropdowndrawings").val();
-	if (id == "0"){
+	if (id === "0"){
 		return;
 	}
 	load(id);
@@ -342,7 +339,7 @@ function loadDrawing(){
 function load(drawingID){
 	G.context.clearRect(0, 0, G.canvas.width, G.canvas.height);
 	
-	if (G.tOrD == "drawings"){
+	if (G.tOrD === "drawings"){
 		G.shapes = [];		
 	}
 
@@ -513,7 +510,6 @@ $(document).ready(function(){
 					return;
 				}
 			}
-
 		}
 		else if(G.mouseIsDown){
 			G.symbol.move(tmpContext, e, G.points);
@@ -524,7 +520,7 @@ $(document).ready(function(){
 		G.mouseIsDown = false;	
 		G.points = getPoints(e);
 		if(G.mode === "select"){
-			if(G.symbol != 0){
+			if(G.symbol !== 0){
 				G.context.drawImage(tmpCanvas, 0, 0);
 				tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
 				G.shapes.push(G.symbol);

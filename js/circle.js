@@ -32,8 +32,8 @@ class Circle extends Shape {
     }
 
     drag(ctx, e){
-        var newX   = e.offsetX - canvas.offsetLeft;
-        var newY   = e.offsetY - canvas.offsetTop;
+        var newX   = e.offsetX - G.canvas.offsetLeft;
+        var newY   = e.offsetY - G.canvas.offsetTop;
         if(this.isOutOfBounds(newX - this.radius, newX + this.radius, newY - this.radius, newY + this.radius)){
             return;
         }
@@ -59,6 +59,5 @@ class Circle extends Shape {
         this.endX      = shape.endX;
         this.endY      = shape.endY;
         this.bounds    = shape.bounds;
-
     }
 }	

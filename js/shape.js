@@ -102,7 +102,7 @@ class Shape{
 	}
 
 	isOutOfBounds(left, right, top, bot){
-		if(left < 0 || right > canvas.width || bot > canvas.height || top < 0){
+		if(left < 0 || right > G.canvas.width || bot > G.canvas.height || top < 0){
 			return true;
 		}
 
