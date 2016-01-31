@@ -22,7 +22,7 @@ class Circle extends Shape {
 
         ctx.strokeStyle = this.color;
         ctx.lineWidth   = this.lineWidth; 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, G.canvas.width, G.canvas.height);
     	ctx.beginPath();
     	ctx.arc(newX, newY, this.radius, 0, Math.PI*2, false);
     	ctx.stroke();
@@ -40,7 +40,7 @@ class Circle extends Shape {
 
         ctx.strokeStyle = this.color;
         ctx.lineWidth   = this.lineWidth; 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, G.canvas.width, G.canvas.height);
         ctx.beginPath();
         ctx.arc(newX, newY, this.radius, 0, Math.PI * 2);
         ctx.stroke();

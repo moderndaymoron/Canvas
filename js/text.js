@@ -8,11 +8,11 @@ class Text extends Shape {
 	}
 
 	draw(ctx){
-		if (this.endX > canvas.width){
-			this.x -= this.endX - canvas.width;
+		if (this.endX > G.canvas.width){
+			this.x -= this.endX - G.canvas.width;
 			this.setMessageAndBounds(this.message, this.bounds.width);
 		}
-		
+
 		var fontInfo = this.fontSize + "px " + this.fontFamily;
 		ctx.fillStyle = this.color;
 		ctx.font = fontInfo;
@@ -47,7 +47,7 @@ class Text extends Shape {
 		}
 		
 		this.setOldPoint(e.offsetX, e.offsetY);
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.clearRect(0, 0, G.canvas.width, G.canvas.height);
 		this.draw(ctx);
 		this.x = newX;
 		this.y = newY;
@@ -56,7 +56,7 @@ class Text extends Shape {
 
     setMessageAndBounds(text, width){
     	this.endX 	 = this.x + width;
-    	this.endY 	 = this.y - parseInt(fontSize);
+    	this.endY 	 = this.y - parseInt(this.fontSize);
     	this.message = text;
     	this.bounds  = this.calcBounds();
     }

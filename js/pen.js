@@ -45,7 +45,7 @@ class Pen extends Shape {
 			return;
 		}
 		
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.clearRect(0, 0, G.canvas.width, G.canvas.height);
 		ctx.beginPath();
 		ctx.moveTo(this.penPoints[0].x, this.penPoints[0].y);
 		
@@ -83,7 +83,7 @@ class Pen extends Shape {
 
 		this.updatePoints(newX, newY);
 		this.setOldPoint(e.offsetX, e.offsetY);
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.clearRect(0, 0, G.canvas.width, G.canvas.height);
 		this.draw(ctx);
 
 		this.x += newX;

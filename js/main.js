@@ -1,88 +1,90 @@
 "use strict";
-var canvas 		  = null;
-var context 	  = null;
-var mouseIsDown   = false;
-var currentColor  = "black";
-var lineWidth     = 2;		 
-var fontSize	  = 14;
-var fontFamily	  = "Arial";
-var selectedShape = createPen;
-var mode          = "draw";
-var shapes		  = [];
-var undoShape	  = [];
-var redoShape	  = [];
-var symbol		  = null;
-var points        = null;
-var data 		  = null;
-var tOrD          = null;
+var G = {
+	canvas 		  : null,
+	context 	  : null,
+	mouseIsDown   : false,
+	currentColor  : "black",
+	lineWidth     : 2,		 
+	fontSize	  : 14,
+	fontFamily	  : "Arial",
+	selectedShape : createPen,
+	mode          : "draw",
+	shapes		  : [],
+	undoShape	  : [],
+	redoShape	  : [],
+	symbol		  : null,
+	points        : null,
+	data 		  : null,
+	tOrD          : null
+};
 
 function getPoints(e){
 	return new Point(e.offsetX, e.offsetY);
 }
 
 function createRectangle(x, y){
-	return new Rectangle(x, y, currentColor, lineWidth);
+	return new Rectangle(x, y, G.currentColor, G.lineWidth);
 }
 
 function createLine(x, y){
-	return new Line(x, y, currentColor, lineWidth);
+	return new Line(x, y, G.currentColor, G.lineWidth);
 }
 
 function createCircle(x, y){
-	return new Circle(x, y, currentColor, lineWidth);
+	return new Circle(x, y, G.currentColor, G.lineWidth);
 }
 
 function createPen(x, y){
-	return new Pen(x, y, currentColor, lineWidth);
+	return new Pen(x, y, G.currentColor, G.lineWidth);
 }
 
 function createText(x, y){
-	return new Text(x, y, currentColor, lineWidth, fontSize, fontFamily);
+	return new Text(x, y, G.currentColor, G.lineWidth, G.fontSize, G.fontFamily);
 }
 
 function createEraser(x, y){
-	return new Pen(x, y, "#fff", lineWidth);
+	return new Pen(x, y, "#fff", G.lineWidth);
 }
 
 function changeTool(){
 	hideTextArea();
 	var attrValue = $(this).attr("data-tool");
 	if (attrValue === "Select"){
-		mode = "select";
+		G.mode = "select";
 		return;
 	}
 
-	mode 			 = "draw";
+	G.mode 			 = "draw";
 	var functionName = "create" + attrValue;
 	var res 		 = eval(functionName);
-	selectedShape 	 = res;
+	G.selectedShape  = res;
 	setSelectedFalse();
 	reDraw();
 }
 
 function canvasUndo(){
-	if(shapes.length < 1){
+	if(G.shapes.length < 1){
 		return;
 	}
 
-	undoShape.push(shapes.pop());
+	G.undoShape.push(G.shapes.pop());
 	reDraw();
 }
 
 function canvasRedo(){
-	if(undoShape.length < 1){
+	if(G.undoShape.length < 1){
 		return;
 	}
 
-	shapes.push(undoShape.pop());
+	G.shapes.push(G.undoShape.pop());
 	reDraw();
 }
 
 function canvasDelete(){
-	for (var i = 0; i < shapes.length; i++){
-		if(shapes[i].selected){
-			undoShape.push(shapes[i]);
-			shapes.splice(i, 1);
+	for (var i = 0; i < G.shapes.length; i++){
+		if(G.shapes[i].selected){
+			G.undoShape.push(G.shapes[i]);
+			G.shapes.splice(i, 1);
 		}
 	}
 
@@ -90,32 +92,32 @@ function canvasDelete(){
 }
 
 function canvasIncRadius(){
-	if(lineWidth >= 50){
+	if(G.lineWidth >= 50){
 		return;
 	}
 
-	lineWidth += 1;
-	$("#radVal").html(lineWidth);
-	for (var i = 0; i < shapes.length; i++){
-		if(shapes[i].selected){
-			shapes[i].lineWidth = lineWidth;
-			shapes[i].bounds = shapes[i].calcBounds();
+	G.lineWidth += 1;
+	$("#radVal").html(G.lineWidth);
+	for (var i = 0; i < G.shapes.length; i++){
+		if(G.shapes[i].selected){
+			G.shapes[i].lineWidth = G.lineWidth;
+			G.shapes[i].bounds = G.shapes[i].calcBounds();
 			reDraw();
 		}
 	}
 }
 
 function canvasDecRadius(){
-	if(lineWidth <= 1){
+	if(G.lineWidth <= 1){
 		return;
 	}
 
-	lineWidth -= 1;
+	G.lineWidth -= 1;
 	$("#radVal").html(lineWidth);
-	for (var i = 0; i < shapes.length; i++){
-		if(shapes[i].selected){
-			shapes[i].lineWidth = lineWidth;
-			shapes[i].bounds = shapes[i].calcBounds();
+	for (var i = 0; i < G.shapes.length; i++){
+		if(G.shapes[i].selected){
+			G.shapes[i].lineWidth = G.lineWidth;
+			G.shapes[i].bounds = G.shapes[i].calcBounds();
 			reDraw();
 		}
 	}
@@ -124,10 +126,10 @@ function canvasDecRadius(){
 function canvasColor(){
 	var attrValue = $(this).attr("data-tool");
 	var res = eval(attrValue);
-	currentColor = attrValue || "black";
-	for (var i = 0; i < shapes.length; i++){
-		if(shapes[i].selected){
-			shapes[i].color = currentColor;
+	G.currentColor = attrValue || "black";
+	for (var i = 0; i < G.shapes.length; i++){
+		if(G.shapes[i].selected){
+			G.shapes[i].color = G.currentColor;
 			reDraw();
 		}
 	}
@@ -135,11 +137,11 @@ function canvasColor(){
 
 function checkIfPointInShape(x, y, e){
 	setSelectedFalse();
-	for (var i = shapes.length-1; i >= 0; i--){
-		if(shapes[i].isPointInShape(x,y)){
-			shapes[i].selected = true;
-			shapes[i].setOldPoint(e.offsetX, e.offsetY);
-			return shapes[i];
+	for (var i = G.shapes.length-1; i >= 0; i--){
+		if(G.shapes[i].isPointInShape(x,y)){
+			G.shapes[i].selected = true;
+			G.shapes[i].setOldPoint(e.offsetX, e.offsetY);
+			return G.shapes[i];
 		}
 	}
 
@@ -147,35 +149,35 @@ function checkIfPointInShape(x, y, e){
 }
 
 function drawShapes(){
-	for (var i = 0; i < shapes.length; i++){
-		shapes[i].draw(context);
+	for (var i = 0; i < G.shapes.length; i++){
+		G.shapes[i].draw(G.context);
 	}
 }
 
 function reDraw(){
-		context.clearRect(0,0,canvas.width, canvas.height);
+		G.context.clearRect(0,0,G.canvas.width, G.canvas.height);
 		drawShapes();
 }
 
 function showTextArea(e){
-	var x 						= e.clientX - canvas.offsetLeft;
-    var y 						= e.clientY - canvas.offsetTop;
+	var x 						= e.clientX - G.canvas.offsetLeft;
+    var y 						= e.clientY - G.canvas.offsetTop;
 	var textArea 				= document.getElementById("textinput");
 	textArea.setAttribute("autofocus", true);
-	textArea.style.fontFamily   = fontFamily;
+	textArea.style.fontFamily   = G.fontFamily;
 	textArea.style.display 		= "inline-block";
-    textArea.style.lineHeight   = fontSize + "px";
-    textArea.style.fontSize     = fontSize + "px";
+    textArea.style.lineHeight   = G.fontSize + "px";
+    textArea.style.fontSize     = G.fontSize + "px";
     textArea.style.top  		= e.clientY + 'px';
     textArea.style.left 		= e.clientX + 'px';
 }
 
 function submitText(symbol){
 	var msg 			   = $("#textinput").val();
-	context.font 		   = fontSize + "px " + fontFamily;
-	var textWidth 		   = context.measureText(msg).width;
+	G.context.font 		   = G.fontSize + "px " + G.fontFamily;
+	var textWidth 		   = G.context.measureText(msg).width;
 	hideTextArea();
-	symbol.setMessageAndBounds(msg, textWidth);
+	G.symbol.setMessageAndBounds(msg, textWidth);
 }
 
 function hideTextArea(){
@@ -184,13 +186,13 @@ function hideTextArea(){
 	textArea.style.display = "none";
 }
 function setContextColorAndWidth(ctx, symbol){
-	ctx.strokeStyle = symbol.color;
-	ctx.lineWidth   = symbol.lineWidth;
+	ctx.strokeStyle = G.symbol.color;
+	ctx.lineWidth   = G.symbol.lineWidth;
 }
 
 function setSelectedFalse(){
-	for (var i = 0;  i < shapes.length; i++){
-		shapes[i].selected = false;
+	for (var i = 0;  i < G.shapes.length; i++){
+		G.shapes[i].selected = false;
 	}
 }
 
@@ -289,10 +291,10 @@ function save(name, template){
 
 function getSaved(template){
 	if(template){
-		tOrD = "template";
+		G.tOrD = "template";
 	}
 	else{
-		tOrD = "drawings";
+		G.tOrD = "drawings";
 	}
 
 	var param = { 
@@ -340,8 +342,8 @@ function loadDrawing(){
 function load(drawingID){
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	
-	if (tOrD == "drawings"){
-		shapes = [];		
+	if (G.tOrD == "drawings"){
+		G.shapes = [];		
 	}
 
 
@@ -378,31 +380,31 @@ function redrawFromLoad(shape){
 	    case "Circle":
 	    	var circle = new Circle();
 	    	circle.loadValues(shape);
-	    	shapes.push(circle);
+	    	G.shapes.push(circle);
 	        break;
 
 	    case "Pen":
 	    	var pen = new Pen();
 	    	pen.loadValues(shape);
-			shapes.push(pen);
+			G.shapes.push(pen);
 	        break;
 
 	    case "Rectangle":
 	    	var rectangle = new Rectangle();
 	    	rectangle.loadValues(shape);
-	    	shapes.push(rectangle);
+	    	G.shapes.push(rectangle);
 	        break;
 
 	    case "Line":
 	    	var line = new Line();
 	    	line.loadValues(shape);
-	    	shapes.push(line);
+	    	G.shapes.push(line);
 	        break;
 
 	    case "Text":
 	    	var text = new Text();
 	    	text.loadValues(shape);
-	    	shapes.push(text);
+	    	G.shapes.push(text);
 	        break;
 	}
 }
@@ -421,8 +423,8 @@ $(document).ready(function(){
 	$("#loadDrawing").click(loadDrawing);
 	$("#textinput").keyup(function(e){
 		if(e.keyCode === 13){
-			submitText(symbol);
-			shapes.push(symbol);
+			submitText(G.symbol);
+			G.shapes.push(G.symbol);
 			reDraw();
 		}
 		else if(e.keyCode === 27){
@@ -443,68 +445,68 @@ $(document).ready(function(){
 		}
 	});
 	$("#fontsize").on('change', function(){
-		fontSize = $(this).val();
-		for (var i = 0; i < shapes.length; i++){
-			if(shapes[i].selected){
-				shapes[i].fontSize = fontSize;
-			  	context.font   	   = fontSize + "px " + fontFamily;
-				var textWidth  	   = context.measureText(shapes[i].message).width;
-				shapes[i].setMessageAndBounds(shapes[i].message, textWidth);
+		G.fontSize = $(this).val();
+		for (var i = 0; i < G.shapes.length; i++){
+			if(G.shapes[i].selected){
+				G.shapes[i].fontSize   = G.fontSize;
+			  	G.context.font   	   = G.fontSize + "px " + G.fontFamily;
+				var textWidth  	       = G.context.measureText(G.shapes[i].message).width;
+				G.shapes[i].setMessageAndBounds(G.shapes[i].message, textWidth);
 				reDraw();
 			}
 		}
 
 	});
 	$("#fontfamily").on('change', function(){
-		fontFamily = $(this).val();
-		for (var i = 0; i < shapes.length; i++){
-			if(shapes[i].selected){
-				shapes[i].fontFamily = fontFamily;
+		G.fontFamily = $(this).val();
+		for (var i = 0; i < G.shapes.length; i++){
+			if(G.shapes[i].selected){
+				G.shapes[i].fontFamily = G.fontFamily;
 				reDraw();
 			}
 		}
 	});
 
-	canvas 				= document.getElementById("myCanvas");
-	context 			= canvas.getContext("2d");
+	G.canvas 				= document.getElementById("myCanvas");
+	G.context 			= G.canvas.getContext("2d");
 	var tmpCanvas 		= document.createElement('canvas');
 	var tmpContext 		= tmpCanvas.getContext('2d');
 	var canvases 		= document.querySelector('#canvases');
-	context.lineWidth 	= lineWidth;
+	G.context.lineWidth = G.lineWidth;
 	tmpCanvas.id 		= 'tmpCanvas';
-	tmpCanvas.width 	= canvas.width;
-	tmpCanvas.height 	= canvas.height;
+	tmpCanvas.width 	= G.canvas.width;
+	tmpCanvas.height 	= G.canvas.height;
 
 	canvases.appendChild(tmpCanvas);
 
 	$("#tmpCanvas").mousedown(function (e){
-		mouseIsDown = true;
-		points = getPoints(e);
-		if(mode === "select"){
-			symbol = checkIfPointInShape(points.x, points.y, e);
+		G.mouseIsDown = true;
+		G.points = getPoints(e);
+		if(G.mode === "select"){
+			G.symbol = checkIfPointInShape(G.points.x, G.points.y, e);
 			canvasDelete();
 		}
 		else{
-			symbol = selectedShape(points.x, points.y);
-			if(symbol.type === "Pen"){
-				symbol.setInitialCoords();
+			G.symbol = G.selectedShape(G.points.x, G.points.y);
+			if(G.symbol.type === "Pen"){
+				G.symbol.setInitialCoords();
 			}
-			else if(symbol.type === "Text"){
-				mouseIsDown = false;
-				symbol = selectedShape(points.x, points.y);
+			else if(G.symbol.type === "Text"){
+				G.mouseIsDown = false;
+				G.symbol = G.selectedShape(G.points.x, G.points.y);
 				showTextArea(e);
 			}
 		}
 
-		setContextColorAndWidth(tmpContext, symbol);
+		setContextColorAndWidth(tmpContext, G.symbol);
 	});
 
 	$("#tmpCanvas").mousemove(function(e){
-		if(mode === "select"){
-			if(mouseIsDown){
-				if(symbol != 0){
+		if(G.mode === "select"){
+			if(G.mouseIsDown){
+				if(G.symbol != 0){
 					tmpContext.setLineDash([5, 5]);
-					symbol.drag(tmpContext, e, points.x, points.y);
+					G.symbol.drag(tmpContext, e, G.points.x, G.points.y);
 					tmpContext.setLineDash([0, 0]);
 				}
 				else{
@@ -513,26 +515,26 @@ $(document).ready(function(){
 			}
 
 		}
-		else if(mouseIsDown){
-			symbol.move(tmpContext, e, points);
+		else if(G.mouseIsDown){
+			G.symbol.move(tmpContext, e, G.points);
 		}
 	});
 
 	$("#tmpCanvas").mouseup(function(e){
-		mouseIsDown = false;	
-		points = getPoints(e);
-		if(mode === "select"){
-			if(symbol != 0){
-				context.drawImage(tmpCanvas, 0, 0);
+		G.mouseIsDown = false;	
+		G.points = getPoints(e);
+		if(G.mode === "select"){
+			if(G.symbol != 0){
+				G.context.drawImage(tmpCanvas, 0, 0);
 				tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
-				shapes.push(symbol);
+				G.shapes.push(G.symbol);
 			}
 		}
 		else{
-			context.drawImage(tmpCanvas, 0, 0);
+			G.context.drawImage(tmpCanvas, 0, 0);
 			tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
-			symbol.setEnd(points.x, points.y);
-			shapes.push(symbol);
+			G.symbol.setEnd(G.points.x, G.points.y);
+			G.shapes.push(G.symbol);
 		}
 
 		reDraw();

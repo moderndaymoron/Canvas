@@ -18,7 +18,7 @@ class Rectangle extends Shape {
 		var width 	= Math.abs(e.offsetX - this.x);
 		var height 	= Math.abs(e.offsetY - this.y);
 		ctx.strokeStyle = this.color;
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.clearRect(0, 0, G.canvas.width, G.canvas.height);
 		ctx.strokeRect(x, y, width, height);
 	}
 
@@ -38,13 +38,13 @@ class Rectangle extends Shape {
 		else if(e.offsetY < this.oldPoint.y){
 			newY -= Math.abs(this.oldPoint.y - e.offsetY);
 		}
-		
+
 		if(this.isOutOfBounds(newX, newX + this.bounds.width, newY, newY + this.bounds.height)){
 			return;
 		}
 
 		this.setOldPoint(e.offsetX, e.offsetY);
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.clearRect(0, 0, G.canvas.width, G.canvas.height);
 		ctx.strokeRect(newX, newY, this.bounds.width, this.bounds.height);
 		this.x = newX;
 		this.y = newY;

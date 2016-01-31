@@ -18,7 +18,7 @@ class Line extends Shape {
 	move(ctx, e){
 		ctx.strokeStyle = this.color;
 		ctx.lineWidth 	= this.lineWidth;
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.clearRect(0, 0, G.canvas.width, G.canvas.height);
     	ctx.beginPath();
     	ctx.moveTo(this.x, this.y);
     	ctx.lineTo(e.offsetX, e.offsetY);
@@ -49,7 +49,7 @@ class Line extends Shape {
 		this.setOldPoint(e.offsetX, e.offsetY);
 		ctx.strokeStyle = this.color;
 		ctx.lineWidth 	= this.lineWidth;
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.clearRect(0, 0, G.canvas.width, G.canvas.height);
 		ctx.beginPath();
 		ctx.moveTo(newX, newY);
 		ctx.lineTo(this.endX, this.endY);            
