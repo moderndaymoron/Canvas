@@ -47,7 +47,6 @@ function createEraser(x, y){
 function changeTool(){
 	hideTextArea();
 	var attrValue = $(this).attr("data-tool");
-	console.log(attrValue);
 	if (attrValue === "Select"){
 		mode = "select";
 		return;
@@ -156,7 +155,6 @@ function drawShapes(){
 function reDraw(){
 		context.clearRect(0,0,canvas.width, canvas.height);
 		drawShapes();
-		console.log(shapes);
 }
 
 function showTextArea(e){
@@ -482,7 +480,6 @@ $(document).ready(function(){
 	$("#tmpCanvas").mousedown(function (e){
 		mouseIsDown = true;
 		points = getPoints(e);
-		console.log(points);
 		if(mode === "select"){
 			symbol = checkIfPointInShape(points.x, points.y, e);
 			canvasDelete();
@@ -503,7 +500,6 @@ $(document).ready(function(){
 	});
 
 	$("#tmpCanvas").mousemove(function(e){
-		console.log("mousemove");
 		if(mode === "select"){
 			if(mouseIsDown){
 				if(symbol != 0){
@@ -523,7 +519,6 @@ $(document).ready(function(){
 	});
 
 	$("#tmpCanvas").mouseup(function(e){
-		console.log("mouseup");
 		mouseIsDown = false;	
 		points = getPoints(e);
 		if(mode === "select"){

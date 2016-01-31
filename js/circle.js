@@ -6,7 +6,6 @@ class Circle extends Shape {
 	}
 
 	draw(ctx){
-        console.log(this);
 		ctx.strokeStyle = this.color;
         ctx.lineWidth   = this.lineWidth;
         this.isSelected(ctx); 
@@ -19,7 +18,7 @@ class Circle extends Shape {
 	move(ctx, e, points){
 		var newX      = (e.offsetX + points.x) / 2;
     	var newY      = (e.offsetY + points.y) / 2;
-    	this.radius = Math.max(Math.abs(e.offsetX - points.x), Math.abs(e.offsetY - points.y)) / 2;
+    	this.radius   = Math.max(Math.abs(e.offsetX - points.x), Math.abs(e.offsetY - points.y)) / 2;
 
         ctx.strokeStyle = this.color;
         ctx.lineWidth   = this.lineWidth; 
