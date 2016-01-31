@@ -81,7 +81,7 @@ class Pen extends Shape {
 		else if(e.offsetY < this.oldPoint.y){
 			newY = e.offsetY - this.oldPoint.y
 		}
-		console.log(newX, newY);
+
 		this.updatePoints(newX, newY);
 		this.setOldPoint(e.offsetX, e.offsetY);
 		ctx.clearRect(0, 0, canvas.width, canvas.height);

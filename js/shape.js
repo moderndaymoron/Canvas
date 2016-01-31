@@ -100,4 +100,12 @@ class Shape{
 			ctx.setLineDash([0,0]);
 		}
 	}
+
+	isOutOfBounds(left, right, top, bot){
+		if(left < 0 || right > canvas.width || bot > canvas.height || top < 0){
+			return true;
+		}
+
+		return false;
+	}
 }

@@ -42,7 +42,10 @@ class Line extends Shape {
 		else if(e.offsetY < this.oldPoint.y){
 			newY -= Math.abs(this.oldPoint.y - e.offsetY);
 		}
-
+		if(this.isOutOfBounds(newX, newX + this.bounds.width, newY, newY + this.bounds.height)){
+			return;
+		}
+		
 		this.setOldPoint(e.offsetX, e.offsetY);
 		ctx.strokeStyle = this.color;
 		ctx.lineWidth 	= this.lineWidth;

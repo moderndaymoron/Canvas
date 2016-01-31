@@ -35,7 +35,10 @@ class Circle extends Shape {
     drag(ctx, e){
         var newX   = e.offsetX - canvas.offsetLeft;
         var newY   = e.offsetY - canvas.offsetTop;
-        
+        if(this.isOutOfBounds(newX - this.radius, newX + this.radius, newY - this.radius, newY + this.radius)){
+            return;
+        }
+
         ctx.strokeStyle = this.color;
         ctx.lineWidth   = this.lineWidth; 
         ctx.clearRect(0, 0, canvas.width, canvas.height);

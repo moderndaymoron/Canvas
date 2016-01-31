@@ -155,6 +155,7 @@ function drawShapes(){
 function reDraw(){
 		context.clearRect(0,0,canvas.width, canvas.height);
 		drawShapes();
+		console.log(shapes);
 }
 
 function showTextArea(e){
@@ -424,6 +425,7 @@ $(document).ready(function(){
 	});
 
 	$("#tmpCanvas").mousemove(function(e){
+		console.log("mousemove");
 		if(mode === "select"){
 			if(mouseIsDown){
 				if(symbol != 0){
@@ -443,6 +445,7 @@ $(document).ready(function(){
 	});
 
 	$("#tmpCanvas").mouseup(function(e){
+		console.log("mouseup");
 		mouseIsDown = false;	
 		points = getPoints(e);
 		if(mode === "select"){
@@ -459,6 +462,6 @@ $(document).ready(function(){
 			shapes.push(symbol);
 		}
 
-	reDraw();
+		reDraw();
 	});
 });
