@@ -60,7 +60,7 @@ function changeTool(){
 	reDraw();
 }
 
-function canvasUndo(G){
+function canvasUndo(){
 	if(G.shapes.length < 1){
 		return;
 	}
@@ -69,7 +69,7 @@ function canvasUndo(G){
 	this.reDraw(G);
 }
 
-function canvasRedo(G){
+function canvasRedo(){
 	if(G.undoShape.length < 1){
 		return;
 	}
