@@ -66,7 +66,7 @@ function canvasUndo(){
 	}
 
 	G.undoShape.push(G.shapes.pop());
-	this.reDraw(G);
+	reDraw();
 }
 
 function canvasRedo(){
