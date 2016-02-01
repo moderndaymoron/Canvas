@@ -14,7 +14,6 @@ var G = {
 	redoShape	  : [],
 	symbol		  : null,
 	points        : null,
-	data 		  : null,
 	tOrD          : null
 };
 
@@ -61,16 +60,16 @@ function changeTool(){
 	reDraw();
 }
 
-function canvasUndo(){
+function canvasUndo(G){
 	if(G.shapes.length < 1){
 		return;
 	}
 
 	G.undoShape.push(G.shapes.pop());
-	reDraw();
+	this.reDraw(G);
 }
 
-function canvasRedo(){
+function canvasRedo(G){
 	if(G.undoShape.length < 1){
 		return;
 	}
