@@ -23,8 +23,8 @@ class Rectangle extends Shape {
 	}
 
 	drag(ctx, e, x, y){
-		var newX = e.offsetX - (e.offsetX-this.x);
-		var newY = e.offsetY - (e.offsetY-this.y);
+		var newX = e.offsetX - (e.offsetX-this.bounds.x);
+		var newY = e.offsetY - (e.offsetY-this.bounds.y);
 
 		if(e.offsetX > this.oldPoint.x){
 			newX += e.offsetX - this.oldPoint.x;

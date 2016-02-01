@@ -334,6 +334,7 @@ function loadDrawing(){
 	if (id === "0"){
 		return;
 	}
+	
 	load(id);
 }
 

@@ -27,8 +27,8 @@ class Line extends Shape {
 	}
 
 	drag(ctx, e, x, y){
-		var newX = e.offsetX - (e.offsetX-this.x);
-		var newY = e.offsetY - (e.offsetY-this.y);
+		var newX = e.offsetX - (e.offsetX-this.bounds.x);
+		var newY = e.offsetY - (e.offsetY-this.bounds.y);
 
 		if(e.offsetX > this.oldPoint.x){
 			newX += e.offsetX - this.oldPoint.x;
@@ -45,7 +45,7 @@ class Line extends Shape {
 		if(this.isOutOfBounds(newX, newX + this.bounds.width, newY, newY + this.bounds.height)){
 			return;
 		}
-		
+
 		this.setOldPoint(e.offsetX, e.offsetY);
 		ctx.strokeStyle = this.color;
 		ctx.lineWidth 	= this.lineWidth;
