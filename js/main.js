@@ -334,7 +334,7 @@ function loadDrawing(){
 	if (id === "0"){
 		return;
 	}
-	
+
 	load(id);
 }
 
@@ -464,6 +464,11 @@ $(document).ready(function(){
 				reDraw();
 			}
 		}
+	});
+	$("#hotkeys").click(function(){
+		var rules = $("#hotkeyslist");
+		rules.fadeIn(1000);
+		rules.fadeOut(7000);
 	});
 
 	G.canvas 				= document.getElementById("myCanvas");

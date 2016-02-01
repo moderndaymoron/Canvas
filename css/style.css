@@ -224,3 +224,11 @@ body {
     border solid black 2px;
     background-color: transperant;
 }
+
+/* hotkeys */
+#hotkeyslist {
+	top: 500px;
+	left: 20px;
+	position: absolute;
+	display: none;
+}

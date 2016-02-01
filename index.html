@@ -76,6 +76,12 @@
                 </div>
             </div>
             <div id="canvases">
+                <ul id="hotkeyslist">
+                    <li> ctrl+z to undo shape</li>
+                    <li> ctrl+y to redo shape</li>
+                    <li> esc to cancel textbox</li>
+                    <li> use backspace or delete button to delete selected shape</li>
+                </ul>
                 <img id="whiteboard" src="img/whiteboard.png" alt="dafuq" width="965" height="643"/>
             	<canvas id="myCanvas" width="925" height="590">
             	</canvas>
@@ -128,6 +134,8 @@
                         <span>Select</span>
                     </label>
                 </div>
+                <div>
+                    <span><button type="button" name="info" id="hotkeys">HotKeys</button></span>
             </div>
         </div>
     </body>
